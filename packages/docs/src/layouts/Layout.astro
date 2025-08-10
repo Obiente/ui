@@ -1,0 +1,294 @@
+---
+import DocNavigation from '../components/DocNavigation.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Obiente UI - Vue 3 component library with extensive theming support' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="border-b bg-background">
+        <div class="container mx-auto px-4 py-4">
+          <nav class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="text-2xl">🌈</span>
+              <h1 class="text-xl font-bold">Obiente UI</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+              <a href="/" class="hover:text-primary">Documentation</a>
+              <a href="/playground" class="hover:text-primary">Playground</a>
+              <a href="/themes" class="hover:text-primary">Themes</a>
+              <a href="https://github.com/obiente/ui" class="hover:text-primary" target="_blank">GitHub</a>
+            </div>
+          </nav>
+        </div>
+      </header>
+      
+      <main>
+        <div class="container mx-auto px-4 py-8">
+          <div class="docs-layout">
+            <aside class="docs-sidebar">
+              {Astro.url.pathname.startsWith('/playground') ? null : <DocNavigation />}
+            </aside>
+            <div class="docs-content">
+              <slot />
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <footer class="border-t bg-muted mt-16">
+        <div class="container mx-auto px-4 py-8 text-center">
+          <p class="text-sm text-muted-foreground">
+            Built with ❤️ using Astro, Vue 3, and Tailwind CSS
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
+<style is:global>
+  @import '../catppuccin-mocha.css';
+  @import '../styles/themes/catppuccin-mocha.css';
+  @import '../styles/themes/catppuccin-latte.css';
+  @import '../styles/themes/catppuccin-frappe.css';
+  @import '../styles/themes/catppuccin-macchiato.css';
+  @import '../styles/themes/github.css';
+  
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.6;
+  }
+
+  /* Basic layout utilities */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .py-8 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .mb-4 {
+    margin-bottom: 1rem;
+  }
+
+  .mb-8 {
+    margin-bottom: 2rem;
+  }
+
+  .mb-16 {
+    margin-bottom: 4rem;
+  }
+
+  .mt-16 {
+    margin-top: 4rem;
+  }
+
+  .space-x-2 > * + * {
+    margin-left: 0.5rem;
+  }
+
+  .space-x-6 > * + * {
+    margin-left: 1.5rem;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .text-xl {
+    font-size: 1.25rem;
+  }
+
+  .text-2xl {
+    font-size: 1.5rem;
+  }
+
+  .text-3xl {
+    font-size: 1.875rem;
+  }
+
+  .text-4xl {
+    font-size: 2.25rem;
+  }
+
+  .font-bold {
+    font-weight: 700;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .border-b {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .border-t {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .bg-background {
+    background-color: var(--color-background);
+  }
+
+  .bg-muted {
+    background-color: var(--color-background-muted);
+  }
+
+  .text-muted-foreground {
+    color: var(--color-foreground-muted);
+  }
+
+  .hover\:text-primary:hover {
+    color: var(--color-primary);
+  }
+
+  .max-w-4xl {
+    max-width: 56rem;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .docs-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+  }
+  
+  .docs-sidebar {
+    position: sticky;
+    top: 2rem;
+    height: fit-content;
+  }
+  
+  .docs-content {
+    min-width: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .docs-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .gap-8 {
+    gap: 2rem;
+  }
+
+  .p-6 {
+    padding: 1.5rem;
+  }
+
+  .border {
+    border: 1px solid var(--color-border);
+  }
+
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .space-y-2 > * + * {
+    margin-top: 0.5rem;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-primary);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-foreground);
+    margin-top: 0;
+  }
+
+  code {
+    background-color: var(--color-background-subtle);
+    color: var(--color-foreground);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+
+  pre {
+    background-color: var(--color-background-muted);
+    color: var(--color-foreground);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+  }
+</style>

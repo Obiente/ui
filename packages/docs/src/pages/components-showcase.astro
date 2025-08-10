@@ -1,0 +1,360 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ComponentPlayground from '../components/ComponentPlayground.vue';
+---
+
+<Layout title="Obiente UI - Components Showcase">
+  <div class="showcase-header">
+    <h1>Component Showcase</h1>
+    <p>
+      Interactive examples of all Obiente UI components with theme switching and prop customization.
+    </p>
+  </div>
+
+  <div class="component-categories">
+    <div class="category">
+      <h2>Layout Components</h2>
+      
+      <div class="component-card">
+        <h3>Container</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Container"
+            defaultProps={{
+              size: "md",
+              fluid: false
+            }}
+            propOptions={{
+              size: ["sm", "md", "lg", "xl", "2xl"],
+              fluid: [true, false]
+            }}
+            client:load
+          >
+            <div class="demo-content">
+              This is a Container component with configurable size
+            </div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A responsive container with maximum width constraints and centered content.
+        </p>
+      </div>
+
+      <div class="component-card">
+        <h3>Grid</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Grid"
+            defaultProps={{
+              columns: 3,
+              gap: 4
+            }}
+            propOptions={{
+              columns: [1, 2, 3, 4],
+              gap: [0, 2, 4, 6, 8]
+            }}
+            client:load
+          >
+            <div class="grid-item">Grid Item 1</div>
+            <div class="grid-item">Grid Item 2</div>
+            <div class="grid-item">Grid Item 3</div>
+            <div class="grid-item">Grid Item 4</div>
+            <div class="grid-item">Grid Item 5</div>
+            <div class="grid-item">Grid Item 6</div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A responsive grid layout with configurable columns and gap spacing.
+        </p>
+      </div>
+
+      <div class="component-card">
+        <h3>Flex</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Flex"
+            defaultProps={{
+              direction: "row",
+              justify: "between",
+              align: "center",
+              gap: 4,
+              wrap: "nowrap"
+            }}
+            propOptions={{
+              direction: ["row", "column", "row-reverse", "column-reverse"],
+              justify: ["start", "end", "center", "between", "around", "evenly"],
+              align: ["start", "end", "center", "baseline", "stretch"],
+              wrap: ["nowrap", "wrap", "wrap-reverse"],
+              gap: [0, 2, 4, 6, 8]
+            }}
+            client:load
+          >
+            <div class="flex-item">Flex Item 1</div>
+            <div class="flex-item tall">Flex Item 2</div>
+            <div class="flex-item">Flex Item 3</div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A flexible box layout with comprehensive alignment and distribution controls.
+        </p>
+      </div>
+
+      <div class="component-card">
+        <h3>Stack</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Stack"
+            defaultProps={{
+              direction: "vertical",
+              spacing: 4,
+              align: "stretch"
+            }}
+            propOptions={{
+              direction: ["vertical", "horizontal"],
+              spacing: [0, 2, 4, 6, 8],
+              align: ["start", "end", "center", "stretch"],
+              justify: ["start", "end", "center", "between"]
+            }}
+            client:load
+          >
+            <div class="stack-item">Stack Item 1</div>
+            <div class="stack-item">Stack Item 2</div>
+            <div class="stack-item">Stack Item 3</div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A specialized layout for stacking elements with consistent spacing.
+        </p>
+      </div>
+
+      <div class="component-card">
+        <h3>Spacer</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Spacer"
+            defaultProps={{
+              width: 4,
+              height: 4,
+              grow: false
+            }}
+            propOptions={{
+              width: [1, 2, 4, 8],
+              height: [1, 2, 4, 8],
+              grow: [true, false]
+            }}
+            client:load
+          >
+            <div slot="before" class="spacer-demo">
+              <div class="spacer-block">Block 1</div>
+              <!-- Spacer will be inserted here -->
+              <div class="spacer-block">Block 2</div>
+            </div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A utility component for adding flexible or fixed spacing between elements.
+        </p>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Form Components</h2>
+      
+      <div class="component-card">
+        <h3>Button</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Button"
+            defaultProps={{
+              variant: "primary",
+              size: "md",
+              disabled: false
+            }}
+            propOptions={{
+              variant: ["primary", "secondary", "outline", "ghost"],
+              size: ["sm", "md", "lg"],
+              disabled: [true, false]
+            }}
+            client:load
+          >
+            Button Text
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A customizable button with multiple variants and sizes.
+        </p>
+      </div>
+
+      <div class="component-card">
+        <h3>Input</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Input"
+            defaultProps={{
+              placeholder: "Enter text...",
+              type: "text",
+              disabled: false
+            }}
+            propOptions={{
+              type: ["text", "email", "password", "number"],
+              disabled: [true, false]
+            }}
+            client:load
+          />
+        </div>
+        <p class="component-description">
+          A text input field with various types and states.
+        </p>
+      </div>
+    </div>
+
+    <div class="category">
+      <h2>Content Components</h2>
+      
+      <div class="component-card">
+        <h3>Card</h3>
+        <div class="component-demo">
+          <ComponentPlayground
+            component="Card"
+            defaultProps={{
+              variant: "default"
+            }}
+            propOptions={{
+              variant: ["default", "elevated", "bordered"]
+            }}
+            client:load
+          >
+            <div class="card-content">
+              <h4>Card Title</h4>
+              <p>This is a card component with configurable variants.</p>
+            </div>
+          </ComponentPlayground>
+        </div>
+        <p class="component-description">
+          A versatile container for grouping related content.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .showcase-header {
+    margin-bottom: 2rem;
+  }
+  
+  .showcase-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  
+  .showcase-header p {
+    color: var(--color-foreground-muted);
+    font-size: 1.1rem;
+  }
+  
+  .component-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .category {
+    margin-bottom: 2rem;
+  }
+  
+  .category h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .component-card {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    background-color: var(--color-background);
+  }
+  
+  .component-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .component-demo {
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-background-muted);
+  }
+  
+  .component-description {
+    font-size: 0.9rem;
+    color: var(--color-foreground-muted);
+  }
+  
+  /* Demo content styling */
+  .demo-content {
+    padding: 1.5rem;
+    background-color: var(--color-background-subtle);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .grid-item {
+    padding: 1rem;
+    background-color: var(--color-primary-subtle);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .flex-item {
+    padding: 1rem;
+    min-width: 100px;
+    background-color: var(--color-secondary-subtle);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .flex-item.tall {
+    padding: 2rem 1rem;
+  }
+  
+  .stack-item {
+    padding: 1rem;
+    background-color: var(--color-accent-subtle);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .spacer-demo {
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .spacer-block {
+    padding: 1rem;
+    background-color: var(--color-warning-subtle);
+    border-radius: 0.25rem;
+    text-align: center;
+  }
+  
+  .card-content {
+    padding: 1rem;
+  }
+  
+  .card-content h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-content p {
+    margin: 0;
+  }
+</style>

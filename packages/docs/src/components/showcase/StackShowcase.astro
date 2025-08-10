@@ -1,0 +1,100 @@
+---
+// Stack will be passed from the parent component
+const { Stack } = Astro.props;
+---
+
+<section class="component-section">
+  <h2>Stack</h2>
+  <p class="description">
+    A specialized layout for stacking elements with consistent spacing.
+  </p>
+
+  <div class="example-wrapper">
+    <div class="example">
+      <h4>Vertical Stack</h4>
+      <Stack spacing={4} class="stack-demo">
+        <div class="stack-item">Stack Item 1</div>
+        <div class="stack-item">Stack Item 2</div>
+        <div class="stack-item">Stack Item 3</div>
+      </Stack>
+    </div>
+
+    <div class="example">
+      <h4>Horizontal Stack</h4>
+      <Stack direction="horizontal" spacing={4} class="stack-demo">
+        <div class="stack-item">Stack Item 1</div>
+        <div class="stack-item">Stack Item 2</div>
+        <div class="stack-item">Stack Item 3</div>
+      </Stack>
+    </div>
+
+    <div class="example">
+      <h4>Horizontal Stack with Different Alignments</h4>
+      <Stack direction="horizontal" spacing={4} align="center" class="stack-demo stack-demo-tall">
+        <div class="stack-item">Item 1</div>
+        <div class="stack-item stack-item-tall">Item 2</div>
+        <div class="stack-item">Item 3</div>
+      </Stack>
+    </div>
+  </div>
+
+  <div class="code-example">
+    <pre><code><Stack :spacing="4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Stack>
+
+<Stack :direction="'horizontal'" :spacing="4" :align="'center'">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Stack></code></pre>
+  </div>
+
+  <div class="props-table">
+    <h3>Props</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>direction</code></td>
+          <td><code>'vertical' | 'horizontal'</code></td>
+          <td><code>'vertical'</code></td>
+          <td>Stack direction</td>
+        </tr>
+        <tr>
+          <td><code>spacing</code></td>
+          <td><code>number</code></td>
+          <td><code>0</code></td>
+          <td>Space between items (in rem)</td>
+        </tr>
+        <tr>
+          <td><code>align</code></td>
+          <td><code>'start' | 'end' | 'center' | 'stretch'</code></td>
+          <td><code>'stretch'</code></td>
+          <td>Cross-axis alignment</td>
+        </tr>
+        <tr>
+          <td><code>justify</code></td>
+          <td><code>'start' | 'end' | 'center' | 'between'</code></td>
+          <td><code>'start'</code></td>
+          <td>Main-axis alignment</td>
+        </tr>
+        <tr>
+          <td><code>themeClasses</code></td>
+          <td><code>string</code></td>
+          <td><code>undefined</code></td>
+          <td>CSS classes for theming</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

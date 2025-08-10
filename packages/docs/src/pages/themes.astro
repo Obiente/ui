@@ -1,0 +1,138 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Themes - Obiente UI">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold mb-8">🎨 Theme Gallery</h1>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Catppuccin Themes -->
+        <div class="p-6 border rounded-lg">
+          <div class="flex items-center mb-4">
+            <span class="text-2xl mr-3">🌙</span>
+            <div>
+              <h3 class="text-xl font-semibold">Catppuccin</h3>
+              <p class="text-sm text-muted-foreground">
+                Soothing pastel theme for the high-spirited!
+              </p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-[#1e1e2e] text-[#cdd6f4] rounded">
+              <span class="font-medium">Mocha</span> - Dark variant
+            </div>
+            <div class="p-3 bg-[#24273a] text-[#cad3f5] rounded">
+              <span class="font-medium">Macchiato</span> - Medium dark
+            </div>
+            <div class="p-3 bg-[#303446] text-[#c6d0f5] rounded">
+              <span class="font-medium">Frappé</span> - Medium light
+            </div>
+            <div class="p-3 bg-[#eff1f5] text-[#4c4f69] rounded">
+              <span class="font-medium">Latte</span> - Light variant
+            </div>
+          </div>
+        </div>
+
+        <!-- GitHub Themes -->
+        <div class="p-6 border rounded-lg">
+          <div class="flex items-center mb-4">
+            <span class="text-2xl mr-3">🐙</span>
+            <div>
+              <h3 class="text-xl font-semibold">GitHub</h3>
+              <p class="text-sm text-muted-foreground">
+                Official GitHub color schemes
+              </p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-[#0d1117] text-[#f0f6fc] rounded">
+              <span class="font-medium">Dark</span> - GitHub's dark theme
+            </div>
+            <div class="p-3 bg-[#ffffff] text-[#1f2328] rounded border">
+              <span class="font-medium">Light</span> - GitHub's light theme
+            </div>
+            <div class="p-3 bg-[#22272e] text-[#adbac7] rounded">
+              <span class="font-medium">Dark Dimmed</span> - Softer dark variant
+            </div>
+          </div>
+        </div>
+
+        <!-- Bearded Themes -->
+        <div class="p-6 border rounded-lg">
+          <div class="flex items-center mb-4">
+            <span class="text-2xl mr-3">🧔</span>
+            <div>
+              <h3 class="text-xl font-semibold">Bearded Theme</h3>
+              <p class="text-sm text-muted-foreground">
+                Vivid and colorful coding themes
+              </p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="p-3 bg-[#1c1c1c] text-[#e0e0e0] rounded">
+              <span class="font-medium">Arc</span> - Dark with blue accents
+            </div>
+            <div class="p-3 bg-[#2d2a2e] text-[#fcfcfa] rounded">
+              <span class="font-medium">Black & Amethyst</span> - Purple vibes
+            </div>
+            <div class="p-3 bg-[#1e1e1e] text-[#cccccc] rounded">
+              <span class="font-medium">Earth</span> - Natural tones
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Themes -->
+        <div class="p-6 border rounded-lg border-dashed">
+          <div class="flex items-center mb-4">
+            <span class="text-2xl mr-3">✨</span>
+            <div>
+              <h3 class="text-xl font-semibold">Custom Themes</h3>
+              <p class="text-sm text-muted-foreground">
+                Create your own theme palette
+              </p>
+            </div>
+          </div>
+          <p class="text-sm mb-4">
+            Build custom themes using our Tailwind CSS v4 @theme configuration
+            system.
+          </p>
+          <a
+            href="/playground"
+            class="inline-flex items-center px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Try in Playground →
+          </a>
+        </div>
+      </div>
+
+      <!-- Installation Instructions -->
+      <section class="mt-12">
+        <h2 class="text-2xl font-bold mb-6">Installation & Usage</h2>
+        <div class="space-y-6">
+          <div class="bg-muted p-6 rounded-lg">
+            <h4 class="font-semibold mb-2">1. Install Theme Package</h4>
+            <pre class="text-sm"><code>npm install @obiente/themes</code></pre>
+          </div>
+
+          <div class="bg-muted p-6 rounded-lg">
+            <h4 class="font-semibold mb-2">2. Import Theme CSS</h4>
+            <pre
+              class="text-sm"><code>@import '@obiente/themes/catppuccin-mocha';</code></pre>
+          </div>
+
+          <div class="bg-muted p-6 rounded-lg">
+            <h4 class="font-semibold mb-2">3. Use Theme Classes</h4>
+            <pre
+              class="text-sm"><code>{'import { catppuccinMochaTheme } from "@obiente/themes"'}
+
+{'<Button :theme-classes="catppuccinMochaTheme.button.primary">'}
+  Themed Button
+{'</Button>'}</code></pre>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

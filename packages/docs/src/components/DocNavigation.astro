@@ -1,0 +1,76 @@
+---
+const navItems = [
+  { title: 'Introduction', href: '/' },
+  { title: 'Layout Components', href: '/layout' },
+  { title: 'Layout Showcase', href: '/layout-showcase' },
+  { title: 'Components', href: '/components' },
+  { title: 'Themes', href: '/themes' },
+  { title: 'Playground', href: '/playground' }
+];
+
+// Get current page path
+const currentPath = Astro.url.pathname;
+---
+
+<div class="docs-nav">
+  <div class="nav-section">
+    <h3 class="nav-title">Documentation</h3>
+    <ul class="nav-items">
+      {navItems.map(item => (
+        <li>
+          <a 
+            href={item.href}
+            class={currentPath === item.href ? 'active' : ''}
+          >
+            {item.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .docs-nav {
+    width: 100%;
+    padding: 1rem;
+    border-right: 1px solid var(--color-border);
+  }
+  
+  .nav-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-foreground-muted);
+    margin-bottom: 0.75rem;
+  }
+  
+  .nav-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-items li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .nav-items a {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    color: var(--color-foreground);
+    text-decoration: none;
+  }
+  
+  .nav-items a:hover {
+    background-color: var(--color-background-muted);
+  }
+  
+  .nav-items a.active {
+    background-color: var(--color-primary-subtle);
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+</style>

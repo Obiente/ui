@@ -1,0 +1,342 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Components - Obiente UI">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">Component Library</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Comprehensive collection of Vue 3 components with extensive theming
+          support. Each component is designed to be flexible, accessible, and
+          easily customizable.
+        </p>
+        <div class="mt-6">
+          <a
+            href="/layout-showcase"
+            class="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90"
+          >
+            View Layout Components Showcase
+          </a>
+        </div>
+      </div>
+
+      <div class="space-y-12">
+        <!-- Button Components -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Buttons</h2>
+          <p class="text-gray-600 mb-4">
+            Interactive button components with multiple variants and states.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card">
+            <h3 class="text-lg font-semibold mb-4">Examples</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <button class="ctp-mocha-btn-primary">Primary</button>
+              <button class="ctp-mocha-btn-secondary">Secondary</button>
+              <button class="github-btn-primary">GitHub Primary</button>
+              <button class="github-btn-secondary">GitHub Secondary</button>
+            </div>
+
+            <h4 class="font-semibold mb-2">Usage</h4>
+            <pre
+              class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Button theme-classes="ctp-mocha-btn-primary">Primary Button</Button>'}
+{'<Button theme-classes="github-btn-primary">GitHub Style</Button>'}
+{'<Button state="disabled" disabled>Disabled</Button>'}</code></pre>
+          </div>
+        </section>
+
+        <!-- Form Controls -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Form Controls</h2>
+          <p class="text-gray-600 mb-4">
+            Essential form input components for user interaction.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card space-y-6">
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Input Fields</h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >Catppuccin Input</label
+                  >
+                  <input class="ctp-mocha-input" placeholder="Enter text..." />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium mb-2"
+                    >GitHub Input</label
+                  >
+                  <input class="github-input" placeholder="Enter text..." />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Textarea</h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <textarea
+                  class="ctp-mocha-textarea"
+                  placeholder="Catppuccin textarea..."></textarea>
+                <textarea
+                  class="github-textarea"
+                  placeholder="GitHub textarea..."></textarea>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Select Dropdown</h3>
+              <div class="grid md:grid-cols-2 gap-4">
+                <select class="ctp-mocha-select">
+                  <option>Catppuccin Select</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                </select>
+                <select class="github-select">
+                  <option>GitHub Select</option>
+                  <option>Option 1</option>
+                  <option>Option 2</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2">Usage</h4>
+              <pre
+                class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Input theme-classes="ctp-mocha-input" placeholder="Enter text" />'}
+{'<Textarea theme-classes="github-textarea" placeholder="Enter message" />'}
+{'<Select theme-classes="ctp-mocha-select">'}
+  {'<option value="1">Option 1</option>'}
+{'</Select>'}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Interactive Controls -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Interactive Controls</h2>
+          <p class="text-gray-600 mb-4">
+            Checkbox, radio, and switch components for user selections.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card space-y-6">
+            <div>
+              <h3 class="text-lg font-semibold mb-4">Checkboxes & Switches</h3>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-3">
+                  <label class="ctp-mocha-checkbox-label">
+                    <input type="checkbox" class="ctp-mocha-checkbox" />
+                    <span class="ctp-mocha-checkbox-text"
+                      >Catppuccin Checkbox</span
+                    >
+                  </label>
+                  <label class="github-checkbox-label">
+                    <input type="checkbox" class="github-checkbox" />
+                    <span class="github-checkbox-text">GitHub Checkbox</span>
+                  </label>
+                </div>
+                <div class="space-y-3">
+                  <div class="flex items-center space-x-3">
+                    <button class="ctp-mocha-switch" aria-pressed="true">
+                      <span class="ctp-mocha-switch-knob"></span>
+                    </button>
+                    <span class="text-sm">Catppuccin Switch</span>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button class="github-switch" aria-pressed="false">
+                      <span class="github-switch-knob"></span>
+                    </button>
+                    <span class="text-sm">GitHub Switch</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-2">Usage</h4>
+              <pre
+                class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Checkbox theme-classes="ctp-mocha-checkbox">'}
+  Check this option
+{'</Checkbox>'}
+
+{'<Switch '} 
+  v-model="switchValue"
+  theme-classes="github-switch"
+  knob-theme-classes="github-switch-knob"
+{'/>'}</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- Badges -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Badges</h2>
+          <p class="text-gray-600 mb-4">Small status indicators and labels.</p>
+
+          <div class="border rounded-lg p-6 bg-card">
+            <h3 class="text-lg font-semibold mb-4">Examples</h3>
+            <div class="flex flex-wrap gap-3 mb-6">
+              <span class="ctp-mocha-badge-primary">Primary</span>
+              <span class="ctp-mocha-badge-success">Success</span>
+              <span class="ctp-mocha-badge-warning">Warning</span>
+              <span class="ctp-mocha-badge-error">Error</span>
+              <span class="github-badge-primary">GitHub</span>
+              <span class="github-badge-success">GitHub Success</span>
+            </div>
+
+            <h4 class="font-semibold mb-2">Usage</h4>
+            <pre
+              class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Badge theme-classes="ctp-mocha-badge-primary">Primary</Badge>'}
+{'<Badge theme-classes="github-badge-success">Success</Badge>'}</code></pre>
+          </div>
+        </section>
+
+        <!-- Alerts -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Alerts</h2>
+          <p class="text-gray-600 mb-4">
+            Contextual feedback messages for user actions.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card space-y-4">
+            <div class="ctp-mocha-alert-info">
+              <div class="ctp-mocha-alert-icon">ℹ️</div>
+              <div>
+                <div class="ctp-mocha-alert-title">Information</div>
+                <div class="ctp-mocha-alert-message">
+                  This is an informational alert using Catppuccin theme.
+                </div>
+              </div>
+            </div>
+
+            <div class="github-alert-success">
+              <div class="github-alert-icon-success">✅</div>
+              <div>
+                <div class="github-alert-title">Success</div>
+                <div class="github-alert-message">
+                  This is a success alert using GitHub theme.
+                </div>
+              </div>
+            </div>
+
+            <h4 class="font-semibold mb-2">Usage</h4>
+            <pre
+              class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Alert '} 
+  variant="info"
+  title="Information"
+  theme-classes="ctp-mocha-alert-info"
+{'>'}
+  Your alert message here
+{'</Alert>'}</code></pre>
+          </div>
+        </section>
+
+        <!-- Cards -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Cards</h2>
+          <p class="text-gray-600 mb-4">
+            Flexible content containers with optional headers and footers.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card">
+            <h3 class="text-lg font-semibold mb-4">Examples</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div class="ctp-mocha-card">
+                <div class="ctp-mocha-card-header">
+                  <h4 class="ctp-mocha-card-title">Catppuccin Card</h4>
+                  <p class="ctp-mocha-card-description">
+                    A beautiful dark card
+                  </p>
+                </div>
+                <div class="ctp-mocha-card-content">
+                  <p>
+                    This is the card content area where you can place any
+                    information.
+                  </p>
+                </div>
+                <div class="ctp-mocha-card-footer">
+                  <button class="ctp-mocha-btn-primary">Action</button>
+                </div>
+              </div>
+
+              <div class="github-card">
+                <div class="github-card-header">
+                  <h4 class="github-card-title">GitHub Card</h4>
+                  <p class="github-card-description">Clean and minimal</p>
+                </div>
+                <div class="github-card-content">
+                  <p>This is the card content area with GitHub styling.</p>
+                </div>
+                <div class="github-card-footer">
+                  <button class="github-btn-primary">Action</button>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="font-semibold mb-2">Usage</h4>
+            <pre
+              class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{'<Card theme-classes="ctp-mocha-card">'}
+  {'<template #header>'}
+    {'<h4>Card Title</h4>'}
+  {'</template>'}
+  
+  Card content goes here
+  
+  {'<template #footer>'}
+    {'<Button>Action</Button>'}
+  {'</template>'}
+{'</Card>'}</code></pre>
+          </div>
+        </section>
+
+        <!-- Theme Integration -->
+        <section>
+          <h2 class="text-2xl font-bold mb-6">Theme Integration</h2>
+          <p class="text-gray-600 mb-4">
+            All components support theme classes for consistent styling across
+            your application.
+          </p>
+
+          <div class="border rounded-lg p-6 bg-card">
+            <h3 class="text-lg font-semibold mb-4">Available Themes</h3>
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <h4 class="font-semibold mb-2">🌙 Catppuccin Mocha</h4>
+                <p class="text-sm text-gray-600 mb-3">
+                  A cozy dark theme with pastel accents
+                </p>
+                <div class="flex gap-2">
+                  <span class="ctp-mocha-badge-primary">ctp-mocha-*</span>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-semibold mb-2">🐙 GitHub</h4>
+                <p class="text-sm text-gray-600 mb-3">
+                  Clean and minimal GitHub-inspired theme
+                </p>
+                <div class="flex gap-2">
+                  <span class="github-badge-primary">github-*</span>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="font-semibold mb-2">Integration Example</h4>
+            <pre
+              class="bg-gray-50 p-4 rounded text-sm overflow-x-auto"><code>{`// Theme switching logic
+const selectedTheme = ref('catppuccin-mocha')
+
+const getButtonTheme = (variant) => {
+  if (selectedTheme.value === 'catppuccin-mocha') {
+    return \`ctp-mocha-btn-\${variant}\`
+  } else if (selectedTheme.value === 'github') {
+    return \`github-btn-\${variant}\`
+  }
+  return '' // Fallback to default styles
+}`}</code></pre>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,119 @@
+---
+// Flex will be passed from the parent component
+const { Flex } = Astro.props;
+---
+
+<section class="component-section">
+  <h2>Flex</h2>
+  <p class="description">
+    A flexible box layout with comprehensive alignment and distribution
+    controls.
+  </p>
+
+  <div class="example-wrapper">
+    <div class="example">
+      <h4>Basic Flex (justify: between, align: center)</h4>
+      <Flex justify="between" align="center" gap={4} class="flex-demo">
+        <div class="flex-item">Flex Item 1</div>
+        <div class="flex-item flex-item-large">Flex Item 2</div>
+        <div class="flex-item">Flex Item 3</div>
+      </Flex>
+    </div>
+
+    <div class="example">
+      <h4>Column Direction</h4>
+      <Flex direction="column" gap={2} class="flex-demo flex-demo-tall">
+        <div class="flex-item">Flex Item 1</div>
+        <div class="flex-item">Flex Item 2</div>
+        <div class="flex-item">Flex Item 3</div>
+      </Flex>
+    </div>
+
+    <div class="example">
+      <h4>Wrap Items</h4>
+      <Flex wrap="wrap" gap={2} class="flex-demo">
+        {
+          Array.from({ length: 8 }).map((_, i) => (
+            <div class="flex-item flex-item-small">Item {i + 1}</div>
+          ))
+        }
+      </Flex>
+    </div>
+  </div>
+
+  <div class="code-example">
+    <pre><code><Flex :justify="'between'" :align="'center'" :gap="4">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Flex>
+
+<Flex :direction="'column'" :gap="2">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Flex></code></pre>
+  </div>
+
+  <div class="props-table">
+    <h3>Props</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>direction</code></td>
+          <td
+            ><code>'row' | 'column' | 'row-reverse' | 'column-reverse'</code
+            ></td
+          >
+          <td><code>'row'</code></td>
+          <td>Direction of flex items</td>
+        </tr>
+        <tr>
+          <td><code>wrap</code></td>
+          <td><code>'nowrap' | 'wrap' | 'wrap-reverse'</code></td>
+          <td><code>'nowrap'</code></td>
+          <td>Whether flex items should wrap</td>
+        </tr>
+        <tr>
+          <td><code>justify</code></td>
+          <td
+            ><code
+              >'start' | 'end' | 'center' | 'between' | 'around' | 'evenly'</code
+            ></td
+          >
+          <td><code>'start'</code></td>
+          <td>Horizontal alignment</td>
+        </tr>
+        <tr>
+          <td><code>align</code></td>
+          <td
+            ><code>'start' | 'end' | 'center' | 'baseline' | 'stretch'</code
+            ></td
+          >
+          <td><code>'stretch'</code></td>
+          <td>Vertical alignment</td>
+        </tr>
+        <tr>
+          <td><code>gap</code></td>
+          <td><code>{"number | { x?: number, y?: number }"}</code></td>
+          <td><code>0</code></td>
+          <td>Gap between flex items</td>
+        </tr>
+        <tr>
+          <td><code>themeClasses</code></td>
+          <td><code>string</code></td>
+          <td><code>undefined</code></td>
+          <td>CSS classes for theming</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

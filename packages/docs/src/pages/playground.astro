@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ComponentPlayground from '../components/ComponentPlayground.vue';
+---
+
+<Layout title="Playground - Obiente UI">
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold mb-4">🎮 Interactive Playground</h1>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+          Explore all Obiente UI components with live theme switching. See how components 
+          look and behave with different themes and interact with them in real-time.
+        </p>
+      </div>
+      
+      <ComponentPlayground client:load />
+    </div>
+  </div>
+</Layout>
