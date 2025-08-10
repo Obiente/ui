@@ -2,17 +2,17 @@
   "extends": "@vue/tsconfig/tsconfig.json",
   "include": [
     "env.d.ts",
-    "src/**/*",
-    "src/**/*.vue"
-  ],
+    "packages/ui/src/src/**/*",
+    "packages/ui/src/src/**/*.vue"
+, "packages/ui/src/utils", "packages/ui/src/index.ts", "packages/ui/src/types", "packages/ui/src/themes", "packages/ui/src/internal", "packages/ui/src/components"  ],
   "exclude": [
-    "src/**/__tests__/*"
+    "packages/ui/src/src/**/__tests__/*"
   ],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["packages/ui/src/src/*"]
     },
     "declaration": true,
     "declarationMap": true,
