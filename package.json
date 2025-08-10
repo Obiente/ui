@@ -1,0 +1,35 @@
+{
+  "name": "@obiente/ui-monorepo",
+  "version": "0.1.0",
+  "description": "Obiente UI - A Vue 3 + Astro UI component library with extensive theming support",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "pnpm -r build",
+    "dev": "pnpm -r dev",
+    "lint": "pnpm -r lint",
+    "type-check": "pnpm -r type-check",
+    "clean": "pnpm -r clean"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "vue",
+    "astro",
+    "ui",
+    "components",
+    "themes",
+    "design-system",
+    "ark-ui",
+    "accessibility",
+    "obiente"
+  ],
+  "author": "Obiente",
+  "license": "AGPL-3.0-only"
+}

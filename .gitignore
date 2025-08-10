@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.turbo/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
