@@ -57,34 +57,30 @@ const availableThemes = computed(() => {
   }));
 });
 
+// Helper function to set theme by ID
 const setThemeById = (id: string) => {
-  console.log('ThemeSwitch: Setting theme by ID:', id);
-  themeContext?.setThemeById(id);
+  if (!themeContext) return
   
-  // Debug: Check if CSS variables are applied after theme change
-  setTimeout(() => {
-    const root = document.documentElement;
-    const styles = getComputedStyle(root);
-    console.log('After theme change:');
-    console.log('--oi-color-primary:', styles.getPropertyValue('--oi-color-primary'));
-    console.log('--oi-color-background:', styles.getPropertyValue('--oi-color-background'));
-    console.log('data-theme attribute:', root.getAttribute('data-theme'));
-  }, 100);
-};
+  const theme = themeContext.availableThemes.value.find(t => t.id === id)
+  if (theme) {
+    themeContext.setTheme(theme)
+  }
+}
 
 const toggleDarkMode = () => {
   themeContext?.toggleDarkMode();
 };
 
-// Computed for selected theme
+// Computed theme value for Select v-model
 const selectedTheme = computed({
-  get: () => currentTheme.value?.id || '',
+  get: () => {
+    const currentId = themeContext?.currentTheme.value?.id || ''
+    return currentId
+  },
   set: (value: string) => {
-    if (value) {
-      setThemeById(value);
-    }
+    setThemeById(value)
   }
-});
+})
 </script>
 
 
