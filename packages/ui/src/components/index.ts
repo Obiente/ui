@@ -31,7 +31,6 @@ export { default as Dropdown } from './Dropdown.vue';
 
 // Theme Components
 export { default as ThemeProvider } from './ThemeProvider.vue';
-export { default as NewThemeProvider } from './NewThemeProvider.vue';
 export { default as ThemeSwitch } from './ThemeSwitch.vue';
 export { default as ThemeToggle } from './ThemeToggle.vue';
 

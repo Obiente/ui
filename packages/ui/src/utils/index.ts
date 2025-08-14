@@ -14,7 +14,7 @@ export * from './theme-cookie';
  * @param prefix An optional prefix for the ID
  * @returns A unique ID string
  */
-export function generateId(prefix = 'ob-'): string {
+export function generateId(prefix = 'oi-'): string {
   return `${prefix}${Math.random().toString(36).substring(2, 9)}`;
 }
 

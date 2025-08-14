@@ -1,207 +1,136 @@
 <template>
-  <div :class="['oi-theme-provider', `oi-theme-${currentTheme}`, isDark ? 'oi-theme-dark' : 'oi-theme-light']">
-    <slot></slot>
+  <div class="obiente-theme-provider" :data-theme="currentTheme?.id">
+    <slot />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, provide, computed, onMounted, watchEffect } from 'vue';
-import { useTheme } from '../internal/use-theme';
-import { setThemeCookie, getThemeCookie } from '../utils/theme-cookie';
-import type { ThemeProviderProps } from '../types/theme';
-
-import catppuccinMocha from '../themes/catppuccin-mocha';
-import catppuccinLatte from '../themes/catppuccin-latte';
-import catppuccinFrappe from '../themes/catppuccin-frappe';
-import catppuccinMacchiato from '../themes/catppuccin-macchiato';
-import githubLight from '../themes/github-light';
-
+<script setup lang="ts">
 /**
- * ThemeProvider Component
- * 
- * This component provides theming context to the application.
- * It manages theme switching, persistence, and default themes.
+ * Improved ThemeProvider Component
+ * Provides theme context using the new theme system
  */
-export default defineComponent({
-  name: 'ThemeProvider',
-  
-  props: {
-    initialTheme: {
-      type: String,
-      default: ''
-    },
-    useSystemPreference: {
-      type: Boolean,
-      default: true
-    },
-    persistent: {
-      type: Boolean,
-      default: true
-    },
-    defaultTheme: {
-      type: String,
-      default: 'catppuccin-mocha'
-    },
-    availableThemes: {
-      type: Array as () => string[],
-      default: () => ['catppuccin-mocha', 'catppuccin-latte', 'catppuccin-frappe', 'catppuccin-macchiato', 'github-light']
+
+import { provide, onMounted, watch } from 'vue';
+import { createThemeContext, THEME_CONTEXT_KEY } from '../composables/use-theme';
+import type { ThemeDefinition } from '@obiente/themes';
+
+interface Props {
+  themes: ThemeDefinition[];
+  defaultTheme?: string;
+  persistTheme?: boolean;
+  useSystemPreference?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  persistTheme: true,
+  useSystemPreference: true,
+});
+
+// Find initial theme
+function findThemeById(id: string): ThemeDefinition | undefined {
+  return props.themes.find(theme => theme.id === id);
+}
+
+function getInitialTheme(): ThemeDefinition {
+  // 1. Check for saved theme in localStorage (only on client)
+  if (props.persistTheme && typeof window !== 'undefined') {
+    const savedThemeId = localStorage.getItem('obiente-theme');
+    if (savedThemeId) {
+      const savedTheme = findThemeById(savedThemeId);
+      if (savedTheme) return savedTheme;
     }
-  },
-  
-  setup(props: ThemeProviderProps) {
-    // All registered themes
-    const registeredThemes: Record<string, typeof catppuccinMocha> = {
-      'catppuccin-mocha': catppuccinMocha,
-      'catppuccin-latte': catppuccinLatte,
-      'catppuccin-frappe': catppuccinFrappe,
-      'catppuccin-macchiato': catppuccinMacchiato,
-      'github-light': githubLight,
-    };
-    
-    // Current theme state
-    const currentTheme = ref(props.defaultTheme || 'catppuccin-mocha');
-    
-    // Determine if using dark mode
-    const isDark = computed(() => {
-      const theme = registeredThemes[currentTheme.value];
-      return theme ? theme.flavor === 'dark' : false;
-    });
-    
-    // Initialize theme system
-    const { applyTheme } = useTheme();
-    
-    // Change theme function
-    const changeTheme = (themeId: string) => {
-      if (registeredThemes[themeId]) {
-        currentTheme.value = themeId;
-        applyTheme(registeredThemes[themeId]);
-        
-        // Persist theme choice if enabled
-        if (props.persistent) {
-          setThemeCookie(themeId);
-        }
-      } else {
-        console.warn(`Theme "${themeId}" not found. Using default.`);
-      }
-    };
-    
-    // Toggle between light and dark mode
-    const toggleDarkMode = () => {
-      const current = registeredThemes[currentTheme.value];
-      if (current.flavor === 'dark') {
-        // Switch to light theme - find first light theme
-        const lightTheme = Object.entries(registeredThemes).find(
-          ([_, theme]) => theme.flavor === 'light'
-        );
-        if (lightTheme) {
-          changeTheme(lightTheme[0]);
-        }
-      } else {
-        // Switch to dark theme - find first dark theme
-        const darkTheme = Object.entries(registeredThemes).find(
-          ([_, theme]) => theme.flavor === 'dark'
-        );
-        if (darkTheme) {
-          changeTheme(darkTheme[0]);
-        }
-      }
-    };
-    
-    // Get list of available themes
-    const getAvailableThemes = () => {
-      return props.availableThemes?.filter(id => id in registeredThemes) || [];
-    };
-    
-    // Provide theme context to children components
-    provide('themeProvider', {
-      current: currentTheme,
-      isDark,
-      changeTheme,
-      toggleDarkMode,
-      getAvailableThemes
-    });
-    
-    // Initialize theme on mount
-    onMounted(() => {
-      let initialTheme = props.defaultTheme;
-      
-      // Check for saved theme in cookie if persistence enabled
-      if (props.persistent) {
-        const savedTheme = getThemeCookie();
-        if (savedTheme && savedTheme in registeredThemes) {
-          initialTheme = savedTheme;
-        }
-      }
-      
-      // Check for explicitly provided theme
-      if (props.initialTheme && props.initialTheme in registeredThemes) {
-        initialTheme = props.initialTheme;
-      }
-      
-      // Check for system preference if enabled
-      if (props.useSystemPreference && !props.initialTheme) {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-          // Find a dark theme
-          const darkTheme = Object.entries(registeredThemes).find(
-            ([_, theme]) => theme.flavor === 'dark'
-          );
-          if (darkTheme) {
-            initialTheme = darkTheme[0];
-          }
-        } else {
-          // Find a light theme
-          const lightTheme = Object.entries(registeredThemes).find(
-            ([_, theme]) => theme.flavor === 'light'
-          );
-          if (lightTheme) {
-            initialTheme = lightTheme[0];
-          }
-        }
-      }
-      
-      // Apply the theme
-      const themeToApply = initialTheme || props.defaultTheme || 'catppuccin-mocha';
-      changeTheme(themeToApply);
-      
-      // Listen for system preference changes if enabled
-      if (props.useSystemPreference) {
-        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        const handleChange = (event: MediaQueryListEvent) => {
-          // Only auto-switch if no explicit theme was set by user
-          if (!getThemeCookie()) {
-            const prefersDark = event.matches;
-            const targetFlavor = prefersDark ? 'dark' : 'light';
-            const matchingTheme = Object.entries(registeredThemes).find(
-              ([_, theme]) => theme.flavor === targetFlavor
-            );
-            if (matchingTheme) {
-              changeTheme(matchingTheme[0]);
-            }
-          }
-        };
-        
-        mediaQuery.addEventListener('change', handleChange);
-        
-        // Cleanup
-        // onUnmounted(() => mediaQuery.removeEventListener('change', handleChange));
-      }
-    });
-    
-    // Watch for prop changes and update theme if needed
-    watchEffect(() => {
-      if (props.initialTheme && props.initialTheme !== currentTheme.value) {
-        changeTheme(props.initialTheme);
-      }
-    });
-    
-    return {
-      currentTheme,
-      isDark,
-      changeTheme,
-      toggleDarkMode,
-      getAvailableThemes
-    };
   }
+  
+  // 2. Check for default theme prop
+  if (props.defaultTheme) {
+    const defaultTheme = findThemeById(props.defaultTheme);
+    if (defaultTheme) return defaultTheme;
+  }
+  
+  // 3. Use system preference if enabled (only on client)
+  if (props.useSystemPreference && typeof window !== 'undefined') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const matchingTheme = props.themes.find(theme => 
+      theme.variant === (prefersDark ? 'dark' : 'light')
+    );
+    if (matchingTheme) return matchingTheme;
+  }
+  
+  // 4. Fallback to first available theme
+  return props.themes[0];
+}
+
+// Create theme context
+const initialTheme = getInitialTheme();
+const themeContext = createThemeContext(props.themes, initialTheme);
+
+// Provide context to children immediately
+provide(THEME_CONTEXT_KEY, themeContext);
+
+// Get current theme for template
+const { currentTheme, setTheme, setThemeById } = themeContext;
+
+// Apply initial theme on mount
+onMounted(() => {
+  console.log('ThemeProvider mounted');
+  console.log('Props.themes:', props.themes);
+  console.log('Props.defaultTheme:', props.defaultTheme);
+  console.log('Initial theme:', initialTheme);
+  console.log('Theme context:', themeContext);
+  console.log('Available themes in context:', themeContext.availableThemes.value);
+  
+  if (initialTheme) {
+    console.log('Setting initial theme:', initialTheme.name);
+    setTheme(initialTheme);
+    
+    // Debug: Check if CSS variables are applied
+    setTimeout(() => {
+      const root = document.documentElement;
+      const styles = getComputedStyle(root);
+      console.log('Applied CSS variables:');
+      console.log('--oi-color-primary:', styles.getPropertyValue('--oi-color-primary'));
+      console.log('--oi-color-background:', styles.getPropertyValue('--oi-color-background'));
+      console.log('--oi-color-text:', styles.getPropertyValue('--oi-color-text'));
+      console.log('data-theme attribute:', root.getAttribute('data-theme'));
+    }, 100);
+  }
+  
+  // Listen for system preference changes
+  if (props.useSystemPreference && typeof window !== 'undefined') {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleSystemChange = (event: MediaQueryListEvent) => {
+      // Only auto-switch if no user preference is saved
+      if (typeof window !== 'undefined' && !localStorage.getItem('obiente-theme')) {
+        const prefersDark = event.matches;
+        const matchingTheme = props.themes.find(theme => 
+          theme.variant === (prefersDark ? 'dark' : 'light')
+        );
+        if (matchingTheme) {
+          setTheme(matchingTheme);
+        }
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleSystemChange);
+    
+    // Cleanup is handled by Vue's onUnmounted automatically
+  }
+});
+
+// Watch for theme changes and update persistence
+if (props.persistTheme) {
+  watch(() => currentTheme.value, (newTheme) => {
+    if (newTheme && typeof window !== 'undefined') {
+      localStorage.setItem('obiente-theme', newTheme.id);
+    }
+  });
+}
+
+// Expose methods for parent components
+defineExpose({
+  setTheme,
+  setThemeById,
+  currentTheme,
 });
 </script>

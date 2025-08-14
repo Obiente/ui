@@ -4,11 +4,14 @@
  * This file exports all components and utilities from the library.
  */
 
+// Import base styles
+import './styles/base.css';
+
 // Re-export all components
 export * from './components';
 
-// Re-export themes module
-export * from './themes';
+// Re-export composables
+export * from './composables';
 
 // Re-export types
 export * from './types';

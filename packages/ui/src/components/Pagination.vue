@@ -116,7 +116,7 @@ const handlePageSizeChange = (details: { pageSize: number }) => {
     @page-size-change="handlePageSizeChange"
   >
     <Pagination.Context>
-      <template #default="{ pages, previousPage, nextPage }">
+      <template #default="{ pages, nextPage }">
         <div class="oi-pagination-list">
           <Pagination.PrevTrigger 
             v-if="showFirstLast && page > 1"

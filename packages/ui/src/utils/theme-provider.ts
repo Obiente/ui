@@ -6,7 +6,6 @@
 
 import { inject, computed, ComputedRef } from 'vue';
 import type { ThemeProviderContext } from '../types/theme';
-import { getTheme } from './theme-engine';
 
 /**
  * Composable to use themes in components
@@ -30,10 +29,10 @@ export function useThemeProvider() {
   }
   
   // Get current theme
-  const currentTheme: ComputedRef<string> = computed(() => themeProvider.current);
+  const currentTheme: ComputedRef<string> = computed(() => themeProvider.current.value);
   
   // Check if current theme is dark
-  const isDark: ComputedRef<boolean> = computed(() => themeProvider.isDark);
+  const isDark: ComputedRef<boolean> = computed(() => themeProvider.isDark.value);
   
   // Change theme function
   const changeTheme = (themeId: string) => {
@@ -73,7 +72,7 @@ export function getThemeClass(
   if (!theme) {
     const themeProvider = inject<ThemeProviderContext>('themeProvider');
     if (themeProvider) {
-      theme = themeProvider.current;
+      theme = themeProvider.current.value;
     } else {
       // Fallback to default
       theme = 'default';
@@ -81,7 +80,7 @@ export function getThemeClass(
   }
   
   // Normalize theme name for CSS class
-  const normalizedTheme = theme.toLowerCase().replace(/[^a-z0-9-]/g, '-');
+  const normalizedTheme = (theme || 'default').toLowerCase().replace(/[^a-z0-9-]/g, '-');
   
   // Create CSS class name
   if (variant === 'default') {

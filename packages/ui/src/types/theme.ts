@@ -71,11 +71,11 @@ export interface ThemeRegistrationOptions {
  * Theme provider context interface
  */
 export interface ThemeProviderContext {
-  // Current active theme
-  current: string;
+  // Current active theme (ref)
+  current: import('vue').Ref<string>;
   
-  // Whether current theme is dark mode
-  isDark: boolean;
+  // Whether current theme is dark mode (computed ref)
+  isDark: import('vue').ComputedRef<boolean>;
   
   // Change theme function
   changeTheme: (themeId: string) => void;

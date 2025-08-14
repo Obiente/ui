@@ -4,16 +4,17 @@
  */
 
 <template>
-  <div class="theme-switch">
+  <div class="oi-flex oi-items-center oi-gap-2">
+    <label v-if="showLabel" class="oi-text-sm oi-font-medium oi-text-foreground">
+      Theme:
+    </label>
     <Select 
       v-model="selectedTheme" 
       @update:modelValue="handleThemeChange"
-      :themeClasses="themeClasses"
-    >
-      <option v-for="theme in availableThemes" :key="theme.id" :value="theme.id">
-        {{ theme.name }}
-      </option>
-    </Select>
+      :options="themeOptions"
+      placeholder="Select theme"
+      class="oi-min-w-32"
+    />
   </div>
 </template>
 
@@ -23,12 +24,12 @@ import { useTheme } from '../composables/use-theme';
 import Select from './Select.vue';
 
 interface Props {
-  themeClasses?: string;
+  showLabel?: boolean;
   showVariant?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  themeClasses: 'default',
+withDefaults(defineProps<Props>(), {
+  showLabel: false,
   showVariant: false,
 });
 
@@ -45,9 +46,20 @@ const selectedTheme = computed({
   }
 });
 
-// Handle theme change
-const handleThemeChange = (themeId: string) => {
-  setThemeById(themeId);
+// Convert themes to Select options format
+const themeOptions = computed(() => {
+  return availableThemes.value.map(theme => ({
+    label: theme.name,
+    value: theme.id,
+  }));
+});
+
+// Handle theme change - can be string or string[] from Select
+const handleThemeChange = (value: string | string[]) => {
+  const themeId = Array.isArray(value) ? value[0] : value;
+  if (themeId) {
+    setThemeById(themeId);
+  }
 };
 </script>
 

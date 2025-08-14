@@ -80,18 +80,6 @@ const emit = defineEmits<{
   open: []
 }>()
 
-/**
- * Handle open/close state changes
- */
-const handleOpenChange = (details: { open: boolean }) => {
-  emit('update:open', details.open)
-  emit('open-change', details)
-  if (details.open) {
-    emit('open')
-  } else {
-    emit('close')
-  }
-}
 
 /**
  * Generate backdrop classes for theme system
