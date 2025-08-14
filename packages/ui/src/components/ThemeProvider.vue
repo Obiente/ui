@@ -1,14 +1,8 @@
 <template>
-  <div class="obiente-theme-provider" :data-theme="currentTheme?.id">
-    <slot />
-  </div>
+  <slot />
 </template>
 
 <script setup lang="ts">
-/**
- * Improved ThemeProvider Component
- * Provides theme context using the new theme system
- */
 
 import { provide, onMounted, watch } from 'vue';
 import { createThemeContext, THEME_CONTEXT_KEY } from '../composables/use-theme';
