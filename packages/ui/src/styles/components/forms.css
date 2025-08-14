@@ -1,6 +1,6 @@
 /* 
  * Obiente UI - Form Component Styles
- * Enhanced form styling with accessibility features
+ * Enhanced form styling with accessibility features using Tailwind utilities
  */
 
 /* === Base Form Styles === */
@@ -11,41 +11,43 @@
 }
 
 .oi-form-label {
-  font-size: var(--oi-font-size-sm);
-  font-weight: var(--oi-font-weight-medium);
-  color: var(--oi-color-text);
+  font-size: var(--oi-text-sm);
+  font-weight: 500;
   margin-bottom: calc(var(--oi-spacing-unit) * 1);
+  color: var(--oi-color-text);
 }
 
 .oi-form-label.oi-required::after {
   content: ' *';
-  color: var(--oi-color-danger);
+  color: var(--oi-color-error);
 }
 
 /* === Input Base Styles === */
 .oi-input {
   display: flex;
   width: 100%;
-  border-radius: var(--oi-radius-md);
-  border: 1px solid var(--oi-color-border);
-  background-color: var(--oi-color-background);
+  border-radius: calc(var(--oi-spacing-unit) * 1.5);
+  border: 1px solid;
+  border-color: var(--oi-color-border);
+  background-color: var(--oi-color-surface);
   padding: calc(var(--oi-spacing-unit) * 2) calc(var(--oi-spacing-unit) * 3);
-  font-size: var(--oi-font-size-base);
-  line-height: 1.5;
+  font-size: var(--oi-text-base);
   color: var(--oi-color-text);
-  transition: all var(--oi-transition-fast) var(--oi-transition-ease);
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  transition: all 0.2s ease;
+  outline: none;
+  line-height: 1.5;
 }
 
 .oi-input::placeholder {
-  color: var(--oi-color-muted-foreground);
+  color: var(--oi-color-text-muted);
 }
 
 .oi-input:focus {
   border-color: var(--oi-color-accent);
-  outline: 2px solid var(--oi-color-accent);
+  outline-width: 2px;
+  outline-style: solid;
   outline-offset: 2px;
+  outline-color: var(--oi-color-accent);
 }
 
 .oi-input:disabled {
@@ -57,39 +59,39 @@
 /* === Input Sizes === */
 .oi-input-sm {
   padding: calc(var(--oi-spacing-unit) * 1.5) calc(var(--oi-spacing-unit) * 2.5);
-  font-size: var(--oi-font-size-sm);
+  font-size: var(--oi-text-sm);
 }
 
 .oi-input-lg {
   padding: calc(var(--oi-spacing-unit) * 3) calc(var(--oi-spacing-unit) * 4);
-  font-size: var(--oi-font-size-lg);
+  font-size: var(--oi-text-lg);
 }
 
 /* === Input States === */
 .oi-input-error {
-  border-color: var(--oi-color-danger);
+  border-color: var(--oi-color-red);
 }
 
 .oi-input-error:focus {
-  border-color: var(--oi-color-danger);
-  outline-color: var(--oi-color-danger);
+  border-color: var(--oi-color-red);
+  outline-color: var(--oi-color-red);
 }
 
 .oi-input-success {
-  border-color: var(--oi-color-success);
+  border-color: var(--oi-color-green);
 }
 
 .oi-input-success:focus {
-  border-color: var(--oi-color-success);
-  outline-color: var(--oi-color-success);
+  border-color: var(--oi-color-green);
+  outline-color: var(--oi-color-green);
 }
 
 /* === Select Styles === */
 .oi-select {
   appearance: none;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right calc(var(--oi-spacing-unit) * 2) center;
   background-repeat: no-repeat;
+  background-position: right calc(var(--oi-spacing-unit) * 2) center;
   background-size: 1.5em 1.5em;
   padding-right: calc(var(--oi-spacing-unit) * 8);
 }
@@ -105,31 +107,33 @@
 .oi-radio {
   width: calc(var(--oi-spacing-unit) * 4);
   height: calc(var(--oi-spacing-unit) * 4);
-  accent-color: var(--oi-color-accent);
+  accent-color: var(--oi-color-primary);
 }
 
 .oi-checkbox:focus,
 .oi-radio:focus {
-  outline: 2px solid var(--oi-color-accent);
+  outline-width: 2px;
+  outline-style: solid;
   outline-offset: 2px;
+  outline-color: var(--oi-color-accent);
 }
 
 /* === Form Validation Messages === */
 .oi-form-error {
-  color: var(--oi-color-danger);
-  font-size: var(--oi-font-size-sm);
+  color: var(--oi-color-error);
+  font-size: var(--oi-text-sm);
   margin-top: calc(var(--oi-spacing-unit) * 1);
 }
 
 .oi-form-success {
   color: var(--oi-color-success);
-  font-size: var(--oi-font-size-sm);
+  font-size: var(--oi-text-sm);
   margin-top: calc(var(--oi-spacing-unit) * 1);
 }
 
 .oi-form-help {
-  color: var(--oi-color-muted-foreground);
-  font-size: var(--oi-font-size-sm);
+  color: var(--oi-color-muted);
+  font-size: var(--oi-text-sm);
   margin-top: calc(var(--oi-spacing-unit) * 1);
 }
 
@@ -144,19 +148,20 @@
   align-items: center;
   padding: calc(var(--oi-spacing-unit) * 2) calc(var(--oi-spacing-unit) * 3);
   background-color: var(--oi-color-muted);
-  border: 1px solid var(--oi-color-border);
-  color: var(--oi-color-muted-foreground);
-  font-size: var(--oi-font-size-sm);
+  border: 1px solid;
+  color: var(--oi-color-muted);
+  font-size: var(--oi-text-sm);
+  border-color: var(--oi-color-border);
 }
 
 .oi-field-addon:first-child {
   border-right: 0;
-  border-radius: var(--oi-radius-md) 0 0 var(--oi-radius-md);
+  border-radius: calc(var(--oi-spacing-unit) * 1.5) 0 0 calc(var(--oi-spacing-unit) * 1.5);
 }
 
 .oi-field-addon:last-child {
   border-left: 0;
-  border-radius: 0 var(--oi-radius-md) var(--oi-radius-md) 0;
+  border-radius: 0 calc(var(--oi-spacing-unit) * 1.5) calc(var(--oi-spacing-unit) * 1.5) 0;
 }
 
 .oi-field-group .oi-input:not(:first-child):not(:last-child) {
@@ -164,12 +169,12 @@
 }
 
 .oi-field-group .oi-input:first-child:not(:last-child) {
-  border-radius: var(--oi-radius-md) 0 0 var(--oi-radius-md);
+  border-radius: calc(var(--oi-spacing-unit) * 1.5) 0 0 calc(var(--oi-spacing-unit) * 1.5);
   border-right: 0;
 }
 
 .oi-field-group .oi-input:last-child:not(:first-child) {
-  border-radius: 0 var(--oi-radius-md) var(--oi-radius-md) 0;
+  border-radius: 0 calc(var(--oi-spacing-unit) * 1.5) calc(var(--oi-spacing-unit) * 1.5) 0;
   border-left: 0;
 }
 
@@ -180,27 +185,29 @@
   width: calc(var(--oi-spacing-unit) * 11);
   height: calc(var(--oi-spacing-unit) * 6);
   background-color: var(--oi-color-muted);
-  border-radius: calc(var(--oi-spacing-unit) * 6);
+  border-radius: 9999px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: background-color var(--oi-transition-fast) var(--oi-transition-ease);
+  transition: background-color 0.2s ease;
 }
 
 .oi-switch:focus {
-  outline: 2px solid var(--oi-color-accent);
+  outline-width: 2px;
   outline-offset: 2px;
+  outline-color: var(--oi-color-accent);
 }
 
 .oi-switch::before {
   content: '';
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 0;
+  left: 0;
   width: calc(var(--oi-spacing-unit) * 4);
   height: calc(var(--oi-spacing-unit) * 4);
   background-color: var(--oi-color-background);
-  border-radius: 50%;
-  transition: transform var(--oi-transition-fast) var(--oi-transition-ease);
+  border-radius: 9999px;
+  transition: transform 0.2s ease;
+  margin: 2px;
 }
 
 .oi-switch[data-state="checked"] {

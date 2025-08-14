@@ -14,6 +14,7 @@
   line-height: var(--oi-line-height-relaxed); 
 }
 
+.oi-text-base,
 .oi-text-md { 
   font-size: var(--oi-font-size-md); 
   line-height: var(--oi-line-height-relaxed); 

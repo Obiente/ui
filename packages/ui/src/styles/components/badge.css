@@ -14,23 +14,23 @@
 }
 .oi-badge-primary {
   background: var(--oi-color-primary);
-  color: var(--oi-color-on-primary, #fff);
+  color: var(--oi-color-accent-foreground);
 }
 .oi-badge-secondary {
   background: var(--oi-color-secondary);
-  color: var(--oi-color-on-secondary, #fff);
+  color: var(--oi-color-accent-foreground);
 }
 .oi-badge-success {
-  background: var(--oi-color-green);
-  color: var(--oi-color-on-success, #fff);
+  background: var(--oi-color-success);
+  color: var(--oi-color-accent-foreground);
 }
 .oi-badge-warning {
-  background: var(--oi-color-yellow);
-  color: var(--oi-color-on-warning, #fff);
+  background: var(--oi-color-warning);
+  color: var(--oi-color-accent-foreground);
 }
 .oi-badge-error {
-  background: var(--oi-color-red);
-  color: var(--oi-color-on-error, #fff);
+  background: var(--oi-color-error);
+  color: var(--oi-color-accent-foreground);
 }
 .oi-badge-outline {
   background: transparent;

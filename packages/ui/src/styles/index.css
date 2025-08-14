@@ -64,10 +64,27 @@
 .oi-focus-ring {
   outline: 2px solid transparent;
   outline-offset: 2px;
-  box-shadow: 
-    0 0 0 2px var(--oi-color-background),
-    0 0 0 4px var(--oi-color-accent),
-    var(--tw-shadow, 0 0 #0000);
+}
+
+.oi-focus-ring:focus-visible {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-offset: 2px;
+  outline-color: var(--oi-color-accent);
+}
+
+.oi-focus-ring-inset:focus-visible {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-offset: 0px;
+  outline-color: var(--oi-color-accent);
+}
+
+.oi-focus-ring-error:focus-visible {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-offset: 2px;
+  outline-color: var(--oi-color-error);
 }
 
 /* Skip link for screen readers */

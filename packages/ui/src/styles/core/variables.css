@@ -60,4 +60,47 @@
   --oi-transition-normal: 250ms;
   --oi-transition-slow: 350ms;
   --oi-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* === Default Semantic Color Variables === */
+  /* These will be overridden by themes but provide fallbacks */
+  --oi-color-primary: #3b82f6;
+  --oi-color-secondary: #6b7280;
+  --oi-color-success: #10b981;
+  --oi-color-warning: #f59e0b;
+  --oi-color-error: #ef4444;
+  --oi-color-info: #3b82f6;
+  
+  /* Surface colors */
+  --oi-color-surface: #ffffff;
+  --oi-color-background: #ffffff;
+  --oi-color-card: #ffffff;
+  --oi-color-popover: #ffffff;
+  
+  /* Text colors */
+  --oi-color-text: #111827;
+  --oi-color-text-muted: #6b7280;
+  --oi-color-muted-foreground: #6b7280;
+  --oi-color-card-foreground: #111827;
+  --oi-color-popover-foreground: #111827;
+  
+  /* Border colors */
+  --oi-color-border: #e5e7eb;
+  --oi-color-muted: #f3f4f6;
+  
+  /* Interactive states */
+  --oi-color-accent: #3b82f6;
+  --oi-color-accent-foreground: #ffffff;
+  --oi-color-accent-light: #dbeafe;
+  --oi-color-primary-hover: #2563eb;
+  --oi-color-secondary-hover: #4b5563;
+  --oi-color-error-hover: #dc2626;
+  
+  /* Alert backgrounds */
+  --oi-color-info-background: #dbeafe;
+  --oi-color-success-background: #d1fae5;
+  --oi-color-warning-background: #fef3c7;
+  --oi-color-error-background: #fee2e2;
+  
+  /* Gradients */
+  --oi-gradient-primary: linear-gradient(135deg, var(--oi-color-primary), var(--oi-color-accent));
 }

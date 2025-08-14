@@ -75,11 +75,11 @@
 
 .oi-card-outline {
   background-color: transparent;
-  border: 2px solid var(--oi-color-border);
+  border: 2px solid var(--oi-color-overlay0);
 }
 
 .oi-card-filled {
-  background-color: var(--oi-color-muted);
+  background-color: var(--oi-color-overlay0);
   border: none;
 }
 
@@ -95,7 +95,7 @@
 }
 
 .oi-card-interactive:focus {
-  outline: 2px solid var(--oi-color-accent);
+  outline: 2px solid var(--oi-color-lavender);
   outline-offset: 2px;
 }
 
@@ -137,8 +137,8 @@
   align-items: center;
   gap: calc(var(--oi-spacing-unit) * 2);
   padding: calc(var(--oi-spacing-unit) * 4) calc(var(--oi-spacing-unit) * 6);
-  border-top: 1px solid var(--oi-color-border);
-  background-color: var(--oi-color-muted);
+  border-top: 1px solid var(--oi-color-overlay0);
+  background-color: var(--oi-color-overlay0);
 }
 
 .oi-card-actions-center {
