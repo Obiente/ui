@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DocumentationLayout from '../components/content/DocumentationLayout.vue';
+---
+
+<Layout title="Components Reference - Obiente UI">
+  <DocumentationLayout currentPage="/components-reference" client:load>
+    <div class="components-reference-page">
+      <div class="page-header">
+        <h1>Components Reference</h1>
+        <p>A comprehensive collection of accessible, themeable Vue 3 components built with Ark UI.</p>
+      </div>
+      
+      <div class="content-message">
+        <h2>Browse Components</h2>
+        <p>Use the sidebar to navigate through all available components. Each component includes detailed documentation, examples, and API reference.</p>
+      </div>
+    </div>
+  </DocumentationLayout>
+</Layout>
+
+<style>
+  .components-reference-page {
+    padding: 2rem 0;
+  }
+
+  .page-header {
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 2rem;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  .page-header p {
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .content-message {
+    max-width: 600px;
+  }
+
+  .content-message h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  .content-message p {
+    font-size: 1rem;
+    color: #6b7280;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 768px) {
+    .components-reference-page {
+      padding: 1rem 0;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+    }
+
+    .page-header p,
+    .content-message p {
+      font-size: 1rem;
+    }
+
+    .content-message h2 {
+      font-size: 1.25rem;
+    }
+  }
+</style>

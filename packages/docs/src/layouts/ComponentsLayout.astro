@@ -1,0 +1,52 @@
+---
+import ObienteLayout from "./Layout.astro";
+import { Container, Grid, Stack } from "@obiente/ui";
+import ComponentsSidebar from "../components/ComponentsSidebar.vue";
+---
+
+<ObienteLayout title={"layout"}>
+  <Container>
+    <Grid columns={12} gap="lg" class="components-layout">
+      <aside class="components-sidebar">
+        <ComponentsSidebar client:load currentPage={Astro.url.pathname} />
+      </aside>
+      <main class="components-content">
+        <Stack gap="xl">
+          <slot />
+        </Stack>
+      </main>
+    </Grid>
+  </Container>
+</ObienteLayout>
+
+<style>
+  .components-layout {
+    min-height: calc(100vh - var(--header-height));
+    padding: 2rem 0;
+  }
+
+  .components-sidebar {
+    grid-column: span 3;
+    position: sticky;
+    top: calc(var(--header-height) + 2rem);
+    height: fit-content;
+    padding-right: 2rem;
+    border-right: 1px solid var(--border-color);
+  }
+
+  .components-content {
+    grid-column: span 9;
+    padding-left: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .components-sidebar {
+      display: none;
+    }
+
+    .components-content {
+      grid-column: span 12;
+      padding-left: 0;
+    }
+  }
+</style>

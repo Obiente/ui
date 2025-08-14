@@ -23,7 +23,6 @@ The Container component provides a responsive, centered wrapper with maximum wid
 |------|------|---------|-------------|
 | `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl'` | `'lg'` | Maximum width of the container |
 | `fluid` | `boolean` | `false` | If true, the container will take full width |
-| `themeClasses` | `string` | - | CSS classes for theming |
 
 ## Grid
 
@@ -43,7 +42,6 @@ The Grid component provides a responsive grid layout system using CSS Grid.
 |------|------|---------|-------------|
 | `columns` | `number \| ResponsiveValue<number> \| Record<string, number>` | `1` | Number of columns |
 | `gap` | `number \| GapObject \| ResponsiveValue<number \| GapObject>` | `0` | Gap between grid items |
-| `themeClasses` | `string` | - | CSS classes for theming |
 
 ## Flex
 
@@ -66,7 +64,6 @@ The Flex component provides a flexible layout using CSS flexbox.
 | `justify` | `'start' \| 'end' \| 'center' \| 'between' \| 'around' \| 'evenly'` | `'start'` | Horizontal alignment |
 | `align` | `'start' \| 'end' \| 'center' \| 'baseline' \| 'stretch'` | `'stretch'` | Vertical alignment |
 | `gap` | `number \| { x?: number, y?: number }` | `0` | Gap between flex items |
-| `themeClasses` | `string` | - | CSS classes for theming |
 
 ## Stack
 
@@ -88,7 +85,6 @@ The Stack component is a specialized flex container for stacking elements with c
 | `spacing` | `number` | `0` | Space between items (in rem) |
 | `align` | `'start' \| 'end' \| 'center' \| 'stretch'` | `'stretch'` | Cross-axis alignment |
 | `justify` | `'start' \| 'end' \| 'center' \| 'between'` | `'start'` | Main-axis alignment |
-| `themeClasses` | `string` | - | CSS classes for theming |
 
 ## Spacer
 
@@ -110,4 +106,3 @@ The Spacer component adds flexible or fixed space between elements.
 | `height` | `number \| string` | - | Fixed height (in rem or CSS value) |
 | `size` | `number \| string` | - | Shorthand for both width and height |
 | `grow` | `boolean` | `false` | If true, takes up all available space |
-| `themeClasses` | `string` | - | CSS classes for theming |
