@@ -1,0 +1,56 @@
+{
+  "name": "@obiente/themes",
+  "version": "0.1.0",
+  "description": "Theme definitions for Obiente UI components",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./catppuccin-mocha": {
+      "import": "./dist/catppuccin-mocha.js",
+      "types": "./dist/catppuccin-mocha.d.ts"
+    },
+    "./catppuccin-latte": {
+      "import": "./dist/catppuccin-latte.js", 
+      "types": "./dist/catppuccin-latte.d.ts"
+    },
+    "./catppuccin-frappe": {
+      "import": "./dist/catppuccin-frappe.js",
+      "types": "./dist/catppuccin-frappe.d.ts"
+    },
+    "./catppuccin-macchiato": {
+      "import": "./dist/catppuccin-macchiato.js",
+      "types": "./dist/catppuccin-macchiato.d.ts"
+    },
+    "./catppuccin-mocha.css": "./dist/catppuccin-mocha.css",
+    "./catppuccin-latte.css": "./dist/catppuccin-latte.css",
+    "./catppuccin-frappe.css": "./dist/catppuccin-frappe.css",
+    "./catppuccin-macchiato.css": "./dist/catppuccin-macchiato.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0"
+  },
+  "keywords": [
+    "vue",
+    "ui",
+    "themes",
+    "catppuccin",
+    "design-system"
+  ],
+  "license": "MIT"
+}

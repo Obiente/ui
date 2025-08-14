@@ -1,120 +1,152 @@
 /**
- * Types for Obiente UI Theme System
+ * Obiente UI Theme System Types
+ * Generic, reusable types for any theme system
  */
 
 /**
- * Theme colors interface - defines the color tokens for a theme
+ * Raw color palette - flexible structure for any color system
  */
-export interface ThemeColors {
-  // Base colors
-  rosewater: string;
-  flamingo: string;
-  pink: string;
-  mauve: string;
-  red: string;
-  maroon: string;
-  peach: string;
-  yellow: string;
-  green: string;
-  teal: string;
-  sky: string;
-  sapphire: string;
-  blue: string;
-  lavender: string;
-  
-  // Text colors
-  text: string;
-  subtext1: string;
-  subtext0: string;
-  
-  // Overlay colors
-  overlay2: string;
-  overlay1: string;
-  overlay0: string;
-  
-  // Surface colors
-  surface2: string;
-  surface1: string;
-  surface0: string;
-  
-  // Base surface colors
-  base: string;
-  mantle: string;
-  crust: string;
+export interface ColorPalette {
+  [colorName: string]: string;
 }
 
 /**
- * Theme configuration interface
+ * Semantic color mapping - maps UI purposes to palette colors
  */
-export interface ThemeConfig {
-  // Unique theme name identifier
-  id: string;
-  
-  // Display name
-  name: string;
-  
-  // Theme flavor - light or dark
-  flavor: 'light' | 'dark';
-  
-  // Color tokens
-  colors: ThemeColors;
+export interface SemanticTokens {
+  surface: {
+    base: string;
+    raised: string;
+    overlay: string;
+    subtle: string;
+    muted: string;
+  };
+  text: {
+    primary: string;
+    secondary: string;
+    muted: string;
+    accent: string;
+    inverse: string;
+  };
+  border: {
+    default: string;
+    subtle: string;
+    accent: string;
+    focus: string;
+  };
+  accent: {
+    primary: string;
+    secondary: string;
+    success: string;
+    warning: string;
+    danger: string;
+    info: string;
+  };
 }
 
 /**
- * Component theme classes interface
- * Used for applying theme to components via theme-classes prop
+ * Component theme classes - generated class names for components
  */
 export interface ComponentThemeClasses {
-  // Button variants
   button: {
     primary: string;
     secondary: string;
     outline: string;
     ghost: string;
     destructive: string;
+    [variant: string]: string;
   };
-  
-  // Input variants
   input: {
     default: string;
     error: string;
+    [variant: string]: string;
   };
-  
-  // Card variants
   card: {
     default: string;
     elevated: string;
     interactive: string;
+    [variant: string]: string;
   };
-  
-  // Badge variants
-  badge?: {
+  badge: {
     primary: string;
     secondary: string;
     success: string;
     warning: string;
     error: string;
     outline: string;
+    [variant: string]: string;
   };
-  
-  // Alert variants
-  alert?: {
+  alert: {
     info: string;
     success: string;
     warning: string;
     error: string;
+    [variant: string]: string;
   };
-  
-  // And other components as needed...
+  [component: string]: {
+    [variant: string]: string;
+  };
 }
 
 /**
- * Complete theme interface that combines config and component classes
+ * Complete theme definition - generic structure
  */
-export interface Theme {
-  // Theme configuration (colors, name, etc)
-  config: ThemeConfig;
-  
-  // Component theme classes (used in component props)
+export interface ThemeDefinition {
+  id: string;
+  name: string;
+  variant: 'light' | 'dark' | 'auto';
+  colors: ColorPalette;
+  semantic: SemanticTokens;
   components: ComponentThemeClasses;
+  metadata?: {
+    author?: string;
+    description?: string;
+    version?: string;
+    [key: string]: any;
+  };
+}
+
+/**
+ * CSS variables map - what gets injected at runtime
+ */
+export interface CSSVariables {
+  [variableName: string]: string;
+}
+
+/**
+ * Theme registry for runtime management
+ */
+export interface ThemeRegistry {
+  [themeId: string]: ThemeDefinition;
+}
+
+/**
+ * Theme context for providers and hooks
+ */
+export interface ThemeContext {
+  currentTheme: ThemeDefinition;
+  availableThemes: string[];
+  setTheme: (themeId: string) => void;
+  cssVariables: CSSVariables;
+  themeClasses: ComponentThemeClasses;
+}
+
+/**
+ * Theme builder utilities - for creating themes
+ */
+export interface ThemeBuilder {
+  createTheme: (config: Partial<ThemeDefinition> & Pick<ThemeDefinition, 'id' | 'name' | 'colors'>) => ThemeDefinition;
+  generateCSSVariables: (theme: ThemeDefinition) => CSSVariables;
+  generateComponentClasses: (theme: ThemeDefinition) => ComponentThemeClasses;
+}
+
+/**
+ * Theme configuration for build system
+ */
+export interface ThemeBuildConfig {
+  themes: ThemeDefinition[];
+  outputDir: string;
+  generateTypes?: boolean;
+  cssVariablePrefix?: string;
+  classPrefix?: string;
 }
