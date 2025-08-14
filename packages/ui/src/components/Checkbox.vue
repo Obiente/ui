@@ -1,237 +1,141 @@
-<template>
-  <div class="ob-checkbox-container">
-    <label 
-      :class="[
-        'ob-checkbox', 
-        themeClasses || `ob-checkbox-${variant}`,
-        { 'ob-checkbox-disabled': disabled }
-      ]"
-    >
-      <input
-        type="checkbox"
-        :checked="modelValue"
-        :value="value"
-        :name="name"
-        :disabled="disabled"
-        class="ob-checkbox-input"
-        @change="updateValue($event)"
-        v-bind="$attrs"
-      />
-      <span class="ob-checkbox-checkmark"></span>
-      <span v-if="$slots.default" class="ob-checkbox-label">
-        <slot></slot>
-      </span>
-    </label>
-    <div v-if="helperText" class="ob-checkbox-helper-text">
-      {{ helperText }}
-    </div>
-  </div>
-</template>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { Checkbox } from '@ark-ui/vue'
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+const props = withDefaults(defineProps<{ 
+  checked?: boolean
+  error?: boolean
+  disabled?: boolean
+  required?: boolean
+  name?: string
+  value?: string
+  label?: string
+  helpText?: string
+  errorMessage?: string
+  size?: 'sm' | 'md' | 'lg'
+}>(), {
+  size: 'md'
+})
 
-export default defineComponent({
-  name: 'ObCheckbox',
-  inheritAttrs: false,
-  
-  props: {
-    /**
-     * The checked state of the checkbox (v-model)
-     */
-    modelValue: {
-      type: [Boolean, Array],
-      default: false,
-    },
-    
-    /**
-     * Theme classes to apply from the current theme
-     */
-    themeClasses: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * The value of the checkbox when used with v-model with multiple checkboxes
-     */
-    value: {
-      type: [String, Number, Boolean, Object],
-      default: undefined,
-    },
-    
-    /**
-     * Name attribute for the input field
-     */
-    name: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * Whether the checkbox is disabled
-     */
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    
-    /**
-     * Helper text to display below the checkbox
-     */
-    helperText: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * Checkbox variant
-     */
-    variant: {
-      type: String,
-      default: 'primary',
-      validator: (value: string) => ['primary', 'secondary', 'success', 'warning', 'error'].includes(value),
-    },
-  },
-  
-  emits: ['update:modelValue', 'change'],
-  
-  setup(props, { emit }) {
-    /**
-     * Updates the v-model value
-     */
-    const updateValue = (event: Event) => {
-      const target = event.target as HTMLInputElement;
-      let value;
-      
-      if (Array.isArray(props.modelValue)) {
-        const newValue = [...props.modelValue];
-        const index = newValue.indexOf(props.value);
-        
-        if (target.checked) {
-          if (index === -1 && props.value !== undefined) {
-            newValue.push(props.value);
-          }
-        } else {
-          if (index !== -1) {
-            newValue.splice(index, 1);
-          }
-        }
-        value = newValue;
-      } else {
-        value = target.checked;
-      }
-      
-      emit('update:modelValue', value);
-      emit('change', value);
-    };
-    
-    return {
-      updateValue,
-    };
-  },
-});
+const emit = defineEmits<{
+  checkedChange: [checked: boolean]
+}>()
+
+const handleCheckedChange = (details: { checked: string | boolean }) => {
+  const isChecked = details.checked === true || details.checked === 'true'
+  emit('checkedChange', isChecked)
+}
+
+const sizeClasses = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return 'oi-w-3 oi-h-3'
+    case 'lg':
+      return 'oi-w-5 oi-h-5'
+    default:
+      return 'oi-w-4 oi-h-4'
+  }
+})
+
+const indicatorSizeClasses = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return 'oi-w-2 oi-h-2'
+    case 'lg':
+      return 'oi-w-4 oi-h-4'
+    default:
+      return 'oi-w-3 oi-h-3'
+  }
+})
+
+const stateClasses = computed(() => {
+  if (props.error) {
+    return 'oi-border-error data-[state=checked]:oi-bg-error data-[state=checked]:oi-border-error'
+  }
+  return 'oi-border-muted data-[state=checked]:oi-bg-primary data-[state=checked]:oi-border-primary'
+})
 </script>
 
-<style>
-.ob-checkbox-container {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
+<template>
+  <Checkbox.Root
+    v-bind="$attrs"
+    :checked="checked"
+    :disabled="disabled"
+    :invalid="error"
+    :name="name"
+    :value="value"
+    :class="[
+      'oi-flex oi-items-center oi-gap-2',
+      disabled ? 'oi-opacity-50 oi-cursor-not-allowed' : 'oi-cursor-pointer',
+      $attrs.class
+    ]"
+    @checked-change="handleCheckedChange"
+  >
+    <Checkbox.Control
+      :class="[
+        'oi-flex oi-items-center oi-justify-center',
+        'oi-w-4 oi-h-4',
+        'oi-rounded-sm',
+        'oi-border-2',
+        'oi-transition-all',
+        'oi-focus-ring',
+        'oi-bg-surface',
+        sizeClasses,
+        stateClasses
+      ]"
+    >
+      <Checkbox.Indicator
+        class="oi-text-background oi-transition-all"
+        :class="indicatorSizeClasses"
+      >
+        <svg
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          aria-hidden="true"
+          class="oi-w-full oi-h-full"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </Checkbox.Indicator>
+    </Checkbox.Control>
 
-.ob-checkbox {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none;
-  line-height: 1.5;
-  font-size: var(--font-size-base, 1rem);
-}
+    <Checkbox.Label
+      v-if="label"
+      :class="[
+        'oi-text-sm oi-font-medium oi-cursor-pointer',
+        error ? 'oi-text-error' : 'oi-text-foreground',
+        disabled ? 'oi-cursor-not-allowed' : ''
+      ]"
+    >
+      {{ label }}
+      <span v-if="required" class="oi-text-error" aria-label="required">*</span>
+    </Checkbox.Label>
 
-.ob-checkbox-input {
-  position: absolute;
-  opacity: 0;
-  height: 0;
-  width: 0;
-  cursor: pointer;
-}
+    <!-- Hidden input for form submission -->
+    <Checkbox.HiddenInput />
+  </Checkbox.Root>
 
-.ob-checkbox-checkmark {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.25rem;
-  width: 1.25rem;
-  border: 2px solid var(--color-gray-400, #9ca3af);
-  border-radius: var(--radius-sm, 0.25rem);
-  background-color: transparent;
-  margin-right: 0.5rem;
-  transition: all 0.2s ease;
-}
+  <!-- Help text -->
+  <p
+    v-if="helpText && !error"
+    class="oi-mt-1 oi-text-xs oi-text-muted oi-ml-6"
+  >
+    {{ helpText }}
+  </p>
 
-.ob-checkbox-checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-  width: 0.4rem;
-  height: 0.7rem;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg) translate(-10%, -5%);
-}
+  <!-- Error message -->
+  <p
+    v-if="error && errorMessage"
+    class="oi-mt-1 oi-text-xs oi-text-error oi-ml-6"
+    role="alert"
+    aria-live="polite"
+  >
+    {{ errorMessage }}
+  </p>
+</template>
 
-.ob-checkbox-input:checked ~ .ob-checkbox-checkmark:after {
-  display: block;
-}
 
-/* Checkbox focus styles */
-.ob-checkbox-input:focus ~ .ob-checkbox-checkmark {
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-}
-
-/* Checkbox variants */
-.ob-checkbox-primary .ob-checkbox-input:checked ~ .ob-checkbox-checkmark {
-  background-color: var(--color-primary, #3b82f6);
-  border-color: var(--color-primary, #3b82f6);
-}
-
-.ob-checkbox-secondary .ob-checkbox-input:checked ~ .ob-checkbox-checkmark {
-  background-color: var(--color-gray-600, #4b5563);
-  border-color: var(--color-gray-600, #4b5563);
-}
-
-.ob-checkbox-success .ob-checkbox-input:checked ~ .ob-checkbox-checkmark {
-  background-color: var(--color-success, #10b981);
-  border-color: var(--color-success, #10b981);
-}
-
-.ob-checkbox-warning .ob-checkbox-input:checked ~ .ob-checkbox-checkmark {
-  background-color: var(--color-warning, #f59e0b);
-  border-color: var(--color-warning, #f59e0b);
-}
-
-.ob-checkbox-error .ob-checkbox-input:checked ~ .ob-checkbox-checkmark {
-  background-color: var(--color-error, #ef4444);
-  border-color: var(--color-error, #ef4444);
-}
-
-/* Disabled state */
-.ob-checkbox-disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.ob-checkbox-disabled .ob-checkbox-checkmark {
-  border-color: var(--color-gray-300, #d1d5db);
-  background-color: var(--color-gray-100, #f3f4f6);
-}
-
-.ob-checkbox-helper-text {
-  font-size: var(--font-size-sm, 0.875rem);
-  color: var(--color-gray-500, #6b7280);
-  margin-top: 0.25rem;
-}
-</style>

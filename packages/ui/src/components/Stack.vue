@@ -1,137 +1,30 @@
 <template>
-  <div
-    :class="[
-      'ob-stack',
-      `ob-stack-${direction}`,
-      themeClasses,
-      customClasses
-    ]"
-    :style="stackStyle"
-  >
-    <slot></slot>
+  <div :class="['oi-flex', 'oi-flex-col', gapClass, $attrs.class]">
+    <slot />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue';
 
-export default defineComponent({
-  name: 'ObStack',
-  
-  props: {
-    /**
-     * Theme classes to apply from the current theme
-     */
-    themeClasses: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * Stack direction
-     */
-    direction: {
-      type: String,
-      default: 'vertical',
-      validator: (value: string) => ['vertical', 'horizontal'].includes(value),
-    },
-    
-    /**
-     * Spacing between stack items (in rem)
-     */
-    spacing: {
-      type: Number,
-      default: 1,
-    },
-    
-    /**
-     * Alignment of stack items
-     */
-    align: {
-      type: String,
-      default: '',
-      validator: (value: string) => [
-        '',
-        'flex-start',
-        'flex-end',
-        'center',
-        'stretch',
-        'baseline',
-      ].includes(value),
-    },
-    
-    /**
-     * Justification of stack items
-     */
-    justify: {
-      type: String,
-      default: '',
-      validator: (value: string) => [
-        '',
-        'flex-start',
-        'flex-end',
-        'center',
-        'space-between',
-        'space-around',
-        'space-evenly',
-      ].includes(value),
-    },
-    
-    /**
-     * Additional CSS classes
-     */
-    customClasses: {
-      type: String,
-      default: '',
-    },
-  },
-  
-  setup(props) {
-    /**
-     * Computed stack style based on props
-     */
-    const stackStyle = computed(() => {
-      const style: Record<string, string> = {
-        '--stack-spacing': `${props.spacing}rem`,
-      };
-      
-      if (props.align) {
-        style['align-items'] = props.align;
-      }
-      
-      if (props.justify) {
-        style['justify-content'] = props.justify;
-      }
-      
-      return style;
-    });
-    
-    return {
-      stackStyle,
-    };
-  },
+interface Props {
+  gap?: number | string;
+  space?: number | string; // Alias for gap for backward compatibility
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  gap: 4,
+  space: undefined,
+});
+
+// Use space prop if provided, otherwise use gap
+const spacingValue = props.space ?? props.gap;
+
+// Convert spacing value to gap class
+const gapClass = computed(() => {
+  if (typeof spacingValue === 'number') {
+    return `oi-gap-${Math.max(1, Math.min(4, Math.round(spacingValue)))}`; // Clamp between 1-4
+  }
+  return 'oi-gap-4'; // Default
 });
 </script>
-
-<style>
-.ob-stack {
-  display: flex;
-}
-
-.ob-stack-vertical {
-  flex-direction: column;
-}
-
-.ob-stack-horizontal {
-  flex-direction: row;
-}
-
-/* Add spacing between stack items */
-.ob-stack-vertical > * + * {
-  margin-top: var(--stack-spacing);
-}
-
-.ob-stack-horizontal > * + * {
-  margin-left: var(--stack-spacing);
-}
-</style>

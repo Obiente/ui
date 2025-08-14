@@ -1,5 +1,5 @@
 <template>
-  <div :class="['ob-theme-provider', `ob-theme-${currentTheme}`, isDark ? 'ob-theme-dark' : 'ob-theme-light']">
+  <div :class="['oi-theme-provider', `oi-theme-${currentTheme}`, isDark ? 'oi-theme-dark' : 'oi-theme-light']">
     <slot></slot>
   </div>
 </template>
@@ -11,6 +11,9 @@ import { setThemeCookie, getThemeCookie } from '../utils/theme-cookie';
 import type { ThemeProviderProps } from '../types/theme';
 
 import catppuccinMocha from '../themes/catppuccin-mocha';
+import catppuccinLatte from '../themes/catppuccin-latte';
+import catppuccinFrappe from '../themes/catppuccin-frappe';
+import catppuccinMacchiato from '../themes/catppuccin-macchiato';
 import githubLight from '../themes/github-light';
 
 /**
@@ -41,14 +44,17 @@ export default defineComponent({
     },
     availableThemes: {
       type: Array as () => string[],
-      default: () => ['catppuccin-mocha', 'github-light']
+      default: () => ['catppuccin-mocha', 'catppuccin-latte', 'catppuccin-frappe', 'catppuccin-macchiato', 'github-light']
     }
   },
   
   setup(props: ThemeProviderProps) {
     // All registered themes
-    const registeredThemes = {
+    const registeredThemes: Record<string, typeof catppuccinMocha> = {
       'catppuccin-mocha': catppuccinMocha,
+      'catppuccin-latte': catppuccinLatte,
+      'catppuccin-frappe': catppuccinFrappe,
+      'catppuccin-macchiato': catppuccinMacchiato,
       'github-light': githubLight,
     };
     
@@ -103,7 +109,7 @@ export default defineComponent({
     
     // Get list of available themes
     const getAvailableThemes = () => {
-      return props.availableThemes.filter(id => id in registeredThemes);
+      return props.availableThemes?.filter(id => id in registeredThemes) || [];
     };
     
     // Provide theme context to children components
@@ -155,7 +161,8 @@ export default defineComponent({
       }
       
       // Apply the theme
-      changeTheme(initialTheme);
+      const themeToApply = initialTheme || props.defaultTheme || 'catppuccin-mocha';
+      changeTheme(themeToApply);
       
       // Listen for system preference changes if enabled
       if (props.useSystemPreference) {
@@ -198,9 +205,3 @@ export default defineComponent({
   }
 });
 </script>
-
-<style>
-.ob-theme-provider {
-  display: contents;
-}
-</style>

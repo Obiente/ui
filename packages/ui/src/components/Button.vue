@@ -1,256 +1,121 @@
 <template>
   <button
+    v-bind="$attrs"
     :class="[
-      'ob-btn',
-      themeClasses,
+      'oi-font-medium',
+      'oi-rounded-md',
+      'oi-border',
+      'oi-transition-all',
+      'oi-cursor-pointer',
+      'oi-select-none',
+      'oi-focus-ring',
+      'oi-interactive',
       sizeClasses,
       variantClasses,
-      { 'ob-btn-block': block, 'ob-btn-disabled': disabled },
-      customClasses
+      disabled ? 'oi-disabled' : '',
+      loading ? 'oi-cursor-default' : '',
+      $attrs.class
     ]"
-    :disabled="disabled"
-    :type="type"
-    @click="handleClick"
+    :disabled="disabled || loading"
+    :aria-disabled="disabled || loading ? 'true' : undefined"
+    :aria-describedby="ariaDescribedby"
+    type="button"
   >
-    <span v-if="$slots.icon && iconPosition === 'left'" class="ob-btn-icon ob-btn-icon-left">
+    <!-- Loading spinner -->
+    <svg 
+      v-if="loading" 
+      class="oi-animate-spin oi-mr-2" 
+      :class="sizeIconClasses"
+      fill="none" 
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle 
+        class="oi-opacity-25" 
+        cx="12" 
+        cy="12" 
+        r="10" 
+        stroke="currentColor" 
+        stroke-width="4"
+      ></circle>
+      <path 
+        class="oi-opacity-75" 
+        fill="currentColor" 
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+    
+    <!-- Icon slot -->
+    <span v-if="$slots.icon && !loading" class="oi-mr-2" aria-hidden="true">
       <slot name="icon" />
     </span>
-    <span class="ob-btn-content">
+    
+    <!-- Button content -->
+    <span :class="loading ? 'oi-opacity-75' : ''">
       <slot />
     </span>
-    <span v-if="$slots.icon && iconPosition === 'right'" class="ob-btn-icon ob-btn-icon-right">
-      <slot name="icon" />
-    </span>
+    
+    <!-- Screen reader loading text -->
+    <span v-if="loading" class="oi-sr-only">Loading...</span>
   </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from 'vue'
 
-export default defineComponent({
-  name: 'ObButton',
-  
-  props: {
-    /**
-     * Theme classes to apply from the current theme
-     */
-    themeClasses: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * Button visual variant
-     */
-    variant: {
-      type: String,
-      default: 'primary',
-      validator: (value: string) => 
-        ['primary', 'secondary', 'outline', 'ghost', 'destructive'].includes(value),
-    },
-    
-    /**
-     * Button size
-     */
-    size: {
-      type: String,
-      default: 'md',
-      validator: (value: string) => ['sm', 'md', 'lg', 'xl'].includes(value),
-    },
-    
-    /**
-     * Button type attribute
-     */
-    type: {
-      type: String,
-      default: 'button',
-      validator: (value: string) => ['button', 'submit', 'reset'].includes(value),
-    },
-    
-    /**
-     * Whether button should be disabled
-     */
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    
-    /**
-     * Whether button should take full width of container
-     */
-    block: {
-      type: Boolean,
-      default: false,
-    },
-    
-    /**
-     * Position of icon relative to button content
-     */
-    iconPosition: {
-      type: String,
-      default: 'left',
-      validator: (value: string) => ['left', 'right'].includes(value),
-    },
-    
-    /**
-     * Additional CSS classes
-     */
-    customClasses: {
-      type: String,
-      default: '',
-    },
-    
-    /**
-     * Specifies the button state
-     */
-    state: {
-      type: String,
-      default: '',
-      validator: (value: string) => ['', 'loading', 'disabled', 'success', 'error'].includes(value),
-    },
-  },
-  
-  emits: ['click'],
-  
-  computed: {
-    /**
-     * Classes based on size prop
-     */
-    sizeClasses(): string {
-      return `ob-btn-${this.size}`;
-    },
-    
-    /**
-     * Classes based on variant prop
-     */
-    variantClasses(): string {
-      return this.themeClasses || `ob-btn-${this.variant}`;
-    },
-  },
-  
-  methods: {
-    /**
-     * Handle button click event
-     */
-    handleClick(event: MouseEvent): void {
-      if (!this.disabled) {
-        this.$emit('click', event);
-      }
-    },
-  },
-});
+const props = withDefaults(defineProps<{ 
+  disabled?: boolean
+  loading?: boolean
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive'
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+  ariaDescribedby?: string
+}>(), {
+  variant: 'primary',
+  size: 'md'
+})
+
+const sizeClasses = computed(() => {
+  switch (props.size) {
+    case 'xs':
+      return 'oi-px-2 oi-py-1 oi-text-xs'
+    case 'sm':
+      return 'oi-px-3 oi-py-1 oi-text-sm'
+    case 'lg':
+      return 'oi-px-6 oi-py-3 oi-text-lg'
+    case 'xl':
+      return 'oi-px-8 oi-py-4 oi-text-xl'
+    default:
+      return 'oi-px-4 oi-py-2 oi-text-md'
+  }
+})
+
+const sizeIconClasses = computed(() => {
+  switch (props.size) {
+    case 'xs':
+      return 'oi-w-3 oi-h-3'
+    case 'sm':
+      return 'oi-w-4 oi-h-4'
+    case 'lg':
+      return 'oi-w-6 oi-h-6'
+    case 'xl':
+      return 'oi-w-7 oi-h-7'
+    default:
+      return 'oi-w-5 oi-h-5'
+  }
+})
+
+const variantClasses = computed(() => {
+  switch (props.variant) {
+    case 'secondary':
+      return 'oi-bg-secondary oi-text-background oi-border-secondary oi-shadow-md oi-hover-shadow'
+    case 'outline':
+      return 'oi-bg-background oi-text-primary oi-border-primary oi-shadow-sm oi-hover-shadow'
+    case 'ghost':
+      return 'oi-bg-background oi-text-foreground oi-border-0 oi-shadow-none oi-hover-opacity-75'
+    case 'destructive':
+      return 'oi-bg-error oi-text-background oi-border-error oi-shadow-md oi-hover-shadow'
+    default:
+      return 'oi-bg-primary oi-text-background oi-border-primary oi-shadow-md oi-hover-shadow'
+  }
+})
 </script>
-
-<style>
-.ob-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-md, 0.375rem);
-  font-weight: var(--font-weight-medium, 500);
-  font-size: var(--font-size-md, 1rem);
-  line-height: var(--line-height-none, 1);
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: 1px solid transparent;
-}
-
-/* Button Sizes */
-.ob-btn-sm {
-  height: 2rem;
-  padding: 0 0.75rem;
-  font-size: var(--font-size-sm, 0.875rem);
-}
-
-.ob-btn-md {
-  height: 2.5rem;
-  padding: 0 1rem;
-}
-
-.ob-btn-lg {
-  height: 3rem;
-  padding: 0 1.5rem;
-  font-size: var(--font-size-lg, 1.125rem);
-}
-
-.ob-btn-xl {
-  height: 3.5rem;
-  padding: 0 2rem;
-  font-size: var(--font-size-xl, 1.25rem);
-}
-
-/* Button States */
-.ob-btn-disabled, 
-.ob-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.ob-btn-block {
-  display: flex;
-  width: 100%;
-}
-
-/* Icon Positioning */
-.ob-btn-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ob-btn-icon-left {
-  margin-right: 0.5rem;
-}
-
-.ob-btn-icon-right {
-  margin-left: 0.5rem;
-}
-
-/* Fallback variant styles if no theme classes provided */
-.ob-btn-primary {
-  background-color: var(--color-primary, #3b82f6);
-  color: white;
-}
-
-.ob-btn-primary:hover {
-  background-color: var(--color-primary-dark, #2563eb);
-}
-
-.ob-btn-secondary {
-  background-color: var(--color-gray-200, #e5e7eb);
-  color: var(--color-gray-800, #1f2937);
-}
-
-.ob-btn-secondary:hover {
-  background-color: var(--color-gray-300, #d1d5db);
-}
-
-.ob-btn-outline {
-  background-color: transparent;
-  border-color: var(--color-gray-300, #d1d5db);
-  color: var(--color-gray-700, #374151);
-}
-
-.ob-btn-outline:hover {
-  background-color: var(--color-gray-100, #f3f4f6);
-}
-
-.ob-btn-ghost {
-  background-color: transparent;
-  color: var(--color-gray-700, #374151);
-}
-
-.ob-btn-ghost:hover {
-  background-color: var(--color-gray-100, #f3f4f6);
-}
-
-.ob-btn-destructive {
-  background-color: var(--color-error, #ef4444);
-  color: white;
-}
-
-.ob-btn-destructive:hover {
-  background-color: var(--color-error-600, #dc2626);
-}
-</style>
