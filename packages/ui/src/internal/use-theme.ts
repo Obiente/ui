@@ -26,7 +26,7 @@ export function useTheme() {
   const currentTheme = ref<BaseThemeProps | null>(null);
   
   // Try to get theme from provider
-  const themeProvider = inject<ThemeProviderContext>('themeProvider', null);
+  const themeProvider = inject<ThemeProviderContext | null>('themeProvider', null);
   
   /**
    * Apply a theme
