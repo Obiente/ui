@@ -30,19 +30,11 @@
         :id="inputId"
         v-bind="$attrs"
         :class="[
-          'oi-bg-surface',
-          'oi-text-foreground',
-          'oi-border',
-          'oi-rounded-md',
-          'oi-w-full',
-          'oi-transition-colors',
-          'oi-focus-ring',
-          'oi-interactive',
+          'oi-input',
           $slots.leadingIcon ? 'oi-pl-10' : '',
           $slots.trailingIcon ? 'oi-pr-10' : '',
           sizeClasses,
           stateClasses,
-          disabled ? 'oi-disabled' : '',
           $attrs.class
         ]"
         :disabled="disabled"
@@ -114,19 +106,19 @@ const ariaDescribedby = computed(() => {
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'sm':
-      return 'oi-px-2 oi-py-1 oi-text-sm'
+      return 'oi-input-sm'
     case 'lg':
-      return 'oi-px-4 oi-py-3 oi-text-lg'
+      return 'oi-input-lg'
     default:
-      return 'oi-px-3 oi-py-2 oi-text-md'
+      return ''
   }
 })
 
 const stateClasses = computed(() => {
   if (props.error) {
-    return 'oi-border-error oi-focus-ring-error oi-shadow-sm'
+    return 'oi-input-error'
   }
-  return 'oi-border-muted oi-shadow-sm'
+  return ''
 })
 </script>
 

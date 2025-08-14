@@ -25,7 +25,13 @@ function findThemeById(id: string): ThemeDefinition | undefined {
   return props.themes.find(theme => theme.id === id);
 }
 
-function getInitialTheme(): ThemeDefinition {
+function getInitialTheme(): ThemeDefinition | null {
+  // Ensure themes array exists and has content
+  if (!props.themes || props.themes.length === 0) {
+    console.warn('ThemeProvider: No themes provided');
+    return null;
+  }
+  
   // 1. Check for saved theme in localStorage (only on client)
   if (props.persistTheme && typeof window !== 'undefined') {
     const savedThemeId = localStorage.getItem('obiente-theme');
@@ -54,15 +60,31 @@ function getInitialTheme(): ThemeDefinition {
   return props.themes[0];
 }
 
-// Create theme context
+// Create theme context only if we have valid data
+let themeContext: ReturnType<typeof createThemeContext>;
+let currentTheme: any;
+let setTheme: any;
+let setThemeById: any;
+
+// Check if we have valid themes before proceeding
+if (!props.themes || props.themes.length === 0) {
+  console.error('ThemeProvider: No themes provided');
+  throw new Error('ThemeProvider requires at least one theme to be provided');
+}
+
 const initialTheme = getInitialTheme();
-const themeContext = createThemeContext(props.themes, initialTheme);
+
+if (!initialTheme) {
+  console.error('ThemeProvider: Cannot initialize - no valid theme found');
+  throw new Error('ThemeProvider requires at least one valid theme');
+}
+
+// Now we can safely create the theme context
+themeContext = createThemeContext(props.themes, initialTheme);
+({ currentTheme, setTheme, setThemeById } = themeContext);
 
 // Provide context to children immediately
 provide(THEME_CONTEXT_KEY, themeContext);
-
-// Get current theme for template
-const { currentTheme, setTheme, setThemeById } = themeContext;
 
 // Apply initial theme on mount
 onMounted(() => {
@@ -73,7 +95,7 @@ onMounted(() => {
   console.log('Theme context:', themeContext);
   console.log('Available themes in context:', themeContext.availableThemes.value);
   
-  if (initialTheme) {
+  if (initialTheme && currentTheme.value) {
     console.log('Setting initial theme:', initialTheme.name);
     setTheme(initialTheme);
     
@@ -87,6 +109,8 @@ onMounted(() => {
       console.log('--oi-color-text:', styles.getPropertyValue('--oi-color-text'));
       console.log('data-theme attribute:', root.getAttribute('data-theme'));
     }, 100);
+  } else {
+    console.error('ThemeProvider: No initial theme available for mounting');
   }
   
   // Listen for system preference changes

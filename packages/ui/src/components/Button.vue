@@ -2,18 +2,11 @@
   <button
     v-bind="$attrs"
     :class="[
-      'oi-font-medium',
-      'oi-rounded-md',
-      'oi-border',
-      'oi-transition-all',
-      'oi-cursor-pointer',
-      'oi-select-none',
-      'oi-focus-ring',
-      'oi-interactive',
+      'oi-btn',
       sizeClasses,
       variantClasses,
       disabled ? 'oi-disabled' : '',
-      loading ? 'oi-cursor-default' : '',
+      loading ? 'oi-btn-loading' : '',
       $attrs.class
     ]"
     :disabled="disabled || loading"
@@ -77,15 +70,15 @@ const props = withDefaults(defineProps<{
 const sizeClasses = computed(() => {
   switch (props.size) {
     case 'xs':
-      return 'oi-px-2 oi-py-1 oi-text-xs'
+      return 'oi-btn-xs'
     case 'sm':
-      return 'oi-px-3 oi-py-1 oi-text-sm'
+      return 'oi-btn-sm'
     case 'lg':
-      return 'oi-px-6 oi-py-3 oi-text-lg'
+      return 'oi-btn-lg'
     case 'xl':
-      return 'oi-px-8 oi-py-4 oi-text-xl'
+      return 'oi-btn-xl'
     default:
-      return 'oi-px-4 oi-py-2 oi-text-md'
+      return 'oi-btn-md'
   }
 })
 
@@ -107,15 +100,15 @@ const sizeIconClasses = computed(() => {
 const variantClasses = computed(() => {
   switch (props.variant) {
     case 'secondary':
-      return 'oi-bg-secondary oi-text-background oi-border-secondary oi-shadow-md oi-hover-shadow'
+      return 'oi-btn-secondary'
     case 'outline':
-      return 'oi-bg-background oi-text-primary oi-border-primary oi-shadow-sm oi-hover-shadow'
+      return 'oi-btn-outline'
     case 'ghost':
-      return 'oi-bg-background oi-text-foreground oi-border-0 oi-shadow-none oi-hover-opacity-75'
+      return 'oi-btn-ghost'
     case 'destructive':
-      return 'oi-bg-error oi-text-background oi-border-error oi-shadow-md oi-hover-shadow'
+      return 'oi-btn-danger'
     default:
-      return 'oi-bg-primary oi-text-background oi-border-primary oi-shadow-md oi-hover-shadow'
+      return 'oi-btn-primary'
   }
 })
 </script>
