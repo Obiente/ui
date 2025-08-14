@@ -1,0 +1,178 @@
+/* 
+ * Obiente UI - Button Component Styles
+ * Enhanced button styling with accessibility features
+ */
+
+/* === Base Button Styles === */
+.oi-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--oi-radius-md);
+  font-weight: var(--oi-font-weight-medium);
+  transition: all var(--oi-transition-fast) var(--oi-transition-ease);
+  cursor: pointer;
+  position: relative;
+  text-decoration: none;
+  border: 1px solid transparent;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.oi-btn:focus-visible {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* === Button Sizes === */
+.oi-btn-xs {
+  height: calc(var(--oi-spacing-unit) * 6);
+  padding: 0 calc(var(--oi-spacing-unit) * 2);
+  font-size: var(--oi-font-size-xs);
+  line-height: 1.25;
+}
+
+.oi-btn-sm {
+  height: calc(var(--oi-spacing-unit) * 8);
+  padding: 0 calc(var(--oi-spacing-unit) * 3);
+  font-size: var(--oi-font-size-sm);
+  line-height: 1.375;
+}
+
+.oi-btn-md {
+  height: calc(var(--oi-spacing-unit) * 10);
+  padding: 0 calc(var(--oi-spacing-unit) * 4);
+  font-size: var(--oi-font-size-base);
+  line-height: 1.5;
+}
+
+.oi-btn-lg {
+  height: calc(var(--oi-spacing-unit) * 12);
+  padding: 0 calc(var(--oi-spacing-unit) * 6);
+  font-size: var(--oi-font-size-lg);
+  line-height: 1.75;
+}
+
+.oi-btn-xl {
+  height: calc(var(--oi-spacing-unit) * 14);
+  padding: 0 calc(var(--oi-spacing-unit) * 8);
+  font-size: var(--oi-font-size-xl);
+  line-height: 1.75;
+}
+
+/* === Button Variants === */
+.oi-btn-primary {
+  background-color: var(--oi-color-accent);
+  color: var(--oi-color-accent-foreground);
+  border-color: var(--oi-color-accent);
+}
+
+.oi-btn-primary:hover:not(:disabled) {
+  background-color: var(--oi-color-accent-hover);
+  border-color: var(--oi-color-accent-hover);
+}
+
+.oi-btn-secondary {
+  background-color: var(--oi-color-muted);
+  color: var(--oi-color-muted-foreground);
+  border-color: var(--oi-color-border);
+}
+
+.oi-btn-secondary:hover:not(:disabled) {
+  background-color: var(--oi-color-muted-hover);
+}
+
+.oi-btn-outline {
+  background-color: transparent;
+  color: var(--oi-color-accent);
+  border-color: var(--oi-color-accent);
+}
+
+.oi-btn-outline:hover:not(:disabled) {
+  background-color: var(--oi-color-accent);
+  color: var(--oi-color-accent-foreground);
+}
+
+.oi-btn-ghost {
+  background-color: transparent;
+  color: var(--oi-color-text);
+  border-color: transparent;
+}
+
+.oi-btn-ghost:hover:not(:disabled) {
+  background-color: var(--oi-color-muted);
+}
+
+.oi-btn-danger {
+  background-color: var(--oi-color-danger);
+  color: var(--oi-color-danger-foreground);
+  border-color: var(--oi-color-danger);
+}
+
+.oi-btn-danger:hover:not(:disabled) {
+  background-color: var(--oi-color-danger-hover);
+  border-color: var(--oi-color-danger-hover);
+}
+
+/* === Button States === */
+.oi-btn-loading {
+  color: transparent;
+}
+
+.oi-btn-loading::after {
+  content: '';
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  top: 50%;
+  left: 50%;
+  margin-left: -0.5rem;
+  margin-top: -0.5rem;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: oi-spin 1s linear infinite;
+}
+
+/* === Full Width Button === */
+.oi-btn-block {
+  width: 100%;
+}
+
+/* === Icon Buttons === */
+.oi-btn-icon {
+  padding: 0;
+  width: var(--oi-spacing-unit-10);
+  height: var(--oi-spacing-unit-10);
+  min-width: var(--oi-spacing-unit-10);
+}
+
+.oi-btn-icon.oi-btn-xs {
+  width: calc(var(--oi-spacing-unit) * 6);
+  height: calc(var(--oi-spacing-unit) * 6);
+  min-width: calc(var(--oi-spacing-unit) * 6);
+}
+
+.oi-btn-icon.oi-btn-sm {
+  width: calc(var(--oi-spacing-unit) * 8);
+  height: calc(var(--oi-spacing-unit) * 8);
+  min-width: calc(var(--oi-spacing-unit) * 8);
+}
+
+.oi-btn-icon.oi-btn-lg {
+  width: calc(var(--oi-spacing-unit) * 12);
+  height: calc(var(--oi-spacing-unit) * 12);
+  min-width: calc(var(--oi-spacing-unit) * 12);
+}
+
+.oi-btn-icon.oi-btn-xl {
+  width: calc(var(--oi-spacing-unit) * 14);
+  height: calc(var(--oi-spacing-unit) * 14);
+  min-width: calc(var(--oi-spacing-unit) * 14);
+}

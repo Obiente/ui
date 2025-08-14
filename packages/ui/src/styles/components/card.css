@@ -1,0 +1,48 @@
+/* oi-card component styles */
+.oi-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--oi-radius-lg, 0.5rem);
+  background: var(--oi-color-surface, #232634);
+  border: 1px solid var(--oi-color-border, #737994);
+  color: var(--oi-color-text, #c6d0f5);
+  box-shadow: var(--oi-shadow-md, 0 2px 8px 0 rgba(0,0,0,0.08));
+}
+.oi-card-default {
+  background: var(--oi-color-surface);
+  color: var(--oi-color-text);
+  border-color: var(--oi-color-border);
+}
+.oi-card-elevated {
+  background: var(--oi-color-surface1);
+  color: var(--oi-color-text);
+  border-color: var(--oi-color-border);
+  box-shadow: var(--oi-shadow-lg, 0 4px 16px 0 rgba(0,0,0,0.12));
+}
+.oi-card-interactive {
+  background: var(--oi-color-surface0);
+  color: var(--oi-color-text);
+  border-color: var(--oi-color-blue);
+  box-shadow: var(--oi-shadow-md, 0 2px 8px 0 rgba(0,0,0,0.08));
+}
+.oi-card-header {
+  padding: var(--oi-card-header-padding, 1.25rem 1.25rem 0);
+  background: var(--oi-card-header-bg, transparent);
+  color: var(--oi-card-header-text, inherit);
+}
+.oi-card-content {
+  padding: var(--oi-card-content-padding, 1.25rem);
+  flex: 1 1 auto;
+  background: var(--oi-card-content-bg, transparent);
+  color: var(--oi-card-content-text, inherit);
+}
+.oi-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--oi-card-footer-gap, 0.5rem);
+  padding: var(--oi-card-footer-padding, 0 1.25rem 1.25rem);
+  background: var(--oi-card-footer-bg, transparent);
+  color: var(--oi-card-footer-text, inherit);
+}

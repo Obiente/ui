@@ -1,0 +1,43 @@
+/* oi-alert component styles */
+.oi-alert {
+  position: relative;
+  display: flex;
+  padding: 1rem;
+  border-radius: var(--oi-radius-md, 0.375rem);
+  background: var(--oi-color-surface, #232634);
+  border-left: 4px solid var(--oi-color-info, #8aadf4);
+  color: var(--oi-color-text, #c6d0f5);
+}
+.oi-alert-info {
+  border-color: var(--oi-color-blue, #8aadf4);
+}
+.oi-alert-success {
+  border-color: var(--oi-color-green, #a6da95);
+}
+.oi-alert-warning {
+  border-color: var(--oi-color-yellow, #e5c890);
+}
+.oi-alert-error {
+  border-color: var(--oi-color-red, #e78284);
+}
+.oi-alert-title {
+  font-size: var(--oi-font-size-md, 1rem);
+  font-weight: var(--oi-font-weight-semibold, 600);
+  color: var(--oi-color-text, inherit);
+}
+.oi-alert-message {
+  font-size: var(--oi-font-size-sm, 0.875rem);
+  color: var(--oi-color-text-muted, #a5adce);
+}
+.oi-alert-dismiss {
+  color: var(--oi-color-text-muted, #a5adce);
+  background: transparent;
+  border: none;
+  border-radius: var(--oi-radius-sm, 0.125rem);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.oi-alert-dismiss:hover {
+  color: var(--oi-color-text, inherit);
+  background: var(--oi-color-overlay0, #737994);
+}

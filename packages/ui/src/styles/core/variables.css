@@ -1,0 +1,63 @@
+/* 
+ * Obiente UI - Core Variables
+ * CSS custom properties for the design system
+ */
+
+:root {
+  /* === Spacing System === */
+  --oi-spacing-unit: 0.25rem;
+  
+  /* === Typography Scale === */
+  --oi-font-size-xs: 0.75rem;
+  --oi-font-size-sm: 0.875rem;
+  --oi-font-size-md: 1rem;
+  --oi-font-size-lg: 1.125rem;
+  --oi-font-size-xl: 1.25rem;
+  --oi-font-size-2xl: 1.5rem;
+  --oi-font-size-3xl: 1.875rem;
+  
+  /* === Line Heights === */
+  --oi-line-height-tight: 1.3;
+  --oi-line-height-normal: 1.5;
+  --oi-line-height-relaxed: 1.6;
+  
+  /* === Font Weights === */
+  --oi-font-weight-light: 300;
+  --oi-font-weight-normal: 400;
+  --oi-font-weight-medium: 500;
+  --oi-font-weight-semibold: 600;
+  --oi-font-weight-bold: 700;
+  
+  /* === Border Radius === */
+  --oi-radius-none: 0;
+  --oi-radius-sm: calc(var(--oi-spacing-unit) * 0.5);
+  --oi-radius-md: calc(var(--oi-spacing-unit) * 1.5);
+  --oi-radius-lg: calc(var(--oi-spacing-unit) * 2);
+  --oi-radius-xl: calc(var(--oi-spacing-unit) * 3);
+  --oi-radius-full: 9999px;
+  
+  /* === Shadows === */
+  --oi-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --oi-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --oi-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --oi-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --oi-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --oi-shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --oi-shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  
+  /* === Z-Index Scale === */
+  --oi-z-dropdown: 1000;
+  --oi-z-sticky: 1020;
+  --oi-z-fixed: 1030;
+  --oi-z-modal-backdrop: 1040;
+  --oi-z-modal: 1050;
+  --oi-z-popover: 1060;
+  --oi-z-tooltip: 1070;
+  --oi-z-toast: 1080;
+  
+  /* === Transition Timings === */
+  --oi-transition-fast: 150ms;
+  --oi-transition-normal: 250ms;
+  --oi-transition-slow: 350ms;
+  --oi-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,0 +1,278 @@
+/* 
+ * Obiente UI - Navigation Component Styles
+ * Navigation, menus, and breadcrumb styling
+ */
+
+/* === Base Navigation === */
+.oi-nav {
+  display: flex;
+  align-items: center;
+  background-color: var(--oi-color-background);
+  border-bottom: 1px solid var(--oi-color-border);
+  padding: calc(var(--oi-spacing-unit) * 4) 0;
+}
+
+.oi-nav-list {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--oi-spacing-unit) * 6);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oi-nav-link {
+  color: var(--oi-color-muted-foreground);
+  text-decoration: none;
+  font-weight: var(--oi-font-weight-medium);
+  transition: color var(--oi-transition-fast) var(--oi-transition-ease);
+  padding: calc(var(--oi-spacing-unit) * 2) calc(var(--oi-spacing-unit) * 3);
+  border-radius: var(--oi-radius-md);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.oi-nav-link:hover {
+  color: var(--oi-color-text);
+  background-color: var(--oi-color-muted);
+}
+
+.oi-nav-link:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-nav-link.oi-active {
+  color: var(--oi-color-accent);
+  background-color: var(--oi-color-accent-light);
+}
+
+/* === Breadcrumb === */
+.oi-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--oi-spacing-unit) * 1);
+  padding: calc(var(--oi-spacing-unit) * 4) 0;
+}
+
+.oi-breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--oi-spacing-unit) * 1.5);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.oi-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--oi-spacing-unit) * 1.5);
+}
+
+.oi-breadcrumb-link {
+  color: var(--oi-color-muted-foreground);
+  text-decoration: none;
+  transition: color var(--oi-transition-fast) var(--oi-transition-ease);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  border-radius: var(--oi-radius-sm);
+  padding: calc(var(--oi-spacing-unit) * 1) calc(var(--oi-spacing-unit) * 2);
+}
+
+.oi-breadcrumb-link:hover {
+  color: var(--oi-color-text);
+}
+
+.oi-breadcrumb-link:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-breadcrumb-page {
+  color: var(--oi-color-text);
+  font-weight: var(--oi-font-weight-medium);
+}
+
+.oi-breadcrumb-separator {
+  color: var(--oi-color-muted-foreground);
+  user-select: none;
+}
+
+/* === Sidebar Navigation === */
+.oi-sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 240px;
+  background-color: var(--oi-color-background);
+  border-right: 1px solid var(--oi-color-border);
+}
+
+.oi-sidebar-header {
+  padding: calc(var(--oi-spacing-unit) * 6);
+  border-bottom: 1px solid var(--oi-color-border);
+}
+
+.oi-sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: calc(var(--oi-spacing-unit) * 4);
+}
+
+.oi-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--oi-spacing-unit) * 1);
+}
+
+.oi-sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--oi-spacing-unit) * 2) calc(var(--oi-spacing-unit) * 3);
+  color: var(--oi-color-muted-foreground);
+  text-decoration: none;
+  border-radius: var(--oi-radius-md);
+  transition: all var(--oi-transition-fast) var(--oi-transition-ease);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.oi-sidebar-nav-item:hover {
+  background-color: var(--oi-color-muted);
+  color: var(--oi-color-text);
+}
+
+.oi-sidebar-nav-item:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-sidebar-nav-item.oi-active {
+  background-color: var(--oi-color-accent);
+  color: var(--oi-color-accent-foreground);
+}
+
+/* === Dropdown Menu === */
+.oi-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.oi-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--oi-spacing-unit) * 2);
+}
+
+.oi-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--oi-z-dropdown);
+  min-width: 160px;
+  background-color: var(--oi-color-popover);
+  border: 1px solid var(--oi-color-border);
+  border-radius: var(--oi-radius-md);
+  box-shadow: var(--oi-shadow-lg);
+  padding: calc(var(--oi-spacing-unit) * 1);
+  margin-top: calc(var(--oi-spacing-unit) * 1);
+}
+
+.oi-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--oi-spacing-unit) * 2) calc(var(--oi-spacing-unit) * 3);
+  color: var(--oi-color-popover-foreground);
+  text-decoration: none;
+  border-radius: var(--oi-radius-sm);
+  transition: background-color var(--oi-transition-fast) var(--oi-transition-ease);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  cursor: pointer;
+}
+
+.oi-dropdown-item:hover {
+  background-color: var(--oi-color-accent);
+  color: var(--oi-color-accent-foreground);
+}
+
+.oi-dropdown-item:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-dropdown-item[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.oi-dropdown-separator {
+  height: 1px;
+  background-color: var(--oi-color-border);
+  margin: calc(var(--oi-spacing-unit) * 1) 0;
+}
+
+/* === Tab Navigation === */
+.oi-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.oi-tabs-list {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--oi-radius-md);
+  background-color: var(--oi-color-muted);
+  padding: calc(var(--oi-spacing-unit) * 1);
+  color: var(--oi-color-muted-foreground);
+}
+
+.oi-tabs-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: var(--oi-radius-sm);
+  padding: calc(var(--oi-spacing-unit) * 1.5) calc(var(--oi-spacing-unit) * 3);
+  font-size: var(--oi-font-size-sm);
+  font-weight: var(--oi-font-weight-medium);
+  transition: all var(--oi-transition-fast) var(--oi-transition-ease);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: inherit;
+}
+
+.oi-tabs-trigger:hover {
+  background-color: var(--oi-color-background);
+  color: var(--oi-color-text);
+}
+
+.oi-tabs-trigger:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+.oi-tabs-trigger[data-state="active"] {
+  background-color: var(--oi-color-background);
+  color: var(--oi-color-text);
+  box-shadow: var(--oi-shadow-sm);
+}
+
+.oi-tabs-content {
+  margin-top: calc(var(--oi-spacing-unit) * 4);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.oi-tabs-content:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}

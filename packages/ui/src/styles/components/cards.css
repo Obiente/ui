@@ -1,0 +1,154 @@
+/* 
+ * Obiente UI - Card Component Styles
+ * Card layouts and content organization
+ */
+
+/* === Base Card Styles === */
+.oi-card {
+  border-radius: var(--oi-radius-lg);
+  border: 1px solid var(--oi-color-border);
+  background-color: var(--oi-color-card);
+  color: var(--oi-color-card-foreground);
+  box-shadow: var(--oi-shadow-sm);
+  transition: box-shadow var(--oi-transition-fast) var(--oi-transition-ease);
+}
+
+.oi-card:hover {
+  box-shadow: var(--oi-shadow-md);
+}
+
+/* === Card Header === */
+.oi-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--oi-spacing-unit) * 1.5);
+  padding: calc(var(--oi-spacing-unit) * 6);
+  border-bottom: 1px solid var(--oi-color-border);
+}
+
+.oi-card-title {
+  font-size: var(--oi-font-size-xl);
+  font-weight: var(--oi-font-weight-semibold);
+  line-height: var(--oi-line-height-tight);
+  color: var(--oi-color-card-foreground);
+  margin: 0;
+}
+
+.oi-card-description {
+  font-size: var(--oi-font-size-sm);
+  color: var(--oi-color-muted-foreground);
+  margin: 0;
+  margin-top: calc(var(--oi-spacing-unit) * 1);
+}
+
+/* === Card Content === */
+.oi-card-content {
+  padding: calc(var(--oi-spacing-unit) * 6);
+}
+
+.oi-card-content p {
+  line-height: var(--oi-line-height-relaxed);
+  margin: 0;
+}
+
+.oi-card-content p + p {
+  margin-top: calc(var(--oi-spacing-unit) * 4);
+}
+
+/* === Card Footer === */
+.oi-card-footer {
+  display: flex;
+  align-items: center;
+  padding: calc(var(--oi-spacing-unit) * 6);
+  padding-top: 0;
+}
+
+/* === Card Variants === */
+.oi-card-elevated {
+  box-shadow: var(--oi-shadow-lg);
+  border: none;
+}
+
+.oi-card-elevated:hover {
+  box-shadow: var(--oi-shadow-xl);
+}
+
+.oi-card-outline {
+  background-color: transparent;
+  border: 2px solid var(--oi-color-border);
+}
+
+.oi-card-filled {
+  background-color: var(--oi-color-muted);
+  border: none;
+}
+
+/* === Interactive Card === */
+.oi-card-interactive {
+  cursor: pointer;
+  transition: all var(--oi-transition-fast) var(--oi-transition-ease);
+}
+
+.oi-card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--oi-shadow-lg);
+}
+
+.oi-card-interactive:focus {
+  outline: 2px solid var(--oi-color-accent);
+  outline-offset: 2px;
+}
+
+/* === Card Sizes === */
+.oi-card-sm .oi-card-header,
+.oi-card-sm .oi-card-content,
+.oi-card-sm .oi-card-footer {
+  padding: calc(var(--oi-spacing-unit) * 4);
+}
+
+.oi-card-sm .oi-card-title {
+  font-size: var(--oi-font-size-lg);
+}
+
+.oi-card-lg .oi-card-header,
+.oi-card-lg .oi-card-content,
+.oi-card-lg .oi-card-footer {
+  padding: calc(var(--oi-spacing-unit) * 8);
+}
+
+.oi-card-lg .oi-card-title {
+  font-size: var(--oi-font-size-2xl);
+}
+
+/* === Card Image === */
+.oi-card-image {
+  width: 100%;
+  border-radius: var(--oi-radius-lg) var(--oi-radius-lg) 0 0;
+  object-fit: cover;
+}
+
+.oi-card-image-bottom {
+  border-radius: 0 0 var(--oi-radius-lg) var(--oi-radius-lg);
+}
+
+/* === Card Actions === */
+.oi-card-actions {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--oi-spacing-unit) * 2);
+  padding: calc(var(--oi-spacing-unit) * 4) calc(var(--oi-spacing-unit) * 6);
+  border-top: 1px solid var(--oi-color-border);
+  background-color: var(--oi-color-muted);
+}
+
+.oi-card-actions-center {
+  justify-content: center;
+}
+
+.oi-card-actions-end {
+  justify-content: flex-end;
+}
+
+.oi-card-actions-between {
+  justify-content: space-between;
+}
