@@ -144,11 +144,12 @@ const groupedItems = computed(() => {
 /**
  * Handle value change
  */
-const handleValueChange = (details: { value: string }) => {
-  emit('update:value', details.value)
-  emit('value-change', details)
+const handleValueChange = (details: any) => {
+  const selectedValue = Array.isArray(details.value) ? details.value[0] || '' : String(details.value || '')
+  emit('update:value', selectedValue)
+  emit('value-change', { value: selectedValue })
   
-  const selectedItem = props.items.find(item => item.value === details.value)
+  const selectedItem = props.items.find(item => item.value === selectedValue)
   if (selectedItem) {
     emit('select', selectedItem)
   }

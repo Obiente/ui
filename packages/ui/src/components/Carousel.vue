@@ -39,6 +39,11 @@ export interface CarouselProps {
   spacing?: string
   
   /**
+   * Total number of slides
+   */
+  slideCount?: number
+  
+  /**
    * Carousel variant (semantic for theme system)
    */
   variant?: 'default' | 'contained' | 'minimal'
@@ -62,6 +67,7 @@ const props = withDefaults(defineProps<CarouselProps>(), {
   loop: false,
   slidesPerView: 1,
   spacing: '0px',
+  slideCount: 0,
   variant: 'default',
   size: 'md',
   customClasses: ''
@@ -111,13 +117,12 @@ const handleSlideChange = (details: { index: number }) => {
     :loop="loop"
     :slides-per-view="slidesPerView"
     :spacing="spacing"
+    :slide-count="slideCount"
     @slide-change="handleSlideChange"
   >
-    <Carousel.Viewport class="oi-carousel-viewport">
-      <Carousel.ItemGroup class="oi-carousel-item-group">
-        <slot />
-      </Carousel.ItemGroup>
-    </Carousel.Viewport>
+    <Carousel.ItemGroup class="oi-carousel-item-group oi-carousel-viewport">
+      <slot />
+    </Carousel.ItemGroup>
     
     <Carousel.Control class="oi-carousel-controls">
       <Carousel.PrevTrigger class="oi-carousel-prev">

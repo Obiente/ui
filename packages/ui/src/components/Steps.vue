@@ -108,6 +108,30 @@ const stepsClasses = computed(() => {
 })
 
 /**
+ * Current step index
+ */
+const currentStepIndex = computed(() => {
+  return props.steps.findIndex(step => step.value === props.value)
+})
+
+/**
+ * Current step data
+ */
+const currentStepData = computed(() => {
+  return props.steps.find(step => step.value === props.value)
+})
+
+/**
+ * Current step
+ */
+const currentStep = computed(() => currentStepIndex.value)
+
+/**
+ * Show navigation
+ */
+const showNavigation = computed(() => true) // You can customize this logic
+
+/**
  * Handle value change
  */
 const handleValueChange = (details: { value: string }) => {
@@ -136,6 +160,7 @@ const handleStepComplete = (details: { value: string }) => {
         v-for="(step, index) in steps"
         :key="step.value"
         :value="step.value"
+        :index="index"
         class="oi-steps-item"
         :disabled="step.disabled"
       >
@@ -149,7 +174,7 @@ const handleStepComplete = (details: { value: string }) => {
           <StepsSeparator v-if="index < steps.length - 1" class="oi-steps-separator" />
         </StepsTrigger>
         
-        <StepsContent class="oi-steps-content">
+        <StepsContent class="oi-steps-content" :index="index">
           <div class="oi-steps-title">
             {{ step.title }}
           </div>

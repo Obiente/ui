@@ -77,7 +77,6 @@ const qrCodeClasses = computed(() => {
     :class="qrCodeClasses"
     :value="value"
     :error-correction-level="errorCorrectionLevel"
-    :encoding="encoding"
   >
     <QrCode.Frame class="oi-qr-code-frame">
       <QrCode.Pattern class="oi-qr-code-pattern" />

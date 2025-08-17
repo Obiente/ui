@@ -116,7 +116,7 @@ const handlePageSizeChange = (details: { pageSize: number }) => {
     @page-size-change="handlePageSizeChange"
   >
     <Pagination.Context>
-      <template #default="{ pages, nextPage }">
+      <template #default="{ pages }">
         <div class="oi-pagination-list">
           <Pagination.PrevTrigger 
             v-if="showFirstLast && page > 1"
@@ -129,22 +129,26 @@ const handlePageSizeChange = (details: { pageSize: number }) => {
             </slot>
           </Pagination.PrevTrigger>
           
-          <Pagination.Item
-            v-for="page in pages"
-            :key="page.value"
-            :value="page.value"
-            :class="{
-              'oi-pagination-item': true,
-              'oi-pagination-ellipsis': page.type === 'ellipsis'
-            }"
-          >
-            <span v-if="page.type === 'ellipsis'" class="oi-pagination-ellipsis-text">
+          <template v-for="pageItem in pages" :key="pageItem.type === 'page' ? pageItem.value : 'ellipsis'">
+            <Pagination.Item
+              v-if="pageItem.type === 'page'"
+              :value="pageItem.value"
+              type="page"
+              :class="{
+                'oi-pagination-item': true
+              }"
+            >
+              <span class="oi-pagination-page-text">
+                {{ pageItem.value }}
+              </span>
+            </Pagination.Item>
+            <span
+              v-else
+              class="oi-pagination-item oi-pagination-ellipsis"
+            >
               <slot name="ellipsis">...</slot>
             </span>
-            <span v-else class="oi-pagination-page-text">
-              {{ page.value }}
-            </span>
-          </Pagination.Item>
+          </template>
           
           <Pagination.NextTrigger
             v-if="showFirstLast && page < count"

@@ -186,9 +186,9 @@ const handleInputValueChange = (details: any) => {
           </Combobox.Item>
         </Combobox.ItemGroup>
         
-        <Combobox.EmptyState v-if="$slots.emptyState" class="oi-combobox-empty">
+        <div v-if="$slots.emptyState" class="oi-combobox-empty">
           <slot name="emptyState" />
-        </Combobox.EmptyState>
+        </div>
       </Combobox.Content>
     </Combobox.Positioner>
   </Combobox.Root>

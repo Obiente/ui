@@ -113,14 +113,14 @@ const handleFilesChange = (details: { acceptedFiles: File[]; rejectedFiles: File
 /**
  * Handle file accept
  */
-const handleFileAccept = (details: { file: File }) => {
+const handleFileAccept = (details: any) => {
   emit('file-accept', details)
 }
 
 /**
  * Handle file reject
  */
-const handleFileReject = (details: { file: File; errors: string[] }) => {
+const handleFileReject = (details: any) => {
   emit('file-reject', details)
 }
 </script>

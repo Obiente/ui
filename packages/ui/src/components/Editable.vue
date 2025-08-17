@@ -136,7 +136,7 @@ const handleValueRevert = (details: { value: string }) => {
 /**
  * Handle edit change
  */
-const handleEditChange = (details: { editing: boolean }) => {
+const handleEditChange = (details: any) => {
   emit('edit-change', details)
 }
 </script>

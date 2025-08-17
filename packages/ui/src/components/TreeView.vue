@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { TreeView } from '@ark-ui/vue/tree-view'
+import { createTreeCollection } from '@ark-ui/vue/collection'
 import { computed } from 'vue'
 
 export interface TreeNode {
@@ -104,6 +105,32 @@ const treeViewClasses = computed(() => {
 })
 
 /**
+ * Convert TreeNode array to TreeCollection
+ */
+const treeCollection = computed(() => {
+  if (!props.collection || props.collection.length === 0) {
+    return createTreeCollection({ rootNode: { id: 'root', label: 'Root', children: [] } }) as any
+  }
+  
+  // Convert our TreeNode format to Ark UI format
+  const convertNode = (node: any): any => ({
+    id: node.id,
+    label: node.label,
+    children: node.children?.map(convertNode) || [],
+    disabled: node.disabled || false
+  })
+  
+  // Create a root node containing all top-level nodes
+  const rootNode = {
+    id: 'root',
+    label: 'Root',
+    children: props.collection.map(convertNode)
+  }
+  
+  return createTreeCollection({ rootNode }) as any
+})
+
+/**
  * Handle selection change
  */
 const handleSelectionChange = (details: { selectedValue: string[] }) => {
@@ -130,7 +157,7 @@ const handleFocusChange = (details: { focusedValue: string | null }) => {
 <template>
   <TreeView.Root
     :class="treeViewClasses"
-    :collection="collection"
+    :collection="treeCollection"
     :selected-value="selectedValue"
     :expanded-value="expandedValue"
     :selection-mode="selectionMode"
@@ -147,7 +174,7 @@ const handleFocusChange = (details: { focusedValue: string | null }) => {
         <template #default="api">
           <TreeView.Branch
             v-for="node in api.collection"
-            :key="node.id"
+            :key="(node as any).id"
             :node="node"
             class="oi-tree-view-branch"
           >
@@ -165,14 +192,14 @@ const handleFocusChange = (details: { focusedValue: string | null }) => {
                 
                 <TreeView.BranchText class="oi-tree-view-branch-text">
                   <slot name="branchContent" :node="node">
-                    {{ node.label }}
+                    {{ (node as any).label }}
                   </slot>
                 </TreeView.BranchText>
               </TreeView.BranchControl>
               
               <TreeView.BranchContent class="oi-tree-view-branch-children">
                 <TreeView.Item
-                  v-for="child in node.children || []"
+                  v-for="child in (node as any).children || []"
                   :key="child.id"
                   :node="child"
                   class="oi-tree-view-item"

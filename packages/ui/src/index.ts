@@ -19,5 +19,8 @@ export * from './types';
 // Re-export utilities
 export * from './utils';
 
+// Re-export constants (explicit to avoid conflicts)
+export { THEME_CONTEXT_KEY, THEME_STORAGE_KEY } from './constants/theme';
+
 // Export the version
 export const version = '0.1.0';

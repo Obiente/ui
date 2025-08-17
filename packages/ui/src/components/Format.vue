@@ -16,7 +16,7 @@ export interface FormatProps {
   /**
    * Format type
    */
-  type?: 'number' | 'date' | 'time' | 'currency' | 'percent' | 'relative-time' | 'list' | 'unit'
+  type?: 'number' | 'currency' | 'percent' | 'relative-time' | 'bytes'
   
   /**
    * Locale for formatting
@@ -79,24 +79,35 @@ const formatClasses = computed(() => {
   
   return classes
 })
+
+// Using Ark UI Format components
 </script>
 
 <template>
-  <Format.Root
-    :class="formatClasses"
-    :value="value"
-    :type="type"
-    :locale="locale"
-    :options="options"
-  >
-    <Format.Context>
-      <template #default="{ formattedValue, parts }">
-        <slot name="formatted" :value="formattedValue" :parts="parts">
-          {{ formattedValue }}
-        </slot>
-      </template>
-    </Format.Context>
-  </Format.Root>
+  <span :class="formatClasses">
+    <Format.Number
+      v-if="type === 'number' || type === 'currency' || type === 'percent'"
+      :value="Number(value)"
+      :locale="locale"
+      v-bind="options"
+    />
+    <Format.RelativeTime
+      v-else-if="type === 'relative-time'"
+      :value="new Date(value)"
+      :locale="locale"
+    />
+    <Format.Byte
+      v-else-if="type === 'bytes'"
+      :value="Number(value)"
+      :locale="locale"
+      v-bind="options"
+    />
+    <span v-else>
+      <slot name="formatted" :value="value">
+        {{ value }}
+      </slot>
+    </span>
+  </span>
 </template>
 
 

@@ -99,9 +99,10 @@ const segmentGroupClasses = computed(() => {
 /**
  * Handle value change
  */
-const handleValueChange = (details: { value: string }) => {
-  emit('update:value', details.value)
-  emit('value-change', details)
+const handleValueChange = (details: any) => {
+  const selectedValue = details.value || ''
+  emit('update:value', selectedValue)
+  emit('value-change', { value: selectedValue })
 }
 
 /**

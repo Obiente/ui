@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
-const props = defineProps<{ checked?: boolean; error?: boolean; disabled?: boolean }>();
+const { disabled } = defineProps<{ checked?: boolean; error?: boolean; disabled?: boolean }>();
 </script>
 
 <template>

@@ -103,7 +103,7 @@ const handleOpenChange = (details: { open: boolean }) => {
     
     <HoverCard.Positioner>
       <HoverCard.Content :class="hoverCardClasses">
-        <HoverCard.Arrow v-if="$slots.arrow !== false" class="oi-hovercard-arrow">
+        <HoverCard.Arrow v-if="$slots.arrow" class="oi-hovercard-arrow">
           <HoverCard.ArrowTip class="oi-hovercard-arrow-tip" />
         </HoverCard.Arrow>
         

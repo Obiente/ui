@@ -86,14 +86,12 @@ const normalizeKey = (key: string): string => {
 <template>
   <span :class="kbdClasses">
     <template v-if="keys.length > 0">
-      <kbd
-        v-for="(key, index) in keys"
-        :key="index"
-        class="oi-kbd-key"
-      >
-        {{ normalizeKey(key) }}
-      </kbd>
-      <span v-if="index < keys.length - 1" class="oi-kbd-separator">+</span>
+      <template v-for="(key, index) in keys" :key="index">
+        <kbd class="oi-kbd-key">
+          {{ normalizeKey(key) }}
+        </kbd>
+        <span v-if="index < keys.length - 1" class="oi-kbd-separator">+</span>
+      </template>
     </template>
     
     <template v-else>

@@ -47,7 +47,6 @@ export interface ColorPickerProps {
 const props = withDefaults(defineProps<ColorPickerProps>(), {
   themeClasses: '',
   value: '#000000',
-  format: 'hex' as const,
   disabled: false,
   readOnly: false,
   size: 'md',
@@ -95,9 +94,11 @@ const colorPickerClasses = computed(() => {
 /**
  * Handle value change
  */
-const handleValueChange = (details: { value: string }) => {
-  emit('update:value', details.value)
-  emit('value-change', details)
+const handleValueChange = (details: any) => {
+  // Handle Ark UI Color object
+  const stringValue = details.value?.toString?.() || String(details.value)
+  emit('update:value', stringValue)
+  emit('value-change', { value: stringValue })
 }
 
 /**
@@ -119,7 +120,6 @@ const handleOpenChange = (details: { open: boolean }) => {
   <ColorPicker.Root
     :class="colorPickerClasses"
     :value="value"
-    :format="format"
     :disabled="disabled"
     :read-only="readOnly"
     @value-change="handleValueChange"
@@ -133,7 +133,7 @@ const handleOpenChange = (details: { open: boolean }) => {
     <ColorPicker.Control class="oi-color-picker-control">
       <ColorPicker.ChannelInput channel="hex" class="oi-color-picker-input" />
       <ColorPicker.Trigger class="oi-color-picker-trigger">
-        <ColorPicker.Swatch class="oi-color-picker-swatch" />
+        <ColorPicker.Swatch :value="String(value)" class="oi-color-picker-swatch" />
       </ColorPicker.Trigger>
     </ColorPicker.Control>
     

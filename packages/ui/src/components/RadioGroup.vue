@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps, defineEmits } from 'vue';
-const props = defineProps<{
+defineProps<{
   options: Array<{ label: string; value: string }>
   modelValue: string
   error?: boolean

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
-const props = defineProps<{ src?: string; alt?: string }>();
+defineProps<{ src?: string; alt?: string }>();
 </script>
 
 <template>

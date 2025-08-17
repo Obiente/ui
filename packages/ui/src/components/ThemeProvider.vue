@@ -3,152 +3,118 @@
 </template>
 
 <script setup lang="ts">
-
-import { provide, onMounted, watch } from 'vue';
-import { createThemeContext, THEME_CONTEXT_KEY } from '../composables/use-theme';
+import { provide, onMounted, watchEffect, ref, readonly, computed } from 'vue';
 import type { ThemeDefinition } from '@obiente/themes';
+import { getAllThemes } from '@obiente/themes';
+import { THEME_CONTEXT_KEY, THEME_STORAGE_KEY } from '../constants/theme';
 
+// Props
 interface Props {
-  themes: ThemeDefinition[];
-  defaultTheme?: string;
-  persistTheme?: boolean;
-  useSystemPreference?: boolean;
+  themes?: ThemeDefinition[];
+  themePreference?: string | null;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  persistTheme: true,
-  useSystemPreference: true,
-});
+const props = defineProps<Props>();
+const themes = props.themes || getAllThemes();
 
-// Find initial theme
-function findThemeById(id: string): ThemeDefinition | undefined {
-  return props.themes.find(theme => theme.id === id);
-}
-
-function getInitialTheme(): ThemeDefinition | null {
-  // Ensure themes array exists and has content
-  if (!props.themes || props.themes.length === 0) {
-    console.warn('ThemeProvider: No themes provided');
-    return null;
+// Simple theme application - just set data-theme attribute
+function applyTheme(theme: ThemeDefinition) {
+  if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-theme', theme.id);
+    document.documentElement.setAttribute('data-theme-variant', theme.variant);
+    document.documentElement.classList.toggle('dark', theme.variant === 'dark');
   }
-  
-  // 1. Check for saved theme in localStorage (only on client)
-  if (props.persistTheme && typeof window !== 'undefined') {
-    const savedThemeId = localStorage.getItem('obiente-theme');
-    if (savedThemeId) {
-      const savedTheme = findThemeById(savedThemeId);
-      if (savedTheme) return savedTheme;
+}
+
+// Theme state
+const currentTheme = ref<ThemeDefinition | null>(null);
+const availableThemes = ref<ThemeDefinition[]>(themes);
+const isDark = computed(() => currentTheme.value?.variant === 'dark');
+
+const setTheme = (theme: ThemeDefinition) => {
+  currentTheme.value = theme;
+  if (typeof window !== 'undefined') {
+    applyTheme(theme);
+  }
+};
+
+// Simple cookie utilities
+const getCookie = (name: string): string | null => {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  return parts.length === 2 ? parts.pop()?.split(';').shift() || null : null;
+};
+
+const setCookie = (name: string, value: string): void => {
+  if (typeof document === 'undefined') return;
+  const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+};
+
+// Initialize theme - SSR prop > cookie > first theme
+const initializeTheme = () => {
+  // 1. Use Astro SSR theme preference
+  if (props.themePreference) {
+    const ssrTheme = themes.find(theme => theme.id === props.themePreference);
+    if (ssrTheme) {
+      setTheme(ssrTheme);
+      return;
     }
   }
   
-  // 2. Check for default theme prop
-  if (props.defaultTheme) {
-    const defaultTheme = findThemeById(props.defaultTheme);
-    if (defaultTheme) return defaultTheme;
-  }
-  
-  // 3. Use system preference if enabled (only on client)
-  if (props.useSystemPreference && typeof window !== 'undefined') {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const matchingTheme = props.themes.find(theme => 
-      theme.variant === (prefersDark ? 'dark' : 'light')
-    );
-    if (matchingTheme) return matchingTheme;
-  }
-  
-  // 4. Fallback to first available theme
-  return props.themes[0];
-}
-
-// Create theme context only if we have valid data
-let themeContext: ReturnType<typeof createThemeContext>;
-let currentTheme: any;
-let setTheme: any;
-let setThemeById: any;
-
-// Check if we have valid themes before proceeding
-if (!props.themes || props.themes.length === 0) {
-  console.error('ThemeProvider: No themes provided');
-  throw new Error('ThemeProvider requires at least one theme to be provided');
-}
-
-const initialTheme = getInitialTheme();
-
-if (!initialTheme) {
-  console.error('ThemeProvider: Cannot initialize - no valid theme found');
-  throw new Error('ThemeProvider requires at least one valid theme');
-}
-
-// Now we can safely create the theme context
-themeContext = createThemeContext(props.themes, initialTheme);
-({ currentTheme, setTheme, setThemeById } = themeContext);
-
-// Provide context to children immediately
-provide(THEME_CONTEXT_KEY, themeContext);
-
-// Apply initial theme on mount
-onMounted(() => {
-  console.log('ThemeProvider mounted');
-  console.log('Props.themes:', props.themes);
-  console.log('Props.defaultTheme:', props.defaultTheme);
-  console.log('Initial theme:', initialTheme);
-  console.log('Theme context:', themeContext);
-  console.log('Available themes in context:', themeContext.availableThemes.value);
-  
-  if (initialTheme && currentTheme.value) {
-    console.log('Setting initial theme:', initialTheme.name);
-    setTheme(initialTheme);
-    
-    // Debug: Check if CSS variables are applied
-    setTimeout(() => {
-      const root = document.documentElement;
-      const styles = getComputedStyle(root);
-      console.log('Applied CSS variables:');
-      console.log('--oi-color-primary:', styles.getPropertyValue('--oi-color-primary'));
-      console.log('--oi-color-background:', styles.getPropertyValue('--oi-color-background'));
-      console.log('--oi-color-text:', styles.getPropertyValue('--oi-color-text'));
-      console.log('data-theme attribute:', root.getAttribute('data-theme'));
-    }, 100);
-  } else {
-    console.error('ThemeProvider: No initial theme available for mounting');
-  }
-  
-  // Listen for system preference changes
-  if (props.useSystemPreference && typeof window !== 'undefined') {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleSystemChange = (event: MediaQueryListEvent) => {
-      // Only auto-switch if no user preference is saved
-      if (typeof window !== 'undefined' && !localStorage.getItem('obiente-theme')) {
-        const prefersDark = event.matches;
-        const matchingTheme = props.themes.find(theme => 
-          theme.variant === (prefersDark ? 'dark' : 'light')
-        );
-        if (matchingTheme) {
-          setTheme(matchingTheme);
-        }
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleSystemChange);
-    
-    // Cleanup is handled by Vue's onUnmounted automatically
-  }
-});
-
-// Watch for theme changes and update persistence
-if (props.persistTheme) {
-  watch(() => currentTheme.value, (newTheme) => {
-    if (newTheme && typeof window !== 'undefined') {
-      localStorage.setItem('obiente-theme', newTheme.id);
+  // 2. Use saved cookie theme
+  const savedThemeId = getCookie(THEME_STORAGE_KEY);
+  if (savedThemeId) {
+    const savedTheme = themes.find(theme => theme.id === savedThemeId);
+    if (savedTheme) {
+      setTheme(savedTheme);
+      return;
     }
-  });
+  }
+  
+  // 3. Fallback to first theme
+  if (themes.length > 0) {
+    setTheme(themes[0]);
+  }
+};
+
+// SSR initialization
+if (typeof window === 'undefined') {
+  if (props.themePreference) {
+    const ssrTheme = themes.find(theme => theme.id === props.themePreference);
+    if (ssrTheme) {
+      currentTheme.value = ssrTheme;
+    }
+  } else if (themes.length > 0) {
+    currentTheme.value = themes[0];
+  }
+} else {
+  initializeTheme();
 }
 
-// Expose methods for parent components
-defineExpose({
+// Create and provide context
+provide(THEME_CONTEXT_KEY, {
+  currentTheme: readonly(currentTheme),
+  availableThemes: readonly(availableThemes),
   setTheme,
-  setThemeById,
-  currentTheme,
+  isDark: readonly(isDark)
+});
+
+// Client-side initialization
+onMounted(() => {
+  if (currentTheme.value) {
+    applyTheme(currentTheme.value);
+  }
+  initializeTheme();
+});
+
+// Persist theme changes to cookies
+watchEffect(() => {
+  if (currentTheme.value) {
+    setCookie(THEME_STORAGE_KEY, currentTheme.value.id);
+  }
 });
 </script>
+
+

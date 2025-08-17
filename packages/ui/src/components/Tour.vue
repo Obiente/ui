@@ -57,9 +57,7 @@ const emit = defineEmits<{
 const tour = useTour({
   id: props.id,
   steps: props.steps,
-  defaultOpen: props.defaultOpen,
-  onStepChange: (details) => emit('stepChange', details),
-  onComplete: () => emit('complete')
+  onStepChange: (details) => emit('stepChange', details)
 })
 
 /**

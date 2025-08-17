@@ -112,7 +112,8 @@ const handleSizeChangeEnd = (details: { size: number[] }) => {
   <Splitter.Root
     :class="splitterClasses"
     :orientation="orientation"
-    :size="panels.map(p => ({ id: p.id, size: p.size }))"
+    :size="panels.map(p => p.size || 100)"
+    :panels="panels"
     :disabled="disabled"
     @size-change="handleSizeChange"
     @size-change-end="handleSizeChangeEnd"

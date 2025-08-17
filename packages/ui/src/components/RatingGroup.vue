@@ -135,9 +135,9 @@ const handleHoverChange = (details: { hoveredValue: number }) => {
       <RatingGroup.Context>
         <template #default="{ items }">
           <RatingGroup.Item
-            v-for="item in items"
-            :key="item.index"
-            :index="item.index"
+            v-for="(item, index) in items"
+            :key="index"
+            :index="index"
             class="oi-rating-group-item"
           >
             <RatingGroup.ItemContext>

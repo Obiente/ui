@@ -102,7 +102,6 @@ const handleDrawingEnd = () => {
 <template>
   <SignaturePad.Root
     :class="signaturePadClasses"
-    :drawing="drawing"
     :disabled="disabled"
     :read-only="readOnly"
     @drawing-change="handleDrawingChange"

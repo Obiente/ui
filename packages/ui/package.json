@@ -11,6 +11,10 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./styles": {
+      "import": "./dist/style.css",
+      "require": "./dist/style.css"
+    },
     "./utils": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
@@ -18,8 +22,7 @@
     "./composables": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./styles": "./dist/style.css"
+    }
   },
   "files": [
     "dist"
@@ -31,6 +34,7 @@
   },
   "dependencies": {
     "@ark-ui/vue": "^5.18.3",
+    "@obiente/themes": "workspace:*",
     "vue": "^3.4.19"
   },
   "peerDependencies": {
@@ -50,5 +54,5 @@
     "theming",
     "design-system"
   ],
-  "license": "MIT"
+  "license": "AGPL-3.0-only"
 }
