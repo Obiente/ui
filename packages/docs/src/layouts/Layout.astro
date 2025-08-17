@@ -1,5 +1,12 @@
 ---
+export const prerender = false;
 import ObienteLayout from "../components/ObienteLayout.vue";
+import { getSSRThemeFromAstroCookies } from "@obiente/ui";
+
+// Import themes CSS directly from package export
+import "@obiente/themes/themes.css";
+import "@obiente/ui/styles";
+
 export interface Props {
   title: string;
   description?: string;
@@ -9,37 +16,50 @@ const {
   title,
   description = "Obiente UI - Vue 3 component library with extensive theming support",
 } = Astro.props;
+
+// Get theme for SSR
+const { themeId, theme, htmlProps } = getSSRThemeFromAstroCookies(
+  Astro.cookies
+);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" {...htmlProps}>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {
+      theme && (
+        <meta
+          name="color-scheme"
+          content={theme.variant === "dark" ? "dark" : "light"}
+        />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
   </head>
   <body>
-    <ObienteLayout client:load currentPage={Astro.url.pathname}>
+    <ObienteLayout client:load themePreference={themeId}>
       <slot />
     </ObienteLayout>
   </body>
 </html>
 
 <style is:global>
-  /* Minimal reset only */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
 
-  html, body {
+  html,
+  body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
   }
 </style>
-
-

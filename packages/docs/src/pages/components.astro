@@ -2,42 +2,33 @@
 import Layout from "../layouts/Layout.astro";
 import DocumentationLayout from "../components/content/DocumentationLayout.vue";
 import SimplePlayground from "../components/SimplePlayground.vue";
-import {
-  Container,
-  Stack,
-  Grid,
-  Card,
-  Divider,
-  ThemeProvider,
-} from "@obiente/ui";
-import { catppuccinMocha } from "@obiente/themes";
+import { Container, Stack, Divider } from "@obiente/ui";
+
+// Remove SSR export - we want prerendering
+// export const prerender = false;
 ---
 
 <Layout title="Obiente UI - Components Showcase">
-  <ThemeProvider theme={catppuccinMocha}>
-    <DocumentationLayout currentPage="/components-showcase" client:load>
-      <Container>
-        <Stack space="8">
-          <div>
-            <h1
-              class="text-gradient font-display text-4xl md:text-5xl font-bold"
-            >
-              Component Showcase
-            </h1>
-            <p class="text-lg mt-4 opacity-80 max-w-3xl">
-              Interactive examples of all Obiente UI components with theme
-              switching and live demonstrations. Experience the flexibility and
-              power of our design system.
-            </p>
-          </div>
+  <DocumentationLayout currentPage="/components-showcase" client:load>
+    <Container>
+      <Stack space="8">
+        <div>
+          <h1 class="text-gradient font-display text-4xl md:text-5xl font-bold">
+            Component Showcase
+          </h1>
+          <p class="text-lg mt-4 opacity-80 max-w-3xl">
+            Interactive examples of all Obiente UI components with theme
+            switching and live demonstrations. Experience the flexibility and
+            power of our design system.
+          </p>
+        </div>
 
-          <Divider themeClasses="border.subtle" />
+        <Divider themeClasses="border.subtle" />
 
-          <SimplePlayground client:load />
-        </Stack>
-      </Container>
-    </DocumentationLayout>
-  </ThemeProvider>
+        <SimplePlayground client:load />
+      </Stack>
+    </Container>
+  </DocumentationLayout>
 </Layout>
 
 <style>

@@ -1,20 +1,21 @@
-import { defineConfig } from 'astro/config';
-import vue from '@astrojs/vue';
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { defineConfig } from "astro/config";
+import vue from "@astrojs/vue";
+import node from "@astrojs/node";
 
 export default defineConfig({
-  integrations: [
-    vue(),
-  ],
+  integrations: [vue()],
+  adapter: node({
+    mode: "standalone",
+  }),
+  server: true,
   vite: {
-    resolve: {
-      alias: {
-        '@obiente/ui': path.resolve(__dirname, '../ui/src/index.ts'),
-        '@obiente/themes': path.resolve(__dirname, '../themes/src/index.ts'),
-      }
-    }
-  }
+    ssr: {
+      noExternal: ["@obiente/themes"],
+    },
+    optimizeDeps: {
+      include: ["@obiente/ui", "@obiente/themes"],
+      exclude: ["@ark-ui/vue", "@zag-js/color-picker"],
+      force: true,
+    },
+  },
 });

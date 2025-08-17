@@ -11,11 +11,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@astrojs/vue": "^4.0.0",
+    "@astrojs/node": "^9.4.2",
     "@astrojs/tailwind": "^5.0.0",
-    "@obiente/ui": "workspace:*",
+    "@astrojs/vue": "^5.1.0",
     "@obiente/themes": "workspace:*",
-    "astro": "^4.0.0",
+    "@obiente/ui": "workspace:*",
+    "astro": "^5.13.2",
     "vue": "^3.4.19"
   },
   "devDependencies": {

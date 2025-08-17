@@ -1,6 +1,30 @@
 <template>
-  <div class="oi-flex oi-align-center oi-gap-2">
-    <Flex align="center" :gap="2" v-if="themeContext">
+  <div class="oi-flex oi-items-center oi-gap-2">
+    <!-- Debug info -->
+    <div v-if="debugMode" class="oi-text-xs oi-text-red-500 oi-p-2 oi-border oi-rounded">
+      Debug: mounted={{ isMounted }}, context={{ !!themeContext }}, themes={{ availableThemes.length }}, hasThemes={{ hasThemes }}
+    </div>
+    
+    <!-- Loading state -->
+    <div v-if="!isMounted" class="oi-flex oi-align-center oi-gap-2 oi-text-color-text-muted">
+      <span>🎨</span>
+      <span class="oi-text-sm">Loading...</span>
+    </div>
+    
+    <!-- No context state -->
+    <div v-else-if="!themeContext" class="oi-flex oi-align-center oi-gap-2 oi-text-color-text-muted">
+      <span>⚠️</span>
+      <span class="oi-text-sm">No theme context</span>
+    </div>
+    
+    <!-- No themes state -->
+    <div v-else-if="!hasThemes" class="oi-flex oi-align-center oi-gap-2 oi-text-color-text-muted">
+      <span>🎨</span>
+      <span class="oi-text-sm">No themes available</span>
+    </div>
+    
+    <!-- Theme controls -->
+    <div v-else class="oi-flex oi-items-center oi-gap-2">
       <!-- Theme Toggle for Dark/Light -->
       <Button 
         @click="toggleDarkMode"
@@ -14,73 +38,82 @@
       <!-- Theme Selector Dropdown -->
       <Select
         v-model="selectedTheme"
-        :options="availableThemes"
+        :options="themeOptions"
+        placeholder="Select theme..."
         class="oi-min-w-48"
       />
-    </Flex>
-    
-    <!-- Fallback when no theme provider -->
-    <div v-else class="oi-flex oi-align-center oi-gap-2 oi-text-color-text-muted">
-      <span>🎨</span>
-      <span class="oi-text-sm">No themes available</span>
+      
+      <!-- Debug current theme -->
+      <span v-if="debugMode" class="oi-text-xs">
+        Current: {{ currentTheme?.id || 'none' }}
+      </span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { useThemeOptional, Flex, Button, Select } from '@obiente/ui';
+import { computed, ref, onMounted, inject } from 'vue';
+import { Button, Select, THEME_CONTEXT_KEY } from '@obiente/ui';
+import type { ThemeDefinition } from '@obiente/themes';
 
-// Get theme context (optional)
-const themeContext = useThemeOptional();
-
-// Debug logging
+// Track if component is mounted (client-side only)
+const isMounted = ref(false);
+const debugMode = ref(false); // Debug mode disabled
 onMounted(() => {
-  console.log('ThemeSwitch mounted');
-  console.log('themeContext:', themeContext);
-  if (themeContext) {
-    console.log('availableThemes:', themeContext.availableThemes.value);
-    console.log('currentTheme:', themeContext.currentTheme.value);
-  }
+  isMounted.value = true;
 });
 
-// Only destructure if context exists
-const currentTheme = computed(() => themeContext?.currentTheme.value || null);
-const isDark = computed(() => themeContext?.isDark.value || false);
+// Theme context interface - must match ThemeProvider exactly
+interface ThemeContext {
+  currentTheme: any;
+  availableThemes: any;
+  setTheme: (theme: ThemeDefinition) => void;
+  isDark: any;
+}
 
-// Format available themes for Obiente Select
-const availableThemes = computed(() => {
-  if (!themeContext) return [];
-  return themeContext.availableThemes.value.map((theme: any) => ({
+// Get theme context via injection - using same key as ThemeProvider
+const themeContext = inject<ThemeContext | null>(THEME_CONTEXT_KEY, null);
+
+// Safely access theme properties with proper checks
+const currentTheme = computed(() => themeContext?.currentTheme?.value || null);
+const availableThemes = computed(() => themeContext?.availableThemes?.value || []);
+const isDark = computed(() => themeContext?.isDark?.value || false);
+
+// Check if themes are available
+const hasThemes = computed(() => availableThemes.value.length > 0);
+
+// Format available themes for the Select component
+const themeOptions = computed(() => {
+  return availableThemes.value.map((theme: ThemeDefinition) => ({
     label: theme.name,
     value: theme.id
   }));
 });
 
-// Helper function to set theme by ID
-const setThemeById = (id: string) => {
-  if (!themeContext) return
-  
-  const theme = themeContext.availableThemes.value.find(t => t.id === id)
-  if (theme) {
-    themeContext.setTheme(theme)
-  }
-}
-
+// Toggle dark mode - find corresponding theme variant
 const toggleDarkMode = () => {
-  themeContext?.toggleDarkMode();
+  if (!themeContext) return;
+  
+  const targetVariant = isDark.value ? 'light' : 'dark';
+  const targetTheme = availableThemes.value.find((theme: ThemeDefinition) => 
+    theme.variant === targetVariant
+  );
+  
+  if (targetTheme) {
+    themeContext.setTheme(targetTheme);
+  }
 };
 
 // Computed theme value for Select v-model
 const selectedTheme = computed({
-  get: () => {
-    const currentId = themeContext?.currentTheme.value?.id || ''
-    return currentId
-  },
+  get: () => currentTheme.value?.id || '',
   set: (value: string) => {
-    setThemeById(value)
+    const theme = availableThemes.value.find((t: ThemeDefinition) => t.id === value);
+    if (theme && themeContext) {
+      themeContext.setTheme(theme);
+    }
   }
-})
+});
 </script>
 
 

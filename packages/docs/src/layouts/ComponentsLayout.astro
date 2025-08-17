@@ -2,6 +2,9 @@
 import ObienteLayout from "./Layout.astro";
 import { Container, Grid, Stack } from "@obiente/ui";
 import ComponentsSidebar from "../components/ComponentsSidebar.vue";
+
+// Remove SSR export - we want prerendering
+// export const prerender = false;
 ---
 
 <ObienteLayout title={"layout"}>
