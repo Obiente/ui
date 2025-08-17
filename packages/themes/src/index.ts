@@ -1,34 +1,27 @@
-/**
- * Obiente Themes - Main Export
- * A maintainable theme system for Obiente UI
- */
+// Type exports
+export type { ThemeDefinition, ColorPalette } from './types';
 
-// Theme builder and utilities
-export { 
-  ThemeBuilder, 
-  buildTheme, 
-  buildThemeCSS,
-  createTheme,
-  createThemeVariant 
-} from './theme-builder';
+// Theme imports
+import { catppuccinLatte } from './themes/catppuccin/latte';
+import { catppuccinMocha } from './themes/catppuccin/mocha';
+import { catppuccinFrappe } from './themes/catppuccin/frappe';
+import { catppuccinMacchiato } from './themes/catppuccin/macchiato';
 
-// Generated themes
-export { catppuccinMochaTheme } from './catppuccin-mocha';
-export { catppuccinLatteTheme } from './catppuccin-latte';
-export { catppuccinFrappeTheme } from './catppuccin-frappe';
-export { catppuccinMacchiatoTheme } from './catppuccin-macchiato';
+// Individual theme exports
+export { catppuccinLatte, catppuccinMocha, catppuccinFrappe, catppuccinMacchiato };
 
-// Legacy exports for backward compatibility
-export { default as catppuccinMocha } from './catppuccin-mocha';
-export { default as catppuccinLatte } from './catppuccin-latte';
-export { default as catppuccinFrappe } from './catppuccin-frappe';
-export { default as catppuccinMacchiato } from './catppuccin-macchiato';
+// Theme registry - add new themes here
+const themes = {
+  'catppuccin-latte': catppuccinLatte,
+  'catppuccin-mocha': catppuccinMocha,
+  'catppuccin-frappe': catppuccinFrappe,
+  'catppuccin-macchiato': catppuccinMacchiato,
+} as const;
 
-// Core types and utilities
-export * from './types';
-export * from './core/constants';
-export * from './utils/theme-utils';
-
-// Generators
-export * from './generators/css-variables';
-export * from './generators/component-css';
+export const getTheme = (name: keyof typeof themes) => themes[name];
+export const getAllThemes = () => Object.values(themes);
+export const getAllThemeNames = () => Object.keys(themes) as (keyof typeof themes)[];
+export const getThemesByFamily = (family: string) => 
+  Object.entries(themes)
+    .filter(([name]) => name.startsWith(`${family}-`))
+    .map(([, theme]) => theme);
