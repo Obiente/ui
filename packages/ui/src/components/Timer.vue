@@ -67,7 +67,7 @@ const props = withDefaults(defineProps<TimerProps>(), {
 
 const emit = defineEmits<{
   complete: []
-  tick: [details: any]
+  tick: [Timer.TickDetails]
 }>()
 
 /**
@@ -115,62 +115,44 @@ const timerClasses = computed(() => {
     @complete="emit('complete')"
     @tick="emit('tick', $event)"
   >
-    <Timer.Context>
-      <template #default="context">
-        <div v-if="$slots.display" :class="`${timerClasses}__display`">
-          <slot 
-            name="display" 
-            v-bind="context"
-          />
-        </div>
-        
-        <div v-else :class="`${timerClasses}__display`">
-          <Timer.Item type="days" :class="`${timerClasses}__item`">
-            {{ context.formattedTime.days }}
-            <Timer.Separator v-if="context.formattedTime.days !== '00'" :class="`${timerClasses}__separator`">:</Timer.Separator>
-          </Timer.Item>
-          
-          <Timer.Item type="hours" :class="`${timerClasses}__item`">
-            {{ context.formattedTime.hours }}
-            <Timer.Separator :class="`${timerClasses}__separator`">:</Timer.Separator>
-          </Timer.Item>
-          
-          <Timer.Item type="minutes" :class="`${timerClasses}__item`">
-            {{ context.formattedTime.minutes }}
-            <Timer.Separator :class="`${timerClasses}__separator`">:</Timer.Separator>
-          </Timer.Item>
-          
-          <Timer.Item type="seconds" :class="`${timerClasses}__item`">
-            {{ context.formattedTime.seconds }}
-          </Timer.Item>
-        </div>
-        
-        <div v-if="$slots.controls" :class="`${timerClasses}__controls`">
-          <slot 
-            name="controls"
-            v-bind="context"
-          />
-        </div>
-        
-        <div v-else :class="`${timerClasses}__controls`">
-          <Timer.ActionTrigger action="start" :class="`${timerClasses}__action-trigger`">
-            <slot name="startIcon">Start</slot>
-          </Timer.ActionTrigger>
-          
-          <Timer.ActionTrigger action="pause" :class="`${timerClasses}__action-trigger`">
-            <slot name="pauseIcon">Pause</slot>
-          </Timer.ActionTrigger>
-          
-          <Timer.ActionTrigger action="resume" :class="`${timerClasses}__action-trigger`">
-            <slot name="resumeIcon">Resume</slot>
-          </Timer.ActionTrigger>
-          
-          <Timer.ActionTrigger action="reset" :class="`${timerClasses}__action-trigger`">
-            <slot name="resetIcon">Reset</slot>
-          </Timer.ActionTrigger>
-        </div>
-      </template>
-    </Timer.Context>
+    <Timer.Area v-if="$slots.display" :class="`${timerClasses}__display`">
+      <slot name="display" />
+    </Timer.Area>
+    
+    <Timer.Area v-else :class="`${timerClasses}__display`">
+      <Timer.Item type="days" :class="`${timerClasses}__item`" />
+      <Timer.Separator v-if="countdown || startMs > 86400000" :class="`${timerClasses}__separator`">:</Timer.Separator>
+      
+      <Timer.Item type="hours" :class="`${timerClasses}__item`" />
+      <Timer.Separator :class="`${timerClasses}__separator`">:</Timer.Separator>
+      
+      <Timer.Item type="minutes" :class="`${timerClasses}__item`" />
+      <Timer.Separator :class="`${timerClasses}__separator`">:</Timer.Separator>
+      
+      <Timer.Item type="seconds" :class="`${timerClasses}__item`" />
+    </Timer.Area>
+    
+    <Timer.Control v-if="$slots.controls" :class="`${timerClasses}__controls`">
+      <slot name="controls" />
+    </Timer.Control>
+    
+    <Timer.Control v-else :class="`${timerClasses}__controls`">
+      <Timer.ActionTrigger action="start" :class="`${timerClasses}__action-trigger`">
+        <slot name="startIcon">Start</slot>
+      </Timer.ActionTrigger>
+      
+      <Timer.ActionTrigger action="pause" :class="`${timerClasses}__action-trigger`">
+        <slot name="pauseIcon">Pause</slot>
+      </Timer.ActionTrigger>
+      
+      <Timer.ActionTrigger action="resume" :class="`${timerClasses}__action-trigger`">
+        <slot name="resumeIcon">Resume</slot>
+      </Timer.ActionTrigger>
+      
+      <Timer.ActionTrigger action="reset" :class="`${timerClasses}__action-trigger`">
+        <slot name="resetIcon">Reset</slot>
+      </Timer.ActionTrigger>
+    </Timer.Control>
   </Timer.Root>
 </template>
 
