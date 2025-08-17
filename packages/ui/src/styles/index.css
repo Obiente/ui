@@ -3,6 +3,9 @@
  * Modular CSS architecture for maintainable component styling
  */
 
+/* === Theme System === */
+/* Themes are now applied dynamically via CSS custom properties */
+
 /* === Core Foundation === */
 @import './core/variables.css';
 @import './core/reset.css';

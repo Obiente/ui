@@ -4,10 +4,9 @@
  * This file exports utility functions used throughout the UI library.
  */
 
-// Export theme utilities
 export * from './theme-provider';
-export * from './theme-engine';
 export * from './theme-cookie';
+export * from './ssr-theme';
 
 /**
  * Generate a unique ID

@@ -5,15 +5,23 @@
  */
 
 import { inject, computed, ComputedRef } from 'vue';
-import type { ThemeProviderContext } from '../types/theme';
+import { THEME_CONTEXT_KEY } from '../constants/theme';
 
 /**
  * Composable to use themes in components
  * @returns Theme utilities and state
  */
 export function useThemeProvider() {
+  // Theme context interface that matches ThemeProvider.vue
+  interface ThemeContext {
+    currentTheme: any;
+    availableThemes: any;
+    setTheme: (theme: any) => void;
+    isDark: any;
+  }
+
   // Get theme provider context
-  const themeProvider = inject<ThemeProviderContext>('themeProvider');
+  const themeProvider = inject<ThemeContext>(THEME_CONTEXT_KEY);
   
   if (!themeProvider) {
     console.warn('No ThemeProvider found. Make sure your component is wrapped in a ThemeProvider.');
@@ -29,23 +37,32 @@ export function useThemeProvider() {
   }
   
   // Get current theme
-  const currentTheme: ComputedRef<string> = computed(() => themeProvider.current.value);
+  const currentTheme: ComputedRef<string> = computed(() => themeProvider.currentTheme?.value?.id || 'default');
   
   // Check if current theme is dark
-  const isDark: ComputedRef<boolean> = computed(() => themeProvider.isDark.value);
+  const isDark: ComputedRef<boolean> = computed(() => themeProvider.isDark?.value || false);
   
   // Change theme function
   const changeTheme = (themeId: string) => {
-    themeProvider.changeTheme(themeId);
+    const theme = themeProvider.availableThemes?.value?.find((t: any) => t.id === themeId);
+    if (theme && themeProvider.setTheme) {
+      themeProvider.setTheme(theme);
+    }
   };
   
   // Toggle between dark and light mode
   const toggleDarkMode = () => {
-    themeProvider.toggleDarkMode();
+    const themes = themeProvider.availableThemes?.value || [];
+    const targetVariant = themeProvider.isDark?.value ? 'light' : 'dark';
+    const targetTheme = themes.find((theme: any) => theme.variant === targetVariant);
+    
+    if (targetTheme && themeProvider.setTheme) {
+      themeProvider.setTheme(targetTheme);
+    }
   };
   
   // Get available themes
-  const availableThemes = computed(() => themeProvider.getAvailableThemes());
+  const availableThemes = computed(() => themeProvider.availableThemes?.value || []);
   
   return {
     currentTheme,
@@ -70,9 +87,16 @@ export function getThemeClass(
 ): string {
   // If no theme provided, use theme provider context
   if (!theme) {
-    const themeProvider = inject<ThemeProviderContext>('themeProvider');
+    interface ThemeContext {
+      currentTheme: any;
+      availableThemes: any;
+      setTheme: (theme: any) => void;
+      isDark: any;
+    }
+    
+    const themeProvider = inject<ThemeContext>(THEME_CONTEXT_KEY);
     if (themeProvider) {
-      theme = themeProvider.current.value;
+      theme = themeProvider.currentTheme?.value?.id || 'default';
     } else {
       // Fallback to default
       theme = 'default';
