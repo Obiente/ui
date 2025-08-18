@@ -4,7 +4,7 @@
  * Provides numeric multipliers for Tailwind CSS primitives (spacing, sizing, radius, typography, elevation).
  * Used to scale core design tokens across all components and themes.
  */
-export interface BaseThemeInterface {
+export interface BaseTheme {
     id: string;
     name: string;
     readonly type: "base";
@@ -30,7 +30,7 @@ export interface BaseThemeInterface {
 }
 
 export function defineBaseTheme(
-    baseTheme: BaseThemeInterface,
-): BaseThemeInterface {
+    baseTheme: BaseTheme,
+): BaseTheme {
     return baseTheme;
 }
