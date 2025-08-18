@@ -1,6 +1,6 @@
 /**
  * FlairTheme provides a simple way to extend or override base theme tokens.
- * 
+ *
  * Use flair themes to add visual enhancements (shadows, effects, animations, etc.)
  * or custom CSS properties. Flair themes are stackable and can be combined.
  */

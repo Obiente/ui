@@ -1,30 +1,6 @@
 {
   "name": "@obiente/themes",
   "version": "1.0.0",
-  "description": "DRY theme system for Obiente UI",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./themes.css": "./dist/themes.css"
-  },
-  "files": [
-    "dist/",
-    "src/"
-  ],
-  "scripts": {
-    "build": "tsc && tsx scripts/generate-theme-css.ts",
-    "build:js": "tsc",
-    "build:css": "tsx scripts/generate-theme-css.ts",
-    "dev": "tsc --watch",
-    "type-check": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "tsx": "^4.20.4",
-    "typescript": "^5.0.0"
-  }
+  "description": "The core theming engine for Obiente UI, enabling consistent and customizable design across all components.",
+  "type": "module"
 }
