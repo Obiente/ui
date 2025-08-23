@@ -2,5 +2,23 @@
   "name": "@obiente/themes",
   "version": "1.0.0",
   "description": "The core theming engine for Obiente UI, enabling consistent and customizable design across all components.",
-  "type": "module"
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "deno": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "dev": "deno run --watch ./src/index.ts",
+    "test": "deno test --allow-all"
+  },
+  "dependencies": {
+    "@catppuccin/palette": "^1.4.0"
+  }
 }

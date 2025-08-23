@@ -1,4 +1,4 @@
-import { flavorEntries } from "https://deno.land/x/catppuccin/mod.ts";
+import { flavorEntries } from "@catppuccin/palette";
 import { defineColorTheme } from "types/color-theme.ts";
 
 const themes = flavorEntries.map(([flavorName, flavor]) => {
