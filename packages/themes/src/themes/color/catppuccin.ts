@@ -1,5 +1,5 @@
 import { flavorEntries } from "@catppuccin/palette";
-import { defineColorTheme } from "types/color-theme.ts";
+import { defineColorTheme } from "../../types/color-theme";
 
 const themes = flavorEntries.map(([flavorName, flavor]) => {
   const c = flavor.colors;

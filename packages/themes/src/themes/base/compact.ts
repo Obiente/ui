@@ -1,4 +1,4 @@
-import { defineBaseTheme } from "types/base-theme.ts";
+import { defineBaseTheme } from "../../types/base-theme";
 
 export default defineBaseTheme({
   id: "compact",

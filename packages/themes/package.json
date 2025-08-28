@@ -3,22 +3,34 @@
   "version": "1.0.0",
   "description": "The core theming engine for Obiente UI, enabling consistent and customizable design across all components.",
   "type": "module",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "deno": "./src/index.ts",
-      "import": "./src/index.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "files": [
+    "dist",
     "src"
   ],
   "scripts": {
-    "dev": "deno run --watch ./src/index.ts",
-    "test": "deno test --allow-all"
+    "dev": "vite build --watch",
+    "build": "pnpm type-check && vite build",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@catppuccin/palette": "^1.4.0"
+    "@catppuccin/palette": "^1.4.0",
+    "tailwindcss": "^4.1.12"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.7.8",
+    "@swc/core": "^1.13.5",
+    "typescript": "^5.9.2",
+    "unplugin-swc": "^1.5.7",
+    "vite": "^5.4.19",
+    "vite-plugin-dts": "^4.5.4"
   }
 }
