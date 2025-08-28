@@ -1,108 +1,167 @@
-import { ref, inject, readonly, computed, type Ref } from 'vue';
-import type { ThemeDefinition } from '@obiente/themes';
-import { THEME_CONTEXT_KEY } from '../constants/theme';
+import { ref, computed } from 'vue'
+import { getBaseThemes, getColorThemes, getFlairThemes } from '@obiente/themes'
+import type { ThemePreferences } from '../utils/theme-preferences'
+import { 
+  createThemePreferencesWithThemes,
+  serializeThemePreferences,
+  parseThemePreferences,
+  DEFAULT_THEME_PREFERENCES,
+  THEME_PREFERENCES_COOKIE_NAME,
+  addFlairTheme,
+  removeFlairTheme
+} from '../utils/theme-preferences'
 
-export interface ThemeContext {
-  currentTheme: Readonly<Ref<ThemeDefinition | null>>;
-  availableThemes: Readonly<Ref<ThemeDefinition[]>>;
-  setTheme: (theme: ThemeDefinition) => void;
-  isDark: Readonly<Ref<boolean>>;
-}
+const preferences = ref<ThemePreferences>(DEFAULT_THEME_PREFERENCES)
 
-function applyTheme(theme: ThemeDefinition) {
-  if (typeof document === 'undefined') return;
+export function useTheme() {
+  // Cache previous attributes to avoid unnecessary DOM writes
+  let cachedHtmlProps: Record<string, string> = {}
+  let applyTimeout: number | undefined
   
-  const root = document.documentElement;
+  const resolved = computed(() => 
+    createThemePreferencesWithThemes(preferences.value)
+  )
   
-  // Apply semantic color variables
-  const { colors } = theme;
-  
-  // Base colors
-  root.style.setProperty('--oi-color-background', colors.background);
-  root.style.setProperty('--oi-color-foreground', colors.foreground);
-  
-  // Surface colors (map to CSS expectations)
-  root.style.setProperty('--oi-color-surface', colors.surface.base);
-  root.style.setProperty('--oi-color-surface-raised', colors.surface.raised);
-  root.style.setProperty('--oi-color-surface-overlay', colors.surface.overlay);
-  root.style.setProperty('--oi-color-surface-muted', colors.surface.muted);
-  
-  // Text colors (map to CSS expectations)
-  root.style.setProperty('--oi-color-text', colors.text.primary);
-  root.style.setProperty('--oi-color-text-muted', colors.text.secondary);
-  root.style.setProperty('--oi-color-text-disabled', colors.text.disabled);
-  
-  // Border colors (map to CSS expectations)
-  root.style.setProperty('--oi-color-border', colors.border.default);
-  root.style.setProperty('--oi-color-border-muted', colors.border.muted);
-  root.style.setProperty('--oi-color-border-strong', colors.border.strong);
-  
-  // Accent colors (map to CSS expectations)
-  root.style.setProperty('--oi-color-primary', colors.accent.primary);
-  root.style.setProperty('--oi-color-secondary', colors.accent.secondary);
-  root.style.setProperty('--oi-color-accent', colors.accent.primary); // alias for compatibility
-  root.style.setProperty('--oi-color-success', colors.accent.success);
-  root.style.setProperty('--oi-color-warning', colors.accent.warning);
-  root.style.setProperty('--oi-color-error', colors.accent.danger);
-  root.style.setProperty('--oi-color-info', colors.accent.info);
-  
-  // Additional CSS variables that might be used
-  root.style.setProperty('--oi-color-red', colors.accent.danger);
-  root.style.setProperty('--oi-color-green', colors.accent.success);
-  root.style.setProperty('--oi-color-muted', colors.surface.muted);
-  
-  // Interactive states
-  root.style.setProperty('--oi-color-interactive-hover', colors.interactive.hover);
-  root.style.setProperty('--oi-color-interactive-active', colors.interactive.active);
-  root.style.setProperty('--oi-color-interactive-disabled', colors.interactive.disabled);
-  root.style.setProperty('--oi-color-interactive-focus', colors.interactive.focus);
-  
-  // Set theme attributes
-  root.setAttribute('data-theme', theme.id);
-  root.setAttribute('data-theme-variant', theme.variant);
-  root.classList.toggle('dark', theme.variant === 'dark');
-  
-  console.log('🎨 Applied theme:', theme.id, 'with colors:', {
-    background: colors.background,
-    primary: colors.accent.primary,
-    text: colors.text.primary
-  });
-}
+  const isDark = computed(() => 
+    resolved.value.resolved.color?.variant === 'dark'
+  )
 
-export function createThemeContext(themes: ThemeDefinition[]): ThemeContext {
-  const currentTheme = ref<ThemeDefinition | null>(null);
-  const availableThemes = ref<ThemeDefinition[]>(themes);
-  
-  const isDark = computed(() => currentTheme.value?.variant === 'dark');
-  
-  const setTheme = (theme: ThemeDefinition) => {
-    currentTheme.value = theme;
-    applyTheme(theme);
-  };
-  
-  // Set first theme as default
-  if (themes.length > 0) {
-    setTheme(themes[0]);
+  function apply() {
+    if (typeof document === 'undefined') return
+    
+    const root = document.documentElement
+    const themes = resolved.value
+    const newProps = themes.htmlProps
+    
+    // Only update attributes that have actually changed
+    const propsToUpdate = Object.keys(newProps).filter(
+      key => cachedHtmlProps[key] !== newProps[key]
+    )
+    
+    const propsToRemove = Object.keys(cachedHtmlProps).filter(
+      key => !(key in newProps)
+    )
+    
+    // Batch DOM updates to minimize reflows
+    if (propsToUpdate.length > 0 || propsToRemove.length > 0) {
+      // Remove old attributes
+      propsToRemove.forEach(key => {
+        if (key === 'class') {
+          // Remove specific theme classes only
+          cachedHtmlProps[key]?.split(' ').forEach(cls => {
+            if (cls.startsWith('theme-') || cls === 'dark' || cls === 'light') {
+              root.classList.remove(cls)
+            }
+          })
+        } else {
+          root.removeAttribute(key)
+        }
+      })
+      
+      // Apply new attributes
+      propsToUpdate.forEach(key => {
+        const value = newProps[key]
+        if (key === 'class') {
+          root.classList.add(...value.split(' '))
+        } else {
+          root.setAttribute(key, value)
+        }
+      })
+      
+      // Update cache
+      cachedHtmlProps = { ...newProps }
+    }
   }
-  
+
+  function debouncedApply() {
+    if (applyTimeout) clearTimeout(applyTimeout)
+    applyTimeout = setTimeout(apply, 16) // ~60fps
+  }
+
+  function setBase(id: string) {
+    preferences.value = { ...preferences.value, base: id }
+    persist()
+    debouncedApply()
+  }
+
+  function setColor(id: string) {
+    preferences.value = { ...preferences.value, color: id }
+    persist()
+    debouncedApply()
+  }
+
+  function addFlair(id: string) {
+    preferences.value = addFlairTheme(preferences.value, id)
+    persist()
+    debouncedApply()
+  }
+
+  function removeFlair(id: string) {
+    preferences.value = removeFlairTheme(preferences.value, id)
+    persist()
+    debouncedApply()
+  }
+
+  function toggleDark() {
+    const current = resolved.value.resolved.color
+    if (!current) return
+    
+    const targetVariant = current.variant === 'dark' ? 'light' : 'dark'
+    const colorThemes = getColorThemes()
+    
+    const target = colorThemes.find(theme => 
+      theme.family === current.family && theme.variant === targetVariant
+    ) || colorThemes.find(theme => theme.variant === targetVariant)
+    
+    if (target) setColor(target.id)
+  }
+
+  function setPreferences(newPreferences: ThemePreferences) {
+    preferences.value = newPreferences
+    persist()
+    debouncedApply()
+  }
+
+  function initialize() {
+    if (typeof window === 'undefined') return
+    
+    const stored = localStorage.getItem(THEME_PREFERENCES_COOKIE_NAME)
+    if (stored) {
+      try {
+        preferences.value = parseThemePreferences(stored)
+        apply()
+      } catch (e) {
+        console.warn('Failed to load theme preferences')
+      }
+    }
+  }
+
+  function persist() {
+    if (typeof window === 'undefined') return
+    
+    const serialized = serializeThemePreferences(preferences.value)
+    localStorage.setItem(THEME_PREFERENCES_COOKIE_NAME, serialized)
+    
+    const expires = new Date()
+    expires.setFullYear(expires.getFullYear() + 1)
+    document.cookie = `${THEME_PREFERENCES_COOKIE_NAME}=${encodeURIComponent(serialized)}; expires=${expires.toUTCString()}; path=/`
+  }
+
   return {
-    currentTheme: readonly(currentTheme),
-    availableThemes: readonly(availableThemes) as Readonly<Ref<ThemeDefinition[]>>,
-    setTheme,
-    isDark: readonly(isDark)
-  };
-}
-
-export function useTheme(): ThemeContext {
-  const context = inject<ThemeContext>(THEME_CONTEXT_KEY);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
+    preferences: computed(() => preferences.value),
+    resolved,
+    isDark,
+    
+    setBase,
+    setColor,
+    addFlair,
+    removeFlair,
+    toggleDark,
+    setPreferences,
+    initialize,
+    
+    baseThemes: getBaseThemes(),
+    colorThemes: getColorThemes(),
+    flairThemes: getFlairThemes()
   }
-  return context;
 }
-
-export function useThemeOptional(): ThemeContext | null {
-  return inject<ThemeContext | null>(THEME_CONTEXT_KEY, null);
-}
-
-// THEME_CONTEXT_KEY is exported from constants/theme.ts

@@ -1,23 +1,41 @@
 import { provide, inject, type InjectionKey } from 'vue';
-import type { ThemeDefinition } from '@obiente/themes';
+import type { ThemePreferences } from '../utils/theme-preferences';
+import { useThemeManager } from './theme-manager';
 
 export interface ThemeContext {
-  currentTheme: ThemeDefinition | null;
-  setTheme: (theme: ThemeDefinition) => void;
-  getTheme: () => ThemeDefinition | null;
+  currentPreferences: ThemePreferences;
+  setBaseTheme: (baseThemeId: string) => void;
+  setColorTheme: (colorThemeId: string) => void;
+  addFlairTheme: (flairThemeId: string) => void;
+  removeFlairTheme: (flairThemeId: string) => void;
+  toggleFlairTheme: (flairThemeId: string) => void;
+  setPreferences: (preferences: ThemePreferences) => void;
+  getPreferences: () => ThemePreferences;
+  getResolvedThemes: () => any;
 }
 
 export const THEME_CONTEXT_KEY: InjectionKey<ThemeContext> = Symbol('obiente-theme');
 
 export function useThemeContext() {
-  const provideTheme = (theme: ThemeDefinition) => {
+  const themeManager = useThemeManager();
+  
+  const provideTheme = (initialPreferences?: ThemePreferences) => {
+    if (initialPreferences) {
+      themeManager.setPreferences(initialPreferences);
+    }
+    
     const context: ThemeContext = {
-      currentTheme: theme,
-      setTheme: (newTheme: ThemeDefinition) => {
-        context.currentTheme = newTheme;
-      },
-      getTheme: () => context.currentTheme
+      currentPreferences: themeManager.getPreferences(),
+      setBaseTheme: themeManager.setBaseTheme,
+      setColorTheme: themeManager.setColorTheme,
+      addFlairTheme: themeManager.addFlairTheme,
+      removeFlairTheme: themeManager.removeFlairTheme,
+      toggleFlairTheme: themeManager.toggleFlairTheme,
+      setPreferences: themeManager.setPreferences,
+      getPreferences: themeManager.getPreferences,
+      getResolvedThemes: themeManager.getResolvedThemes
     };
+    
     provide(THEME_CONTEXT_KEY, context);
     return context;
   };

@@ -1,46 +1,55 @@
 /**
- * Simple SSR Theme Utilities
- * 
- * Clean, minimal SSR theme support for Astro
+ * SSR theme support for Astro
  */
 
-import type { ThemeDefinition } from '@obiente/themes';
-import { getAllThemes } from '@obiente/themes';
-import { THEME_COOKIE_NAME } from './theme-cookie';
+import type { 
+  ThemePreferences, 
+  ThemePreferencesWithThemes
+} from "./theme-preferences";
+import { 
+  createThemePreferencesWithThemes,
+  parseThemePreferences,
+  DEFAULT_THEME_PREFERENCES,
+  THEME_PREFERENCES_COOKIE_NAME 
+} from "./theme-preferences";
 
 /**
- * Get theme from Astro cookies - simple function for Astro layouts
+ * Get theme preferences from Astro cookies for SSR
+ * Supports the new multi-layered theme system (base + color + flair)
  */
-export function getSSRThemeFromAstroCookies(cookies: any): {
+export function getSSRThemeFromAstroCookies(cookies: any): ThemePreferencesWithThemes {
+  // Try to get theme preferences from cookie
+  const cookieValue = cookies.get(THEME_PREFERENCES_COOKIE_NAME)?.value;
+  
+  let preferences: ThemePreferences;
+  
+  if (cookieValue) {
+    preferences = parseThemePreferences(cookieValue);
+  } else {
+    preferences = DEFAULT_THEME_PREFERENCES;
+  }
+
+  // Create complete theme preferences with resolved themes and HTML props
+  return createThemePreferencesWithThemes(preferences);
+}
+
+/**
+ * Legacy function for backward compatibility with old single-theme system
+ * @deprecated Use getSSRThemeFromAstroCookies instead for full theme system support
+ */
+export function getSSRThemeFromAstroCookiesLegacy(cookies: any): {
   themeId: string | null;
-  theme: ThemeDefinition | null;
+  theme: any | null;
   htmlProps: Record<string, string>;
 } {
-  const availableThemes = getAllThemes();
+  const result = getSSRThemeFromAstroCookies(cookies);
   
-  // Get theme from Astro cookies - only if actually available
-  const cookieThemeId = cookies.get(THEME_COOKIE_NAME);
-  console.log(cookieThemeId)
-  if (cookieThemeId) {
-    const cookieTheme = availableThemes.find(t => t.id === cookieThemeId);
-    if (cookieTheme) {
-      return {
-        themeId: cookieTheme.id,
-        theme: cookieTheme,
-        htmlProps: {
-          'data-theme': cookieTheme.id,
-          'data-theme-variant': cookieTheme.variant,
-          ...(cookieTheme.variant === 'dark' ? { class: 'dark' } : {})
-        }
-      };
-    }
-  }
+  // For backward compatibility, prioritize color theme, then base theme
+  const primaryTheme = result.resolved.color || result.resolved.base;
   
-  // For static builds or when no cookie is found, don't set any theme
-  // Let the client-side theme system handle it
   return {
-    themeId: null,
-    theme: null,
-    htmlProps: {}
+    themeId: primaryTheme?.id || null,
+    theme: primaryTheme || null,
+    htmlProps: result.htmlProps,
   };
 }

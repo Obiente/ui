@@ -1,42 +1,92 @@
 import { computed } from 'vue';
-import { useTheme } from './theme-context';
 import { useThemeManager } from './theme-manager';
-import type { ThemeDefinition } from '@obiente/themes';
 
 export function useThemeSwitch() {
-  const themeContext = useTheme();
-  const { listAvailableThemes } = useThemeManager();
+  const themeManager = useThemeManager();
   
-  const availableThemes = computed(() => listAvailableThemes());
+  const currentPreferences = computed(() => themeManager.getPreferences());
+  const resolvedThemes = computed(() => themeManager.getResolvedThemes());
   
-  const currentTheme = computed(() => themeContext.currentTheme);
+  const currentBaseTheme = computed(() => resolvedThemes.value.resolved.base);
+  const currentColorTheme = computed(() => resolvedThemes.value.resolved.color);
+  const currentFlairThemes = computed(() => resolvedThemes.value.resolved.flair);
   
-  const setTheme = (theme: ThemeDefinition) => {
-    themeContext.setTheme(theme);
+  const availableBaseThemes = computed(() => themeManager.listAvailableBaseThemes());
+  const availableColorThemes = computed(() => themeManager.listAvailableColorThemes());
+  const availableFlairThemes = computed(() => themeManager.listAvailableFlairThemes());
+  
+  const isDark = computed(() => currentColorTheme.value?.variant === 'dark');
+  
+  const setBaseTheme = (baseThemeId: string) => {
+    themeManager.setBaseTheme(baseThemeId);
   };
   
-  const isDark = computed(() => currentTheme.value?.variant === 'dark');
+  const setColorTheme = (colorThemeId: string) => {
+    themeManager.setColorTheme(colorThemeId);
+  };
+  
+  const addFlairTheme = (flairThemeId: string) => {
+    themeManager.addFlairTheme(flairThemeId);
+  };
+  
+  const removeFlairTheme = (flairThemeId: string) => {
+    themeManager.removeFlairTheme(flairThemeId);
+  };
+  
+  const toggleFlairTheme = (flairThemeId: string) => {
+    themeManager.toggleFlairTheme(flairThemeId);
+  };
   
   const toggleDarkMode = () => {
-    if (!currentTheme.value) return;
+    if (!currentColorTheme.value) return;
     
-    const currentVariant = currentTheme.value.variant;
+    const currentVariant = currentColorTheme.value.variant;
     const targetVariant = currentVariant === 'dark' ? 'light' : 'dark';
     
-    const targetTheme = availableThemes.value.find(
+    // Try to find a theme in the same family with the target variant
+    const targetTheme = availableColorThemes.value.find(
+      theme => theme.family === currentColorTheme.value?.family && theme.variant === targetVariant
+    ) || availableColorThemes.value.find(
       theme => theme.variant === targetVariant
     );
     
     if (targetTheme) {
-      setTheme(targetTheme);
+      setColorTheme(targetTheme.id);
     }
   };
   
+  const getColorThemesByFamily = (family: string) => {
+    return availableColorThemes.value.filter(theme => theme.family === family);
+  };
+  
+  const hasFlairTheme = (flairThemeId: string) => {
+    return currentFlairThemes.value.some(theme => theme.id === flairThemeId);
+  };
+  
   return {
-    currentTheme,
-    availableThemes,
-    setTheme,
+    // Current state
+    currentPreferences,
+    resolvedThemes,
+    currentBaseTheme,
+    currentColorTheme,
+    currentFlairThemes,
     isDark,
-    toggleDarkMode
+    
+    // Available themes
+    availableBaseThemes,
+    availableColorThemes,
+    availableFlairThemes,
+    
+    // Actions
+    setBaseTheme,
+    setColorTheme,
+    addFlairTheme,
+    removeFlairTheme,
+    toggleFlairTheme,
+    toggleDarkMode,
+    
+    // Utilities
+    getColorThemesByFamily,
+    hasFlairTheme
   };
 }

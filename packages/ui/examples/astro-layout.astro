@@ -1,0 +1,71 @@
+---
+// Example Astro layout using the new theme system
+import { getSSRThemeFromAstroCookies } from "@obiente/ui/utils/ssr-theme";
+
+// Get theme preferences from cookies
+const themePreferences = getSSRThemeFromAstroCookies(Astro.cookies);
+
+// Extract the HTML props for the document
+const htmlProps = themePreferences.htmlProps;
+
+// You can also access individual resolved themes:
+// themePreferences.resolved.base    - BaseTheme | null
+// themePreferences.resolved.color   - ColorTheme | null  
+// themePreferences.resolved.flair   - FlairTheme[]
+---
+
+<!DOCTYPE html>
+<html lang="en" {...htmlProps}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My App</title>
+  
+  <!-- Pass theme data to client -->
+  <script define:vars={{ themePreferences }}>
+    window.__THEME_PREFERENCES__ = themePreferences;
+  </script>
+</head>
+<body>
+  <slot />
+  
+  <!-- Initialize theme manager on client -->
+  <script>
+    import { initializeThemesFromSSR } from "@obiente/ui/utils/theme-manager";
+    
+    // Initialize theme manager with SSR data
+    const themeManager = initializeThemesFromSSR(window.__THEME_PREFERENCES__);
+    
+    // Make theme manager available globally
+    window.__THEME_MANAGER__ = themeManager;
+    
+    // Example: Listen for theme changes
+    themeManager.subscribe((themes) => {
+      console.log("Theme changed:", themes);
+    });
+  </script>
+</body>
+</html>
+
+<!-- 
+Example usage in components:
+
+// Change base theme
+window.__THEME_MANAGER__.setBaseTheme("compact");
+
+// Change color theme  
+window.__THEME_MANAGER__.setColorTheme("catppuccin-macchiato");
+
+// Add flair theme
+window.__THEME_MANAGER__.addFlairTheme("glassmorphism");
+
+// Remove flair theme
+window.__THEME_MANAGER__.removeFlairTheme("glassmorphism");
+
+// Set complete preferences
+window.__THEME_MANAGER__.setPreferences({
+  base: "cozy",
+  color: "catppuccin-latte", 
+  flair: ["glassmorphism", "animations"]
+});
+-->

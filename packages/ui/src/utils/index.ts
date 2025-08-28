@@ -7,6 +7,7 @@
 export * from './theme-provider';
 export * from './theme-cookie';
 export * from './ssr-theme';
+export * from './theme-preferences';
 
 /**
  * Generate a unique ID

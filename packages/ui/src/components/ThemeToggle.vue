@@ -12,9 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from 'vue';
-import type { ThemeDefinition } from '@obiente/themes';
-import { THEME_CONTEXT_KEY } from '../constants/theme';
+import { useThemeSwitch } from '../composables';
 import Button from './Button.vue';
 import Flex from './Flex.vue';
 
@@ -28,36 +26,8 @@ withDefaults(defineProps<Props>(), {
   showLabel: false,
 });
 
-// Theme context interface
-interface ThemeContext {
-  currentTheme: any;
-  availableThemes: any;
-  setTheme: (theme: ThemeDefinition) => void;
-  isDark: any;
-}
-
-// Get theme context via injection
-const themeContext = inject<ThemeContext | null>(THEME_CONTEXT_KEY, null);
-
-if (!themeContext) {
-  throw new Error('ThemeToggle must be used within a ThemeProvider');
-}
-
-const { isDark, availableThemes, setTheme } = themeContext;
-
-// Toggle between dark and light themes
-const toggleDarkMode = () => {
-  const currentVariant = isDark.value ? 'dark' : 'light';
-  const targetVariant = currentVariant === 'dark' ? 'light' : 'dark';
-  
-  const targetTheme = availableThemes.value.find((theme: ThemeDefinition) => 
-    theme.variant === targetVariant
-  );
-  
-  if (targetTheme) {
-    setTheme(targetTheme);
-  }
-};
+// Use the modern theme system
+const { isDark, toggleDarkMode } = useThemeSwitch();
 </script>
 
 
