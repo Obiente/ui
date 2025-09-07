@@ -8,10 +8,10 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "development": "./src/index.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./styles": {
       "development": "./src/styles/index.css",
@@ -19,16 +19,16 @@
       "require": "./dist/style.css"
     },
     "./utils": {
+      "types": "./dist/index.d.ts",
       "development": "./src/index.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./composables": {
+      "types": "./dist/index.d.ts",
       "development": "./src/index.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     }
   },
   "files": [
@@ -41,21 +41,18 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ark-ui/vue": "^5.18.3",
+    "@ark-ui/vue": "^5.22.0",
     "@obiente/themes": "workspace:*",
-    "@tailwindcss/vite": "^4.1.12",
-    "tailwindcss": "^4.1.12",
-    "vue": "^3.4.19"
-  },
-  "peerDependencies": {
-    "vue": "^3.4.19"
+    "@tailwindcss/vite": "^4.1.13",
+    "tailwindcss": "^4.1.13",
+    "vue": "^3.5.21"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "@vitejs/plugin-vue": "^5.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^5.0.0",
-    "vite-plugin-dts": "^3.0.0"
+    "@types/node": "^24.3.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.4",
+    "vite-plugin-dts": "^4.5.4"
   },
   "keywords": [
     "vue",

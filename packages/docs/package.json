@@ -2,7 +2,7 @@
   "name": "@obiente/docs",
   "version": "0.1.0",
   "description": "Documentation for Obiente UI",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@astrojs/node": "^9.4.2",
-    "@astrojs/tailwind": "^5.0.0",
     "@astrojs/vue": "^5.1.0",
     "@obiente/themes": "workspace:*",
     "@obiente/ui": "workspace:*",
