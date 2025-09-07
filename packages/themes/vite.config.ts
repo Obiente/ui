@@ -2,40 +2,50 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import swc from "unplugin-swc";
 
-export default defineConfig(({ mode }) => {
-  const isRollupBuild = mode === "rollup";
-
-  return {
-    plugins: [
-      swc.rollup(),
-      dts({
-        insertTypesEntry: true,
-        exclude: ["**/*.test.ts", "**/*.spec.ts"],
-        include: isRollupBuild ? ["src/rollup/**/*"] : ["src/**/*", "!src/rollup/**/*"],
-        outDir: isRollupBuild ? "dist/rollup" : "dist",
-      }),
-    ],
-    build: {
-      lib: {
-        entry: isRollupBuild ? "./src/rollup/index.ts" : "./src/index.ts",
-        name: isRollupBuild ? "ObienteThemesRollup" : "ObienteThemes",
-        formats: ["es", "cjs"],
-        fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
+export default defineConfig({
+  plugins: [
+    swc.vite(),
+    dts({
+      insertTypesEntry: true,
+      exclude: ["**/*.test.ts", "**/*.spec.ts"],
+      include: ["src/**/*"],
+      outDir: "dist",
+    }),
+  ],
+  build: {
+    lib: {
+      entry: {
+        index: "./src/index.ts",
+        "rollup/index": "./src/rollup/index.ts",
       },
-      outDir: isRollupBuild ? "dist/rollup" : "dist",
-      rollupOptions: {
-        external: isRollupBuild 
-          ? ["@catppuccin/palette", "tailwindcss", "fs", "path", "url"]
-          : ["@catppuccin/palette", "tailwindcss"],
-        output: {
-          globals: {
-            "@catppuccin/palette": "CatppuccinPalette",
-            tailwindcss: "tailwindcss",
-          },
-        },
-      },
-      sourcemap: true,
-      emptyOutDir: !isRollupBuild,
+      //   name: "ObienteThemes",
+      //   formats: ["es", "cjs"],
+      //   fileName: (format) => `index.${format === "es" ? "js" : "cjs"}`,
     },
-  };
+    outDir: "dist",
+    rollupOptions: {
+      external: ["@catppuccin/palette", "fs", "path", "url"],
+      // input: {
+      //   index: "./src/index.ts",
+      //   "rollup/index": "./src/rollup/index.ts",
+      // },
+
+      // output: [
+      //   {
+      //     exports: "named",
+      //     format: "es",
+      //     compact: true,
+      //     entryFileNames: "[name].js",
+      //   },
+      //   {
+      //     exports: "named",
+      //     format: "cjs",
+      //     compact: true,
+      //     entryFileNames: "[name].cjs",
+      //   },
+      // ],
+    },
+    sourcemap: true,
+    emptyOutDir: true,
+  },
 });

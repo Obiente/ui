@@ -2,6 +2,7 @@
   'use strict';
   
   function getStoredTheme(): string {
+    //TODO: replace with dynamic values from config
     const cookieName = 'obiente-theme';
     const defaultTheme = 'catppuccin-latte';
     

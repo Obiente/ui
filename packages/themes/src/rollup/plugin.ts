@@ -1,5 +1,3 @@
-import type { Plugin } from "rollup";
-import { createFilter } from "@rollup/pluginutils";
 import {
   getThemeManagerAsset,
   getThemeInitAsset,
@@ -12,7 +10,8 @@ import { generateThemesFromDirectory } from "./generators/theme-generator";
 import { generateThemeCSS } from "./generators/css-generator";
 import { generateThemeManifest } from "./generators/manifest-generator";
 import type { ObienteThemeOptions } from "./types";
-
+import { type Plugin } from "vite";
+import { createFilter } from "@rollup/pluginutils";
 export function obienteTheme(options: ObienteThemeOptions = {}): Plugin {
   const {
     include = ["**/*.html", "**/*.vue", "**/*.astro"],
@@ -31,14 +30,13 @@ export function obienteTheme(options: ObienteThemeOptions = {}): Plugin {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
   const themesDir = resolve(__dirname, "../../themes");
-
   const themeIds =
     Array.isArray(themes) && themes.length > 0 && typeof themes[0] === "string"
       ? (themes as string[])
       : ["catppuccin-latte", "catppuccin-mocha"];
 
   return {
-    name: "obiente-theme",
+    name: "obiente-ui-theme",
 
     buildStart() {
       // Validate themes exist
@@ -62,6 +60,7 @@ export function obienteTheme(options: ObienteThemeOptions = {}): Plugin {
     },
     async generateBundle() {
       try {
+        // if (ssrSupport) return; //TODO: dont bundle css on ssr
         const result = await generateThemesFromDirectory(themesDir, {
           baseThemeId: "default",
           colorThemeIds: themeIds,
@@ -148,4 +147,3 @@ function injectThemeSystem(code: string, options: ObienteThemeOptions): string {
   );
 }
 
-export default obienteTheme;
