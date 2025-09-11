@@ -1,4 +1,3 @@
-import { ColorTheme } from "@/types/color-theme";
 import {
   AnyTheme,
   isBaseTheme,
@@ -6,56 +5,73 @@ import {
   ThemeCollection,
   isFlairTheme,
 } from "../types/theme";
+import { ColorTheme } from "@/types/color-theme";
+import { BaseTheme } from "@/types/base-theme";
+import { FlairTheme } from "@/types/flair-theme";
 
-const themeFiles = import.meta.glob("../themes/**/*.ts", {
-  eager: true,
-});
+const themeFiles = import.meta.glob<AnyTheme | AnyTheme[]>(
+  ["../themes/**/*.ts"],
+  {
+    eager: true,
+    import: "default",
+  }
+);
 
 const themes: AnyTheme[] = [];
-
-// Aggregate themes from all imported files
-for (const [path, moduleExports] of Object.entries(themeFiles)) {
-  // Skip index files to avoid duplicates
-  if (path.includes("index.ts")) continue;
-
-  const mod = moduleExports as any;
-
-  if (Array.isArray(mod.default)) {
-    themes.push(...mod.default);
-  } else if (mod.default) {
-    themes.push(mod.default);
+const themeIds: string[] = [];
+for (const mod of Object.values(themeFiles)) {
+  if (Array.isArray(mod)) {
+    themes.push(...mod);
+    themeIds.push(...mod.map((theme: AnyTheme) => theme.id));
+  } else if (mod) {
+    themes.push(mod);
+    themeIds.push(mod.id);
   }
 }
 
-export function getThemeById(id: string) {
-  return themes.find((theme) => theme.id === id);
+export function getThemeById(id: string): AnyTheme | undefined;
+export function getThemeById(id: string, type: "base"): BaseTheme | undefined;
+export function getThemeById(id: string, type: "color"): ColorTheme | undefined;
+export function getThemeById(id: string, type: "flair"): FlairTheme | undefined;
+export function getThemeById(
+  id: string,
+  type?: "base" | "color" | "flair"
+): AnyTheme | undefined {
+  const theme = themes.find((theme) => theme.id === id);
+  if (!theme) return undefined;
+
+  if (type) {
+    if (type === "base" && !isBaseTheme(theme)) return undefined;
+    if (type === "color" && !isColorTheme(theme)) return undefined;
+    if (type === "flair" && !isFlairTheme(theme)) return undefined;
+  }
+
+  return theme;
 }
 
 export function getAllThemes() {
   return themes;
 }
 
-export function getColorThemes() {
+export function getColorThemes(): ColorTheme[] {
   return themes.filter((theme) => theme.type === "color");
 }
 
-export function getBaseThemes() {
+export function getBaseThemes(): BaseTheme[] {
   return themes.filter((theme) => theme.type === "base");
 }
 
-export function getFlairThemes() {
+export function getFlairThemes(): FlairTheme[] {
   return themes.filter((theme) => theme.type === "flair");
 }
 
-export function getThemesByFamily(
-  family: string
-): AnyTheme[] {
-  return getColorThemes().filter((theme) => "family" in theme && theme.family === family);
+export function getThemesByFamily(family: string) {
+  return getColorThemes().filter(
+    (theme) => "family" in theme && theme.family === family
+  );
 }
 
-export function getThemesByVariant(
-  variant: "light" | "dark"
-): ColorTheme[] {
+export function getThemesByVariant(variant: "light" | "dark"): ColorTheme[] {
   return getColorThemes().filter((theme) => theme.variant === variant);
 }
 

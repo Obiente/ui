@@ -1,6 +1,6 @@
-import { defineBaseTheme } from "../../types/base-theme";
+import { defineTheme } from "../../types/theme";
 
-export default defineBaseTheme({
+export default defineTheme({
   id: "flat",
   name: "Flat",
   type: "base",

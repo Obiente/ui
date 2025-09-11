@@ -1,14 +1,17 @@
+import { ThemeMeta } from "./theme";
+
 /**
  * Defines the base theme structure for Obiente UI.
  *
  * Provides numeric multipliers for Tailwind CSS primitives (spacing, sizing, radius, typography, elevation).
  * Used to scale core design tokens across all components and themes.
  */
-export interface BaseTheme {
-  id: string;
-  name: string;
+export interface BaseTheme extends ThemeMeta {
+  /**
+   * Theme type discriminator.
+   * Always "base" for base themes.
+   */
   readonly type: "base";
-  description?: string;
 
   /** Base spacing multiplier (affects all spacing values) */
   spacing: number;

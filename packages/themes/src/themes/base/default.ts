@@ -1,10 +1,10 @@
-import { defineBaseTheme } from "../../types/base-theme";
+import { defineTheme } from "../../types/theme";
 
-export default defineBaseTheme({
+export default defineTheme({
   id: "default",
   name: "Default",
-  type: "base",
   description: "Standard theme for Obiente UI",
+  type: "base",
   spacing: 1,
   sizing: 1,
   radius: 1,

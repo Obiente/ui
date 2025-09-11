@@ -1,3 +1,5 @@
+import { ThemeMeta } from "./theme";
+
 /**
  * ColorPalette defines the direct color values used in a custom theme.
  *
@@ -101,17 +103,7 @@ export interface ColorPalette {
  * Provides semantic color tokens for all components and themes.
  * Used to switch between light/dark variants and theme families.
  */
-export interface ColorTheme {
-  /**
-   * Unique identifier for the color theme.
-   */
-  id: string;
-
-  /**
-   * Human-readable name for the color theme.
-   */
-  name: string;
-
+export interface ColorTheme extends ThemeMeta {
   /**
    * Theme type discriminator.
    * Always "color" for color themes.
@@ -134,19 +126,4 @@ export interface ColorTheme {
    * Used to group related themes.
    */
   family?: string;
-
-  /**
-   * Optional description for the theme.
-   * Can be used for documentation or theme selection UI.
-   */
-  description?: string;
-}
-
-/**
- * Helper to define a color theme with proper typing.
- */
-export function defineColorTheme(
-  colorTheme: ColorTheme,
-): ColorTheme {
-  return colorTheme;
 }

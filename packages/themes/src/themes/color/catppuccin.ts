@@ -1,10 +1,10 @@
 import { flavorEntries } from "@catppuccin/palette";
-import { defineColorTheme } from "../../types/color-theme";
+import { defineTheme } from "../../types/theme";
 
 const themes = flavorEntries.map(([flavorName, flavor]) => {
   const c = flavor.colors;
 
-  return defineColorTheme({
+  return defineTheme({
     id: `catppuccin-${flavorName}`,
     name: `Catppuccin ${flavor.name}`,
     type: "color",
