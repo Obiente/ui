@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "@obiente/docs#dev": {
+      "dependsOn": ["@obiente/ui#build"],
+      "with": ["@obiente/themes#dev"],
+      "persistent": true,
+      "cache": false
+    },
+    "dev": {
+      "persistent": true,
+      "cache": false,
+      "outputs": ["dist/**"]
+    }
+  }
+}
