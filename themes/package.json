@@ -1,0 +1,7 @@
+{
+  "name": "@oui/themes",
+  "version": "1.0.0-alpha.0",
+  "dependencies": {
+    "@obiente/themes": "workspace:*"
+  }
+}

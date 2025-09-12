@@ -1,0 +1,15 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Flat (ID: flat)
+  * Type: base
+  * Generated at: 2025-09-12T04:07:29.630Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-base="flat"] {
+  ----oui-spacing-base: 1;
+  ----oui-sizing-base: 1;
+  ----oui-radius-base: 0.4;
+  ----oui-typography-base: 1;
+  ----oui-elevation-base: 0.5;
+}

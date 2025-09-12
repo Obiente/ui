@@ -1,0 +1,15 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Default (ID: default)
+  * Type: base
+  * Generated at: 2025-09-12T04:07:29.630Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-base="default"] {
+  ----oui-spacing-base: 1;
+  ----oui-sizing-base: 1;
+  ----oui-radius-base: 1;
+  ----oui-typography-base: 1;
+  ----oui-elevation-base: 1;
+}

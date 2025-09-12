@@ -1,0 +1,33 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Catppuccin Macchiato (ID: catppuccin-macchiato)
+  * Type: color
+  * Generated at: 2025-09-12T04:07:29.631Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-color="catppuccin-macchiato"] {
+  ----oui-background: #24273a;
+  ----oui-foreground: #cad3f5;
+  ----oui-surface-base: #24273a;
+  ----oui-surface-raised: #1e2030;
+  ----oui-surface-overlay: #363a4f;
+  ----oui-surface-muted: #494d64;
+  ----oui-text-primary: #cad3f5;
+  ----oui-text-secondary: #b8c0e0;
+  ----oui-text-tertiary: #a5adcb;
+  ----oui-text-disabled: #6e738d;
+  ----oui-border-default: #6e738d;
+  ----oui-border-muted: #5b6078;
+  ----oui-border-strong: #8087a2;
+  ----oui-accent-primary: #8aadf4;
+  ----oui-accent-secondary: #c6a0f6;
+  ----oui-accent-success: #a6da95;
+  ----oui-accent-warning: #eed49f;
+  ----oui-accent-danger: #ed8796;
+  ----oui-accent-info: #91d7e3;
+  ----oui-interactive-hover: #181926;
+  ----oui-interactive-active: #5b6078;
+  ----oui-interactive-disabled: #6e738d;
+  ----oui-interactive-focus: #8aadf4;
+}

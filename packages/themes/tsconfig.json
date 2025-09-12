@@ -1,25 +1,14 @@
 {
   "compilerOptions": {
-    // "lib": ["ES2022", "DOM"],
-    "module": "preserve",
     "moduleResolution": "bundler",
-    "strict": true,
     "esModuleInterop": true,
+    "module": "preserve",
+    "strict": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
-    "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "noEmit": true
+    "noEmit": true,
   },
-  "include": [
-    "src/**/*",
-    "vite.config.ts"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules"
-  ]
+  "include": ["src/**/*", "vite.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

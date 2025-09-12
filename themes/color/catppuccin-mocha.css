@@ -1,0 +1,33 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Catppuccin Mocha (ID: catppuccin-mocha)
+  * Type: color
+  * Generated at: 2025-09-12T04:07:29.632Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-color="catppuccin-mocha"] {
+  ----oui-background: #1e1e2e;
+  ----oui-foreground: #cdd6f4;
+  ----oui-surface-base: #1e1e2e;
+  ----oui-surface-raised: #181825;
+  ----oui-surface-overlay: #313244;
+  ----oui-surface-muted: #45475a;
+  ----oui-text-primary: #cdd6f4;
+  ----oui-text-secondary: #bac2de;
+  ----oui-text-tertiary: #a6adc8;
+  ----oui-text-disabled: #6c7086;
+  ----oui-border-default: #6c7086;
+  ----oui-border-muted: #585b70;
+  ----oui-border-strong: #7f849c;
+  ----oui-accent-primary: #89b4fa;
+  ----oui-accent-secondary: #cba6f7;
+  ----oui-accent-success: #a6e3a1;
+  ----oui-accent-warning: #f9e2af;
+  ----oui-accent-danger: #f38ba8;
+  ----oui-accent-info: #89dceb;
+  ----oui-interactive-hover: #11111b;
+  ----oui-interactive-active: #585b70;
+  ----oui-interactive-disabled: #6c7086;
+  ----oui-interactive-focus: #89b4fa;
+}

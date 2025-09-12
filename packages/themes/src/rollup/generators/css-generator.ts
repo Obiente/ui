@@ -1,49 +1,62 @@
-import type { ResolvedTheme } from './theme-types';
-
-export function generateThemeCSS(resolvedTheme: ResolvedTheme): string {
-  const { id, cssVariables } = resolvedTheme;
-  
-  // Generate CSS variables
-  const cssVars = Object.entries(cssVariables)
-    .map(([key, value]) => `  ${key}: ${value};`)
-    .join('\n');
-
-  return `
-/* Theme: ${resolvedTheme.name} */
-:root[data-theme="${id}"] {
-${cssVars}
+import { type AnyTheme } from "../../types/theme";
+import {
+  resolveBaseVariables,
+  resolveColorVariables,
+  resolveFlairVariables,
+} from "./theme-resolver";
+function themeHeader(theme: AnyTheme): string {
+  return `/*
+  * Obiente UI Themes 
+  * Theme: ${theme.name} (ID: ${theme.id})
+  * Type: ${theme.type}
+  * Generated at: ${new Date().toISOString()}
+  * This file is auto-generated. Do not edit directly.
+  */
+  `;
 }
 
-/* Theme class variant */
-.theme-${id} {
-${cssVars}
+function getCssVars(theme: AnyTheme) {
+  switch (theme.type) {
+    case "base":
+      return resolveBaseVariables(theme);
+    case "color":
+      return resolveColorVariables(theme);
+    case "flair":
+      return resolveFlairVariables([theme]);
+  }
+}
+
+export function generateThemeCSS(
+  theme: AnyTheme,
+  asClass: boolean = false
+): string {
+  const selector = asClass
+    ? `.oui-${theme.type}-${theme.id}`
+    : `:root[data-oui-t-${theme.type}="${theme.id}"]`;
+  return `
+${themeHeader(theme)}
+${selector} {
+${Object.entries(getCssVars(theme))
+  .map(([key, value]) => `  --${key}: ${value};`)
+  .join("\n")}
 }
 `.trim();
 }
 
-export function generateThemeCSSBundle(resolvedThemes: ResolvedTheme[]): string {
-  const cssBlocks = resolvedThemes.map(theme => generateThemeCSS(theme));
-  
-  const header = `
-/*!
- * Obiente UI Themes
- * Generated at: ${new Date().toISOString()}
- * Themes: ${resolvedThemes.map(t => t.name).join(', ')}
- */
-`;
-
-  return header + '\n\n' + cssBlocks.join('\n\n');
-}
-
 export function generateThemePreloadLinks(themeIds: string[]): string {
-  return themeIds.map(id => 
-    `<link rel="preload" href="/themes/${id}.css" as="style">`
-  ).join('\n');
+  return themeIds
+    .map((id) => `<link rel="preload" href="/themes/${id}.css" as="style">`)
+    .join("\n");
 }
 
-export function generateThemeStyleLinks(themeIds: string[], activeTheme?: string): string {
-  return themeIds.map(id => {
-    const disabled = activeTheme && id !== activeTheme ? ' disabled' : '';
-    return `<link rel="stylesheet" href="/themes/${id}.css" data-theme-css="${id}"${disabled}>`;
-  }).join('\n');
+export function generateThemeStyleLinks(
+  themeIds: string[],
+  activeTheme?: string
+): string {
+  return themeIds
+    .map((id) => {
+      const disabled = activeTheme && id !== activeTheme ? " disabled" : "";
+      return `<link rel="stylesheet" href="/themes/${id}.css" data-theme-css="${id}"${disabled}>`;
+    })
+    .join("\n");
 }

@@ -31,10 +31,3 @@ export interface FlairTheme extends ThemeMeta {
    */
   tokens: Record<`oi-${string}`, string>;
 }
-
-/**
- * Helper to define a flair theme with proper typing.
- */
-export function defineFlairTheme(flairTheme: FlairTheme): FlairTheme {
-  return flairTheme;
-}

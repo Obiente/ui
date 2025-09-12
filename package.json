@@ -3,19 +3,18 @@
   "description": "Obiente UI",
   "private": true,
   "packageManager": "pnpm@10.15.1",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "build": "pnpm -r build",
     "build:deps": "pnpm --filter @obiente/ui build && pnpm --filter @obiente/themes build",
-    "dev": "pnpm dev:full"
+    "dev": "pnpm dev:full",
+    "test": "vitest"
   },
   "devDependencies": {
     "@types/node": "^20.19.13",
     "@vue/tsconfig": "^0.7.0",
     "turbo": "^2.5.6",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "keywords": [
     "vue",

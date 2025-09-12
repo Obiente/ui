@@ -1,0 +1,15 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Compact (ID: compact)
+  * Type: base
+  * Generated at: 2025-09-12T04:07:29.629Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-base="compact"] {
+  ----oui-spacing-base: 0.7;
+  ----oui-sizing-base: 0.85;
+  ----oui-radius-base: 0.7;
+  ----oui-typography-base: 0.95;
+  ----oui-elevation-base: 0.8;
+}

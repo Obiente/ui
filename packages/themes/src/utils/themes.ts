@@ -5,9 +5,9 @@ import {
   ThemeCollection,
   isFlairTheme,
 } from "../types/theme";
-import { ColorTheme } from "@/types/color-theme";
-import { BaseTheme } from "@/types/base-theme";
-import { FlairTheme } from "@/types/flair-theme";
+import { ColorTheme } from "../types/color-theme";
+import { BaseTheme } from "../types/base-theme";
+import { FlairTheme } from "../types/flair-theme";
 
 const themeFiles = import.meta.glob<AnyTheme | AnyTheme[]>(
   ["../themes/**/*.ts"],
@@ -29,10 +29,10 @@ for (const mod of Object.values(themeFiles)) {
   }
 }
 
-export function getThemeById(id: string): AnyTheme | undefined;
-export function getThemeById(id: string, type: "base"): BaseTheme | undefined;
-export function getThemeById(id: string, type: "color"): ColorTheme | undefined;
-export function getThemeById(id: string, type: "flair"): FlairTheme | undefined;
+export function getThemeById(id: string): AnyTheme;
+export function getThemeById(id: string, type: "base"): BaseTheme;
+export function getThemeById(id: string, type: "color"): ColorTheme;
+export function getThemeById(id: string, type: "flair"): FlairTheme;
 export function getThemeById(
   id: string,
   type?: "base" | "color" | "flair"

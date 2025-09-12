@@ -1,0 +1,33 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Catppuccin Latte (ID: catppuccin-latte)
+  * Type: color
+  * Generated at: 2025-09-12T04:07:29.630Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-color="catppuccin-latte"] {
+  ----oui-background: #eff1f5;
+  ----oui-foreground: #4c4f69;
+  ----oui-surface-base: #eff1f5;
+  ----oui-surface-raised: #e6e9ef;
+  ----oui-surface-overlay: #ccd0da;
+  ----oui-surface-muted: #bcc0cc;
+  ----oui-text-primary: #4c4f69;
+  ----oui-text-secondary: #5c5f77;
+  ----oui-text-tertiary: #6c6f85;
+  ----oui-text-disabled: #9ca0b0;
+  ----oui-border-default: #9ca0b0;
+  ----oui-border-muted: #acb0be;
+  ----oui-border-strong: #8c8fa1;
+  ----oui-accent-primary: #1e66f5;
+  ----oui-accent-secondary: #8839ef;
+  ----oui-accent-success: #40a02b;
+  ----oui-accent-warning: #df8e1d;
+  ----oui-accent-danger: #d20f39;
+  ----oui-accent-info: #04a5e5;
+  ----oui-interactive-hover: #dce0e8;
+  ----oui-interactive-active: #acb0be;
+  ----oui-interactive-disabled: #9ca0b0;
+  ----oui-interactive-focus: #1e66f5;
+}

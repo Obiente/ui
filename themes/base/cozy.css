@@ -1,0 +1,15 @@
+/*
+  * Obiente UI Themes 
+  * Theme: Cozy (ID: cozy)
+  * Type: base
+  * Generated at: 2025-09-12T04:07:29.630Z
+  * This file is auto-generated. Do not edit directly.
+  */
+  
+:root[data-oui-t-base="cozy"] {
+  ----oui-spacing-base: 1.25;
+  ----oui-sizing-base: 1.1;
+  ----oui-radius-base: 1.3;
+  ----oui-typography-base: 1.05;
+  ----oui-elevation-base: 1.15;
+}

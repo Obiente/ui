@@ -6,7 +6,7 @@
       "outputs": ["dist/**"]
     },
     "@obiente/docs#dev": {
-      "dependsOn": ["@obiente/ui#build"],
+      "dependsOn": ["@obiente/ui#build","@obiente/themes#build"],
       "with": ["@obiente/themes#dev"],
       "persistent": true,
       "cache": false

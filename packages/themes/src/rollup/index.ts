@@ -16,5 +16,4 @@ export type { ThemeManagerConfig } from "./assets/theme-manager";
 // Re-export SSR helpers from assets
 export * from "./assets/ssr-helpers";
 
-// Re-export generators
-export * from "./generators/theme-generator";
+export * from "./generators/css-generator";

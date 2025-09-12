@@ -31,9 +31,3 @@ export interface BaseTheme extends ThemeMeta {
   /** Custom multipliers for specific adjustments */
   custom?: Record<string, number>;
 }
-
-export function defineBaseTheme(
-  baseTheme: BaseTheme,
-): BaseTheme {
-  return baseTheme;
-}
